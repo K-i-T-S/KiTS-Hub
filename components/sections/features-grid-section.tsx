@@ -3,6 +3,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Database, Users, ShoppingCart, FileText, Settings, BarChart } from "lucide-react"
+import { AndMuchMoreBanner } from "@/components/sections/and-much-more-banner"
 
 const features = [
   {
@@ -47,6 +48,9 @@ export function FeaturesGridSection() {
   return (
     <section id="features" className="py-20 bg-background">
       <div className="container mx-auto px-6">
+        {/* And Much More Banner - Moved to top */}
+        <AndMuchMoreBanner />
+
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
             Everything you need to <span className="bg-gradient-to-r from-[#6b21a8] via-[#9333ea] to-[#a855f7] bg-clip-text text-transparent">grow your business</span>

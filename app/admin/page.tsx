@@ -77,6 +77,12 @@ export default function AdminDashboard() {
   }, [profile])
 
   const fetchData = useCallback(async () => {
+    if (!supabase) {
+      setError('Database not configured')
+      setLoading(false)
+      return
+    }
+
     try {
       setError(null)
       const [leadsRes, contactsRes, subscriptionsRes, visitorsRes] = await Promise.all([
@@ -267,8 +273,19 @@ export default function AdminDashboard() {
                 </Button>
                 <Button 
                   onClick={() => {
+                    window.location.href = '/admin/reviews'
+                  }}
+                  className="backdrop-blur-xl bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 border-0 text-white shadow-lg hover:shadow-purple-500/30 transition-all duration-300 flex items-center gap-2"
+                >
+                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                  </svg>
+                  Manage Reviews
+                </Button>
+                <Button 
+                  onClick={() => {
                     // Add logout functionality
-                    supabase.auth.signOut()
+                    supabase?.auth.signOut()
                     window.location.href = '/login'
                   }}
                   className="backdrop-blur-xl bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 border-0 text-white shadow-lg hover:shadow-red-500/30 transition-all duration-300 flex items-center gap-2"

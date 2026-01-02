@@ -111,7 +111,7 @@ export function AnimatedHeroSection() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
           >
-            Manage everything.
+            All The Solutions
           </motion.span>
           <motion.span 
             className="bg-gradient-to-r from-zinc-500 via-zinc-300 to-zinc-500 bg-clip-text text-transparent"
@@ -119,7 +119,7 @@ export function AnimatedHeroSection() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
           >
-            All in one place.
+            Managed In One Place.
           </motion.span>
         </motion.h1>
 
@@ -228,7 +228,7 @@ export function AnimatedHeroSection() {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5, delay: 1.8 }}
               >
-                Trusted by <span className="text-zinc-300 font-medium">5,000+</span> businesses
+                Trusted by <span className="text-zinc-300 font-medium">Local and International</span> businesses
               </motion.p>
             </div>
           </div>

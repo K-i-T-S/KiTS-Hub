@@ -1,0 +1,261 @@
+#customer-counter {
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 12px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60px;
+  overflow: hidden;
+  transform-origin: center;
+  width: 100%; /* Ensure full width */
+  max-width: 200px; /* Reasonable max width */
+}
+
+#customer-counter.warning {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.2), rgba(251, 191, 36, 0.1));
+  border-color: rgba(251, 191, 36, 0.4);
+  color: rgba(251, 191, 36, 0.9);
+  animation: squeeze-warning 1s infinite ease-in-out;
+  box-shadow: 0 0 30px rgba(251, 191, 36, 0.3);
+  transform: scaleX(0.95);
+}
+
+#customer-counter.danger {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(239, 68, 68, 0.1));
+  border-color: rgba(239, 68, 68, 0.4);
+  color: rgba(239, 68, 68, 0.9);
+  animation: squeeze-danger 0.3s infinite ease-in-out;
+  box-shadow: 0 0 40px rgba(239, 68, 68, 0.4);
+  transform: scaleX(0.85);
+}
+
+#customer-counter.exploding {
+  animation: explode-box 0.6s ease-out forwards;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.9), rgba(102, 126, 234, 0.6));
+  border-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 80px rgba(102, 126, 234, 0.8);
+}
+
+@keyframes squeeze-warning {
+  0%, 100% { 
+    transform: scaleX(0.95) scaleY(1.02);
+  }
+  50% { 
+    transform: scaleX(0.92) scaleY(1.05);
+  }
+}
+
+@keyframes squeeze-danger {
+  0%, 100% { 
+    transform: scaleX(0.85) scaleY(1.08);
+  }
+  50% { 
+    transform: scaleX(0.80) scaleY(1.12);
+  }
+}
+
+@keyframes explode-box {
+  0% { 
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  20% {
+    transform: scale(1.3) rotate(5deg);
+    opacity: 1;
+  }
+  40% {
+    transform: scale(0.8) rotate(-3deg);
+    opacity: 0.8;
+  }
+  60% {
+    transform: scale(1.1) rotate(2deg);
+    opacity: 0.6;
+  }
+  100% { 
+    transform: scale(0) rotate(0deg);
+    opacity: 0;
+  }
+}
+
+.zero-particle {
+  position: fixed;
+  font-size: 1.8rem;
+  font-weight: bold;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 20px rgba(102, 126, 234, 0.6);
+  pointer-events: none;
+  z-index: 100;
+  animation: explode-particle-modern 4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  filter: blur(0.5px);
+}
+
+@keyframes explode-particle-modern {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+    opacity: 0;
+    filter: blur(0.5px);
+  }
+  10% {
+    opacity: 1;
+    filter: blur(0px);
+  }
+  50% {
+    transform: translate(var(--tx), var(--ty)) scale(2.2) rotate(180deg);
+    opacity: 0.8;
+    filter: blur(0.5px);
+  }
+  100% {
+    transform: translate(calc(var(--tx) * 3), calc(var(--ty) * 3)) scale(0.2) rotate(720deg);
+    opacity: 0;
+    filter: blur(3px);
+  }
+}
+
+.explosion-flash {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(circle at center, 
+    rgba(102, 126, 234, 0.4) 0%, 
+    rgba(118, 75, 162, 0.3) 20%,
+    rgba(255, 255, 255, 0.2) 40%, 
+    transparent 70%);
+  pointer-events: none;
+  z-index: 200;
+  animation: modern-flash 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes modern-flash {
+  0% { 
+    opacity: 0; 
+    transform: scale(0.5);
+  }
+  20% { 
+    opacity: 1; 
+    transform: scale(1.2);
+  }
+  100% { 
+    opacity: 0; 
+    transform: scale(2);
+  }
+}
+
+/* Add glow effect to the counter during animation */
+#customer-counter::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  border-radius: 16px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+#customer-counter.warning::before,
+#customer-counter.danger::before {
+  opacity: 1;
+  animation: glow-pulse 2s infinite;
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.8; }
+}
+
+/* Add pressure cracks effect */
+#customer-counter.danger::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    linear-gradient(45deg, transparent 48%, rgba(239, 68, 68, 0.3) 50%, transparent 52%),
+    linear-gradient(-45deg, transparent 48%, rgba(239, 68, 68, 0.3) 50%, transparent 52%);
+  border-radius: 16px;
+  opacity: 0;
+  animation: crack-appear 0.5s infinite;
+  pointer-events: none;
+}
+
+@keyframes crack-appear {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 0.6; }
+}
+
+/* Number explosion effect */
+.exploding-number {
+  position: absolute;
+  font-size: 4rem;
+  font-weight: bold;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: number-explode 0.8s ease-out forwards;
+  pointer-events: none;
+  z-index: 150;
+}
+
+@keyframes number-explode {
+  0% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+    filter: blur(0px) brightness(1);
+  }
+  30% {
+    transform: scale(2.5) rotate(10deg);
+    opacity: 1;
+    filter: blur(1px) brightness(1.5);
+  }
+  60% {
+    transform: scale(0.5) rotate(-5deg);
+    opacity: 0.8;
+    filter: blur(3px) brightness(2);
+  }
+  100% { 
+    transform: scale(0) rotate(0deg);
+    opacity: 0;
+    filter: blur(5px) brightness(3);
+  }
+}
+
+/* Shockwave effect */
+.shockwave {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  border: 3px solid rgba(102, 126, 234, 0.8);
+  border-radius: 16px;
+  animation: shockwave-expand 1s ease-out forwards;
+  pointer-events: none;
+  z-index: 90;
+}
+
+@keyframes shockwave-expand {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(3);
+    opacity: 0;
+  }
+}

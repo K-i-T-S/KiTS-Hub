@@ -30,7 +30,7 @@ class AnalyticsTracker {
   }
 
   private async initializeVisitor() {
-    if (typeof window === 'undefined') return
+    if (typeof window === 'undefined' || !supabase) return
 
     try {
       // Check if visitor already exists for this session
@@ -110,7 +110,7 @@ class AnalyticsTracker {
   }
 
   async trackPageView(pageUrl?: string, pageTitle?: string) {
-    if (!this.visitorId) return
+    if (!this.visitorId || !supabase) return
 
     const url = pageUrl || window.location.href
     const title = pageTitle || document.title
@@ -145,7 +145,7 @@ class AnalyticsTracker {
   }
 
   private async updatePageViewDuration(pageUrl: string, durationSeconds: number) {
-    if (!this.visitorId) return
+    if (!this.visitorId || !supabase) return
 
     try {
       await supabase
@@ -159,8 +159,8 @@ class AnalyticsTracker {
     }
   }
 
-  async trackEvent(eventType: string, eventName: string, properties?: any) {
-    if (!this.visitorId) return
+  async trackEvent(eventType: string, eventName: string, properties?: Record<string, unknown>) {
+    if (!this.visitorId || !supabase) return
 
     try {
       await supabase.from('website_events').insert({
@@ -176,7 +176,7 @@ class AnalyticsTracker {
   }
 
   async trackScrollDepth() {
-    if (!this.visitorId) return
+    if (!this.visitorId || !supabase) return
 
     const maxScroll = Math.max(
       document.body.scrollHeight,
@@ -214,7 +214,7 @@ class AnalyticsTracker {
   }
 
   async identifyUser(userId: string) {
-    if (!this.visitorId) return
+    if (!this.visitorId || !supabase) return
 
     try {
       await supabase
@@ -232,7 +232,7 @@ class AnalyticsTracker {
     }
   }
 
-  async trackFormSubmission(formName: string, data: any) {
+  async trackFormSubmission(formName: string, data: Record<string, unknown>) {
     await this.trackEvent('form', 'submission', { formName, ...data })
   }
 

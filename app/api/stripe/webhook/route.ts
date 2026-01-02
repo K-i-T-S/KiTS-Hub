@@ -5,8 +5,8 @@ import { supabase } from '@/lib/supabase'
 import type { Stripe } from 'stripe'
 
 export async function POST(req: Request) {
-  if (!stripe) {
-    return NextResponse.json({ error: 'Stripe not configured' }, { status: 500 })
+  if (!stripe || !supabase) {
+    return NextResponse.json({ error: 'Service not configured' }, { status: 500 })
   }
 
   const body = await req.text()
@@ -95,25 +95,29 @@ async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) 
     cancel_at_period_end: false,
   }
 
-  const { error } = await supabase
-    .from('subscriptions')
-    .upsert(subscriptionData, { onConflict: 'stripe_subscription_id' })
+  if (supabase) {
+    const { error } = await supabase
+      .from('subscriptions')
+      .upsert(subscriptionData, { onConflict: 'stripe_subscription_id' })
 
-  if (error) {
-    console.error('Error creating subscription:', error)
+    if (error) {
+      console.error('Error creating subscription:', error)
+    }
   }
 
   // Update user profile with customer ID
-  await supabase
-    .from('profiles')
-    .update({ stripe_customer_id: customerId })
-    .eq('id', userId)
+  if (supabase) {
+    await supabase
+      .from('profiles')
+      .update({ stripe_customer_id: customerId })
+      .eq('id', userId)
+  }
 
   console.log(`Checkout session completed for user ${userId}`)
 }
 
 async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
-  const subscriptionId = (invoice as any).subscription?.id || (invoice as any).subscription
+  const subscriptionId = (invoice as any).subscription || (invoice as any).subscription?.id
   const customerId = invoice.customer
 
   if (!subscriptionId) {
@@ -122,24 +126,26 @@ async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
   }
 
   // Update subscription status to active
-  const { error } = await supabase
-    .from('subscriptions')
-    .update({
-      status: 'active',
-      current_period_start: new Date(invoice.period_start * 1000).toISOString(),
-      current_period_end: new Date(invoice.period_end * 1000).toISOString(),
-    })
-    .eq('stripe_subscription_id', subscriptionId)
+  if (supabase) {
+    const { error } = await supabase
+      .from('subscriptions')
+      .update({
+        status: 'active',
+        current_period_start: new Date(invoice.period_start * 1000).toISOString(),
+        current_period_end: new Date(invoice.period_end * 1000).toISOString(),
+      })
+      .eq('stripe_subscription_id', subscriptionId)
 
-  if (error) {
-    console.error('Error updating subscription:', error)
+    if (error) {
+      console.error('Error updating subscription:', error)
+    }
   }
 
   console.log(`Invoice payment succeeded for subscription ${subscriptionId}`)
 }
 
 async function handleInvoicePaymentFailed(invoice: Stripe.Invoice) {
-  const subscriptionId = (invoice as any).subscription?.id || (invoice as any).subscription
+  const subscriptionId = (invoice as any).subscription || (invoice as any).subscription?.id
 
   if (!subscriptionId) {
     console.error('No subscription ID in invoice')
@@ -147,13 +153,15 @@ async function handleInvoicePaymentFailed(invoice: Stripe.Invoice) {
   }
 
   // Update subscription status to past_due
-  const { error } = await supabase
-    .from('subscriptions')
-    .update({ status: 'past_due' })
-    .eq('stripe_subscription_id', subscriptionId)
+  if (supabase) {
+    const { error } = await supabase
+      .from('subscriptions')
+      .update({ status: 'past_due' })
+      .eq('stripe_subscription_id', subscriptionId)
 
-  if (error) {
-    console.error('Error updating subscription:', error)
+    if (error) {
+      console.error('Error updating subscription:', error)
+    }
   }
 
   console.log(`Invoice payment failed for subscription ${subscriptionId}`)
@@ -169,6 +177,11 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
   }
 
   // Find user by customer ID
+  if (!supabase) {
+    console.error('Supabase not configured')
+    return
+  }
+
   const { data: profile } = await supabase
     .from('profiles')
     .select('id')
@@ -182,9 +195,9 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
 
   // Update subscription record
   const subscriptionData = {
-    user_id: profile.id,
-    stripe_customer_id: customerId,
+    user_id: userId,
     stripe_subscription_id: subscription.id,
+    stripe_customer_id: customerId,
     status: subscription.status,
     price_id: subscription.items.data[0].price.id,
     quantity: subscription.items.data[0].quantity,
@@ -194,12 +207,14 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
     cancel_at_period_end: subscription.cancel_at_period_end,
   }
 
-  const { error } = await supabase
-    .from('subscriptions')
-    .upsert(subscriptionData, { onConflict: 'stripe_subscription_id' })
+  if (supabase) {
+    const { error } = await supabase
+      .from('subscriptions')
+      .upsert(subscriptionData, { onConflict: 'stripe_subscription_id' })
 
-  if (error) {
-    console.error('Error creating subscription:', error)
+    if (error) {
+      console.error('Error upserting subscription:', error)
+    }
   }
 
   console.log(`Subscription created for user ${profile.id}`)
@@ -207,35 +222,39 @@ async function handleSubscriptionCreated(subscription: Stripe.Subscription) {
 
 async function handleSubscriptionUpdated(subscription: Stripe.Subscription) {
   // Update subscription record
-  const subscriptionData = {
-    status: subscription.status,
-    current_period_start: new Date((subscription as any).current_period_start! * 1000).toISOString(),
-    current_period_end: new Date((subscription as any).current_period_end! * 1000).toISOString(),
-    trial_end: subscription.trial_end ? new Date(subscription.trial_end * 1000).toISOString() : null,
-    cancel_at_period_end: subscription.cancel_at_period_end,
-  }
+  if (supabase) {
+    const subscriptionData = {
+      status: subscription.status,
+      current_period_start: new Date((subscription as any).current_period_start! * 1000).toISOString(),
+      current_period_end: new Date((subscription as any).current_period_end! * 1000).toISOString(),
+      trial_end: subscription.trial_end ? new Date(subscription.trial_end * 1000).toISOString() : null,
+      cancel_at_period_end: subscription.cancel_at_period_end,
+    }
 
-  const { error } = await supabase
-    .from('subscriptions')
-    .update(subscriptionData)
-    .eq('stripe_subscription_id', subscription.id)
+    const { error } = await supabase
+      .from('subscriptions')
+      .update(subscriptionData)
+      .eq('stripe_subscription_id', subscription.id)
 
-  if (error) {
-    console.error('Error updating subscription:', error)
+    if (error) {
+      console.error('Error updating subscription:', error)
+    }
   }
 
   console.log(`Subscription updated: ${subscription.id}`)
 }
 
 async function handleSubscriptionDeleted(subscription: Stripe.Subscription) {
-  // Update subscription status to canceled
-  const { error } = await supabase
-    .from('subscriptions')
-    .update({ status: 'canceled' })
-    .eq('stripe_subscription_id', subscription.id)
+  // Update subscription status to cancelled
+  if (supabase) {
+    const { error } = await supabase
+      .from('subscriptions')
+      .update({ status: 'cancelled' })
+      .eq('stripe_subscription_id', subscription.id)
 
-  if (error) {
-    console.error('Error updating subscription:', error)
+    if (error) {
+      console.error('Error updating subscription:', error)
+    }
   }
 
   console.log(`Subscription deleted: ${subscription.id}`)
