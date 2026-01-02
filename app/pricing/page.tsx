@@ -277,7 +277,7 @@ export default function PricingPage() {
                 },
                 {
                   q: "What happens if I exceed my plan limits?",
-                  a: "We'll notify you when you're approaching your limits. You can upgrade to a higher plan or purchase add-ons for additional resources."
+                  a: "We&apos;ll notify you when you&apos;re approaching your limits. You can upgrade to a higher plan or purchase add-ons for additional resources."
                 },
                 {
                   q: "Do you offer discounts for annual billing?",

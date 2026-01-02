@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { Twitter, Linkedin, Github, Facebook } from 'lucide-react'
 
 const footerLinks = {
@@ -48,9 +49,11 @@ export function Footer() {
           <div className="lg:col-span-2">
             <Link href="/" className="inline-block mb-4">
               <div className="flex items-center space-x-2">
-                <img 
+                <Image 
                   src="/kits-logo.png" 
                   alt="KiTS Hub" 
+                  width={32}
+                  height={32}
                   className="h-8 w-auto"
                 />
                 <span className="text-2xl font-bold">KiTS Hub</span>

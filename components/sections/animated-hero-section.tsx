@@ -33,7 +33,11 @@ export function AnimatedHeroSection() {
   }, [isClient])
 
   useEffect(() => {
-    setIsClient(true)
+    // Use requestAnimationFrame to avoid synchronous setState
+    const rafId = requestAnimationFrame(() => {
+      setIsClient(true)
+    })
+    return () => cancelAnimationFrame(rafId)
   }, [])
   return (
     <section className="min-h-screen flex flex-col items-center justify-center px-6 pt-24 pb-20 relative overflow-hidden">
@@ -92,7 +96,7 @@ export function AnimatedHeroSection() {
           >
             <Sparkles className="w-4 h-4 text-zinc-400" />
           </motion.div>
-          <span className="text-sm text-zinc-400">KiTS-SolutionsHub</span>
+          <span className="text-sm text-zinc-400">KiTS-TheSolutionsHub</span>
         </motion.div>
 
         <motion.h1 
@@ -119,15 +123,6 @@ export function AnimatedHeroSection() {
           </motion.span>
         </motion.h1>
 
-        <motion.div
-          className="text-sm text-zinc-400 mb-8"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-        >
-          KiTS-TheSolutionsHub
-        </motion.div>
-
         <motion.p 
           className="text-lg md:text-xl text-zinc-500 max-w-2xl mx-auto mb-10 leading-relaxed text-balance"
           initial={{ opacity: 0, y: 30 }}
@@ -135,7 +130,7 @@ export function AnimatedHeroSection() {
           transition={{ duration: 0.8, delay: 0.5 }}
         >
           The complete business management platform combining CRM, POS, inventory, HR, accounting, and more. Everything
-          your business needs to thrive, in one powerful solution.
+          your business needs to thrive, in one powerful SolutionsHub.
         </motion.p>
 
         {/* CTAs */}

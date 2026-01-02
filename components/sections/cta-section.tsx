@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from 'react'
-import { ArrowRight } from "lucide-react"
 import { LiquidCtaButton } from "@/components/buttons/liquid-cta-button"
 
 export function CtaSection() {
