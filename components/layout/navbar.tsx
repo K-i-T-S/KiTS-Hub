@@ -14,6 +14,11 @@ export function Navbar() {
       <div className="container flex h-14 max-w-screen-2xl items-center">
         <div className="mr-4 hidden md:flex">
           <Link href="/" className="mr-6 flex items-center space-x-2">
+            <img 
+              src="/kits-logo.png" 
+              alt="KiTS Hub" 
+              className="h-8 w-auto"
+            />
             <span className="hidden font-bold sm:inline-block text-xl">
               KiTS Hub
             </span>
@@ -78,9 +83,14 @@ export function Navbar() {
 
       {/* Mobile menu */}
       {isMenuOpen && (
-        <div className="fixed inset-0 top-14 z-50 grid w-full grid-flow-row auto-rows-max overflow-auto p-6 pb-32 shadow-md animate-in slide-in-from-top-80 md:hidden">
+        <div className="absolute top-14 left-0 right-0 z-50 p-6 shadow-md animate-in slide-in-from-top-80 md:hidden">
           <div className="relative z-20 grid gap-6 rounded-md bg-popover p-4 text-popover-foreground shadow-md">
             <Link href="/" className="flex items-center space-x-2">
+              <img 
+                src="/kits-logo.png" 
+                alt="KiTS Hub" 
+                className="h-8 w-auto"
+              />
               <span className="font-bold">KiTS Hub</span>
             </Link>
             <nav className="grid grid-flow-row auto-rows-max text-sm">

@@ -92,7 +92,7 @@ export function AnimatedHeroSection() {
           >
             <Sparkles className="w-4 h-4 text-zinc-400" />
           </motion.div>
-          <span className="text-sm text-zinc-400">Now with Built-in AI Assistant</span>
+          <span className="text-sm text-zinc-400">KiTS-SolutionsHub</span>
         </motion.div>
 
         <motion.h1 
@@ -118,6 +118,15 @@ export function AnimatedHeroSection() {
             All in one place.
           </motion.span>
         </motion.h1>
+
+        <motion.div
+          className="text-sm text-zinc-400 mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+        >
+          KiTS-TheSolutionsHub
+        </motion.div>
 
         <motion.p 
           className="text-lg md:text-xl text-zinc-500 max-w-2xl mx-auto mb-10 leading-relaxed text-balance"
@@ -171,16 +180,22 @@ export function AnimatedHeroSection() {
           <div className="flex items-center gap-4">
             <div className="flex -space-x-3">
               {[...Array(5)].map((_, i) => (
-                <motion.img
+                <motion.div
                   key={i}
-                  src={`https://images.unsplash.com/photo-${[1494790108377, 1535713875002, 1472099645785, 1494790108377, 1494790108377][i]}?q=80&w=200`}
-                  alt="User avatar"
-                  className="w-10 h-10 rounded-full border-2 border-zinc-950 object-cover z-[1]"
+                  className="w-10 h-10 rounded-full border-2 border-zinc-950 bg-gradient-to-br from-zinc-600 to-zinc-800 flex items-center justify-center z-[1]"
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
                   transition={{ duration: 0.3, delay: 0.9 + i * 0.1 }}
                   whileHover={{ y: -4 }}
-                />
+                >
+                  <svg
+                    className="w-6 h-6 text-zinc-300"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                  </svg>
+                </motion.div>
               ))}
             </div>
             <div className="h-8 w-px bg-zinc-800" />

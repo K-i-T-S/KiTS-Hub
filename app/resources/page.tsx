@@ -235,9 +235,9 @@ export default function ResourcesPage() {
                             <span>{post.readTime}</span>
                           </div>
                         </div>
-                        <Button variant="ghost" size="sm" className="group-hover:bg-gradient-to-r group-hover:from-[#f3e8ff] group-hover:to-[#e9d5ff] transition-all duration-300 group-hover:shadow-md group-hover:shadow-purple-500/20">
+                        <Button variant="ghost" size="sm" className="group-hover:bg-gradient-to-r group-hover:from-[#f3e8ff] group-hover:to-[#e9d5ff] text-current group-hover:text-[#581c87] hover:text-[#581c87] transition-all duration-300 group-hover:shadow-md group-hover:shadow-purple-500/20">
                           Read More
-                          <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                          <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform group-hover:text-[#581c87]" />
                         </Button>
                       </div>
                     </CardContent>

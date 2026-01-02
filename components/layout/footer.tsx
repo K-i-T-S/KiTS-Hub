@@ -47,7 +47,14 @@ export function Footer() {
           {/* Logo and tagline */}
           <div className="lg:col-span-2">
             <Link href="/" className="inline-block mb-4">
-              <span className="text-2xl font-bold">KiTS Hub</span>
+              <div className="flex items-center space-x-2">
+                <img 
+                  src="/kits-logo.png" 
+                  alt="KiTS Hub" 
+                  className="h-8 w-auto"
+                />
+                <span className="text-2xl font-bold">KiTS Hub</span>
+              </div>
             </Link>
             <p className="text-zinc-400 mb-6 max-w-sm">
               The complete business management platform for modern companies. Everything you need to thrive, all in one place.

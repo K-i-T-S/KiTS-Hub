@@ -72,10 +72,10 @@ export function FeaturesGridSection() {
                 <CardDescription className="text-muted-foreground mb-4">
                   {feature.description}
                 </CardDescription>
-                <Button variant="ghost" size="sm" className="group-hover:bg-gradient-to-r group-hover:from-[#f3e8ff] group-hover:to-[#e9d5ff] group-hover:text-[#6b21a8] transition-all duration-300 group-hover:shadow-md group-hover:shadow-purple-500/20" asChild>
+                <Button variant="ghost" size="sm" className="group-hover:bg-gradient-to-r group-hover:from-[#f3e8ff] group-hover:to-[#e9d5ff] text-current group-hover:text-[#581c87] hover:text-[#581c87] transition-all duration-300 group-hover:shadow-md group-hover:shadow-purple-500/20" asChild>
                   <a href={feature.link} className="flex items-center gap-2">
                     <span>Learn more</span>
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform group-hover:text-[#581c87]" />
                   </a>
                 </Button>
               </CardContent>
