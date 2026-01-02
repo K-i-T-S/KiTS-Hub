@@ -7,8 +7,12 @@ import Link from "next/link"
 import { LogIn, Lock, Mail, AlertCircle } from "lucide-react"
 import { useState } from "react"
 import { validateEmail, RateLimiter } from "@/lib/security"
+import { useAuth } from "@/components/providers/auth-provider"
+import { useRouter } from "next/navigation"
 
 export default function Login() {
+  const { signIn } = useAuth()
+  const router = useRouter()
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -48,14 +52,21 @@ export default function Login() {
     
     setIsLoading(true)
     try {
-      // Simulate API call with rate limiting
-      await new Promise(resolve => setTimeout(resolve, 1000))
       console.log('Login attempt:', {
         email: validateEmail(formData.email).sanitized,
         timestamp: new Date().toISOString()
       })
-      // Handle successful login
-    } catch {
+      
+      // Use actual Supabase authentication
+      const { error } = await signIn(formData.email, formData.password)
+      
+      if (error) {
+        setErrors({ submit: error.message })
+      } else {
+        // Redirect to admin dashboard or home page
+        router.push('/admin')
+      }
+    } catch (error) {
       setErrors({ submit: 'Invalid email or password' })
     } finally {
       setIsLoading(false)

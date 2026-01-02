@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { UserPlus, Mail, Lock, CheckCircle, AlertCircle } from "lucide-react"
 import { useState } from "react"
+import { useAuth } from "@/components/providers/auth-provider"
+import { useRouter } from "next/navigation"
 
 const features = [
   "14-day free trial",
@@ -17,6 +19,8 @@ const features = [
 ]
 
 export default function Signup() {
+  const { signUp } = useAuth()
+  const router = useRouter()
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -69,11 +73,18 @@ export default function Signup() {
     
     setIsLoading(true)
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000))
       console.log('Signup attempt:', formData)
-      // Handle successful signup
-    } catch {
+      
+      // Use actual Supabase authentication
+      const { error } = await signUp(formData.email, formData.password, formData.fullName)
+      
+      if (error) {
+        setErrors({ submit: error.message })
+      } else {
+        // Redirect to login page after successful signup
+        router.push('/login?message=Account created successfully. Please log in.')
+      }
+    } catch (error) {
       setErrors({ submit: 'Failed to create account. Please try again.' })
     } finally {
       setIsLoading(false)
