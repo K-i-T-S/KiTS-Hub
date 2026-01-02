@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import FloatingHelpBubble from "@/components/floating-help-bubble";
+import FloatingCloud from "@/components/floating-cloud";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,10 +26,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <script src="https://cdn.botpress.cloud/webchat/v3.5/inject.js"></script>
+        <script src="https://files.bpcontent.cloud/2026/01/02/09/20260102092532-F7HL9A73.js" defer></script>
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+        <FloatingCloud />
+        <FloatingHelpBubble />
       </body>
     </html>
   );
