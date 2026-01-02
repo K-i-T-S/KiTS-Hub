@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Menu, Search, LogIn } from 'lucide-react'
+import { LiquidCtaButton } from "@/components/buttons/liquid-cta-button"
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -57,9 +58,11 @@ export function Navbar() {
               <LogIn className="h-4 w-4" />
               <span>Login</span>
             </Button>
-            <Button size="sm" className="hidden md:flex bg-orange-500 hover:bg-orange-600 text-white">
-              Get Started Free
-            </Button>
+            <div className="hidden md:flex">
+              <LiquidCtaButton theme="dark">
+                Get Started Free
+              </LiquidCtaButton>
+            </div>
           </nav>
         </div>
 
@@ -112,9 +115,11 @@ export function Navbar() {
                 Login
               </Link>
             </nav>
-            <Button className="w-full bg-orange-500 hover:bg-orange-600 text-white">
-              Get Started Free
-            </Button>
+            <div className="w-full">
+              <LiquidCtaButton theme="dark">
+                Get Started Free
+              </LiquidCtaButton>
+            </div>
           </div>
         </div>
       )}

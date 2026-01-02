@@ -1,8 +1,8 @@
 "use client"
 
 import { useState } from 'react'
-import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
+import { LiquidCtaButton } from "@/components/buttons/liquid-cta-button"
 
 export function CtaSection() {
   const [email, setEmail] = useState('')
@@ -33,14 +33,12 @@ export function CtaSection() {
               className="flex-1 px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent"
               required
             />
-            <Button 
-              type="submit"
-              size="lg"
-              className="bg-white text-orange-600 hover:bg-white/90 px-6 py-3"
+            <LiquidCtaButton 
+              theme="light"
+              onClick={() => handleSubmit({ preventDefault: () => {} } as React.FormEvent)}
             >
               Get Started
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
+            </LiquidCtaButton>
           </form>
           
           <p className="text-sm text-white/80">

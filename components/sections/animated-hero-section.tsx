@@ -1,10 +1,10 @@
 "use client"
 
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
 import { Sparkles, ArrowRight } from "lucide-react"
 import { motion } from "framer-motion"
 import { useMemo, useEffect, useState } from "react"
+import { LiquidCtaButton } from "@/components/buttons/liquid-cta-button"
 
 // Helper function to generate deterministic random particles
 const generateParticles = (seed: number) => {
@@ -141,9 +141,9 @@ export function AnimatedHeroSection() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Button size="lg" className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-6 text-lg">
+              <LiquidCtaButton theme="dark">
                 Start Free Trial
-              </Button>
+              </LiquidCtaButton>
             </motion.div>
           </Link>
           <Link
