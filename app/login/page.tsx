@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { LogIn, Lock, Mail, AlertCircle } from "lucide-react"
 import { useState } from "react"
-import { validateEmail, validatePassword, RateLimiter } from "@/lib/security"
+import { validateEmail, RateLimiter } from "@/lib/security"
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -28,11 +28,8 @@ export default function Login() {
     }
     
     // Password validation
-    const passwordValidation = validatePassword(formData.password)
     if (!formData.password) {
       newErrors.password = 'Password is required'
-    } else if (!passwordValidation.isValid) {
-      newErrors.password = 'Password must be at least 8 characters long'
     }
     
     // Rate limiting check

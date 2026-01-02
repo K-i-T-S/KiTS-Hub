@@ -4,9 +4,11 @@ import { Loader2 } from 'lucide-react'
 interface LoadingSpinnerProps {
   size?: 'sm' | 'md' | 'lg'
   className?: string
+  text?: string
+  'aria-label'?: string
 }
 
-export function LoadingSpinner({ size = 'md', className = '' }: LoadingSpinnerProps) {
+export function LoadingSpinner({ size = 'md', className = '', text, 'aria-label': ariaLabel = 'Loading' }: LoadingSpinnerProps) {
   const sizeClasses = {
     sm: 'w-4 h-4',
     md: 'w-6 h-6',
@@ -14,23 +16,26 @@ export function LoadingSpinner({ size = 'md', className = '' }: LoadingSpinnerPr
   }
 
   return (
-    <Loader2 
-      className={`animate-spin ${sizeClasses[size]} ${className}`}
-      aria-hidden="true"
-    />
+    <div className={`flex items-center justify-center ${className}`} role="status" aria-label={ariaLabel} aria-live="polite">
+      <Loader2 className={`animate-spin ${sizeClasses[size]} text-primary`} aria-hidden="true" />
+      {text && (
+        <span className="ml-2 text-sm text-muted-foreground">{text}</span>
+      )}
+    </div>
   )
 }
 
 interface LoadingPageProps {
   message?: string
+  'aria-label'?: string
 }
 
-export function LoadingPage({ message = 'Loading...' }: LoadingPageProps) {
+export function LoadingPage({ message = 'Loading...', 'aria-label': ariaLabel = 'Loading page' }: LoadingPageProps) {
   return (
-    <div className="min-h-screen bg-zinc-950 flex items-center justify-center">
+    <div className="min-h-screen flex items-center justify-center bg-background" role="status" aria-label={ariaLabel}>
       <div className="text-center">
         <LoadingSpinner size="lg" className="text-indigo-400 mx-auto mb-4" />
-        <p className="text-zinc-400">{message}</p>
+        <p className="text-muted-foreground">{message}</p>
       </div>
     </div>
   )

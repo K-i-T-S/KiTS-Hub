@@ -2,14 +2,21 @@
 
 import { useState } from 'react'
 import { LiquidCtaButton } from "@/components/buttons/liquid-cta-button"
+import { useRouter } from 'next/navigation'
 
 export function CtaSection() {
   const [email, setEmail] = useState('')
+  const router = useRouter()
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle email submission
-    console.log('Email submitted:', email)
+    // Navigate to signup with email pre-filled
+    router.push(`/signup?email=${encodeURIComponent(email)}`)
+  }
+
+  const handleGetStarted = () => {
+    // Navigate to signup
+    router.push('/signup')
   }
 
   return (
@@ -47,7 +54,7 @@ export function CtaSection() {
             />
             <LiquidCtaButton 
               theme="light"
-              onClick={() => handleSubmit({ preventDefault: () => {} } as React.FormEvent)}
+              onClick={handleGetStarted}
             >
               Get Started
             </LiquidCtaButton>

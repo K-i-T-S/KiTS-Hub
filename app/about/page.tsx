@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import Image from "next/image"
 import { ArrowRight, Users, Target, Lightbulb, Award } from "lucide-react"
+import Link from "next/link"
+import type { Metadata } from "next"
 
 const teamMembers = [
   {
@@ -123,6 +125,17 @@ const pressMentions = [
   }
 ]
 
+export const metadata: Metadata = {
+  title: "About KiTS Hub - Our Mission, Team & Values",
+  description: "Learn about KiTS Hub's mission to democratize business management tools. Meet our team, discover our values, and join us in empowering businesses worldwide.",
+  keywords: ["about", "business management", "CRM", "POS", "team", "mission", "values"],
+  openGraph: {
+    title: "About KiTS Hub - Our Mission & Team",
+    description: "Learn about KiTS Hub's mission to democratize business management tools.",
+    type: "website",
+  },
+}
+
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-zinc-950">
@@ -142,13 +155,17 @@ export default function AboutPage() {
                 partner for business growth.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="bg-gradient-to-r from-[#9333ea] via-[#a855f7] to-[#7c3aed] hover:from-[#7c3aed] hover:via-[#9333ea] hover:to-[#6b21a8] text-white shadow-lg shadow-purple-500/25 transition-all duration-300 transform hover:scale-105">
-                  Join Our Team
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-                <Button variant="outline" size="lg">
-                  Contact Us
-                </Button>
+                <Link href="/careers" passHref>
+                  <Button size="lg" className="bg-gradient-to-r from-[#9333ea] via-[#a855f7] to-[#7c3aed] hover:from-[#7c3aed] hover:via-[#9333ea] hover:to-[#6b21a8] text-white shadow-lg shadow-purple-500/25 transition-all duration-300 transform hover:scale-105">
+                    Join Our Team
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                </Link>
+                <Link href="/contact" passHref>
+                  <Button variant="outline" size="lg">
+                    Contact Us
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>
@@ -329,10 +346,12 @@ export default function AboutPage() {
                 We&apos;re always looking for talented individuals who share our passion for 
                 helping businesses succeed. Check out our open positions and join us on our mission.
               </p>
-              <Button size="lg" className="bg-white text-[#9333ea] hover:bg-gradient-to-r hover:from-[#f3e8ff] hover:to-[#e9d5ff] hover:text-[#7c3aed] transition-all duration-300 shadow-lg shadow-purple-500/25">
-                View Open Positions
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
+              <Link href="/careers" passHref>
+                <Button size="lg" className="bg-white text-[#9333ea] hover:bg-gradient-to-r hover:from-[#f3e8ff] hover:to-[#e9d5ff] hover:text-[#7c3aed] transition-all duration-300 shadow-lg shadow-purple-500/25">
+                  View Open Positions
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </Link>
             </div>
           </div>
         </section>

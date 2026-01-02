@@ -136,6 +136,17 @@ const featureCategories = [
   }
 ]
 
+export const metadata: Metadata = {
+  title: "Pricing - KiTS Hub | Simple, Transparent Pricing",
+  description: "Choose the perfect plan for your business. Free, Professional, and Enterprise options with transparent pricing. No hidden fees.",
+  keywords: ["pricing", "business management", "CRM", "POS", "subscription", "plans"],
+  openGraph: {
+    title: "KiTS Hub Pricing - Simple & Transparent",
+    description: "Choose the perfect plan for your business with transparent pricing.",
+    type: "website",
+  },
+}
+
 export default function PricingPage() {
   const [isAnnual, setIsAnnual] = useState(false)
 

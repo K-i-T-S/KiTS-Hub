@@ -3,6 +3,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Check } from "lucide-react"
+import Link from "next/link"
 
 const pricingPlans = [
   {
@@ -107,17 +108,31 @@ export function PricingSection() {
                   ))}
                 </ul>
                 
-                <Button 
-                  className={`w-full ${
-                    plan.highlighted 
-                      ? 'bg-gradient-to-r from-[#9333ea] via-[#a855f7] to-[#7c3aed] hover:from-[#7c3aed] hover:via-[#9333ea] hover:to-[#6b21a8] text-white shadow-lg shadow-purple-500/25 transition-all duration-300 transform hover:scale-105' 
-                      : ''
-                  }`}
-                  variant={plan.highlighted ? "default" : "outline"}
-                  size="lg"
-                >
-                  {plan.cta}
-                </Button>
+                {plan.cta === "Contact Sales" ? (
+                  <Link href="/contact" passHref>
+                    <Button 
+                      className="w-full"
+                      variant="outline"
+                      size="lg"
+                    >
+                      {plan.cta}
+                    </Button>
+                  </Link>
+                ) : (
+                  <Link href="/signup" passHref>
+                    <Button 
+                      className={`w-full ${
+                        plan.highlighted 
+                          ? 'bg-gradient-to-r from-[#9333ea] via-[#a855f7] to-[#7c3aed] hover:from-[#7c3aed] hover:via-[#9333ea] hover:to-[#6b21a8] text-white shadow-lg shadow-purple-500/25 transition-all duration-300 transform hover:scale-105' 
+                          : ''
+                      }`}
+                      variant={plan.highlighted ? "default" : "outline"}
+                      size="lg"
+                    >
+                      {plan.cta}
+                    </Button>
+                  </Link>
+                )}
               </CardContent>
             </Card>
           ))}

@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -12,17 +12,17 @@ export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const router = useRouter()
 
-  const handleGetStarted = () => {
+  const handleGetStarted = useCallback(() => {
     router.push('/pricing')
-  }
+  }, [router])
 
-  const handleLogin = () => {
+  const handleLogin = useCallback(() => {
     router.push('/login')
-  }
+  }, [router])
 
-  const handleSearch = () => {
+  const handleSearch = useCallback(() => {
     router.push('/search')
-  }
+  }, [router])
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -40,18 +40,23 @@ export function Navbar() {
               KiTS Hub
             </span>
           </Link>
-          <nav className="flex items-center space-x-6 text-sm font-medium">
+          <nav className="flex items-center space-x-6 text-sm font-medium" role="navigation" aria-label="Main navigation">
             <div className="relative group">
-              <button className="flex items-center space-x-1 hover:text-foreground/80 transition-colors">
+              <button 
+                className="flex items-center space-x-1 hover:text-foreground/80 transition-colors"
+                aria-haspopup="true"
+                aria-expanded={false}
+                aria-label="Products menu"
+              >
                 <span>Products</span>
               </button>
               <div className="absolute top-full left-0 mt-2 w-48 bg-popover border rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                 <div className="p-2">
-                  <Link href="/crm" className="block px-3 py-2 text-sm hover:bg-accent rounded-md">CRM</Link>
-                  <Link href="/pos" className="block px-3 py-2 text-sm hover:bg-accent rounded-md">Point of Sale</Link>
-                  <Link href="/hr" className="block px-3 py-2 text-sm hover:bg-accent rounded-md">HR Management</Link>
-                  <Link href="/accounting" className="block px-3 py-2 text-sm hover:bg-accent rounded-md">Accounting</Link>
-                  <Link href="/analytics" className="block px-3 py-2 text-sm hover:bg-accent rounded-md">Analytics</Link>
+                  <Link href="/crm" className="block px-3 py-2 text-sm hover:bg-accent rounded-md" role="menuitem">CRM</Link>
+                  <Link href="/pos" className="block px-3 py-2 text-sm hover:bg-accent rounded-md" role="menuitem">Point of Sale</Link>
+                  <Link href="/hr" className="block px-3 py-2 text-sm hover:bg-accent rounded-md" role="menuitem">HR Management</Link>
+                  <Link href="/accounting" className="block px-3 py-2 text-sm hover:bg-accent rounded-md" role="menuitem">Accounting</Link>
+                  <Link href="/analytics" className="block px-3 py-2 text-sm hover:bg-accent rounded-md" role="menuitem">Analytics</Link>
                 </div>
               </div>
             </div>
