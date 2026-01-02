@@ -2,6 +2,7 @@ import { Navbar } from "@/components/layout/navbar"
 import { Footer } from "@/components/layout/footer"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import Image from "next/image"
 import { ArrowRight, Users, Target, Lightbulb, Award } from "lucide-react"
 
 const teamMembers = [
@@ -263,10 +264,14 @@ export default function AboutPage() {
               {teamMembers.map((member, index) => (
                 <Card key={index} className="bg-card border-border/50">
                   <CardContent className="p-6 text-center">
-                    <img
+                    <Image
                       src={member.avatar}
                       alt={member.name}
-                      className="w-20 h-20 rounded-full mx-auto mb-4 object-cover"
+                      width={80}
+                      height={80}
+                      sizes="80px"
+                      className="rounded-full mx-auto mb-4 object-cover"
+                      style={{ width: 'auto', height: '80px' }}
                     />
                     <h3 className="text-xl font-semibold mb-1">{member.name}</h3>
                     <p className="text-[#9333ea] mb-3">{member.role}</p>

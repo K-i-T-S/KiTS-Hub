@@ -1,7 +1,6 @@
 import { Navbar } from "@/components/layout/navbar"
 import { Footer } from "@/components/layout/footer"
 import { Button } from "@/components/ui/button"
-import Link from "next/link"
 import { Shield, CheckCircle, FileText, Users, ArrowRight, Award, Globe, Lock } from "lucide-react"
 
 const complianceAreas = [

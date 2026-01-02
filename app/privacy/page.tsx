@@ -1,6 +1,6 @@
 import { Navbar } from "@/components/layout/navbar"
 import { Footer } from "@/components/layout/footer"
-import { Shield, Eye, Lock, ArrowRight, Mail } from "lucide-react"
+import { Shield, Eye, Lock, Mail } from "lucide-react"
 
 export default function Privacy() {
   return (
@@ -213,7 +213,7 @@ export default function Privacy() {
 
           {/* Children's Privacy */}
           <div>
-            <h2 className="text-2xl font-bold text-white mb-6">Children's Privacy</h2>
+            <h2 className="text-2xl font-bold text-white mb-6">Children&apos;s Privacy</h2>
             
             <div className="bg-zinc-900 rounded-lg p-6">
               <p className="text-zinc-300">

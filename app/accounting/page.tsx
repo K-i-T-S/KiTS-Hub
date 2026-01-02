@@ -1,8 +1,7 @@
 import { Navbar } from "@/components/layout/navbar"
 import { Footer } from "@/components/layout/footer"
 import { Button } from "@/components/ui/button"
-import Link from "next/link"
-import { Calculator, FileText, TrendingUp, DollarSign, CheckCircle, ArrowRight, Star, Zap, Receipt } from "lucide-react"
+import { Calculator, FileText, TrendingUp, DollarSign, CheckCircle, Star, Zap, Receipt } from "lucide-react"
 
 const features = [
   {

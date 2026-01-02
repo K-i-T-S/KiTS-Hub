@@ -2,7 +2,7 @@ import { Navbar } from "@/components/layout/navbar"
 import { Footer } from "@/components/layout/footer"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { FileText, ExternalLink, Download, ArrowRight, Users } from "lucide-react"
+import { FileText, ExternalLink, Download, ArrowRight } from "lucide-react"
 
 const pressReleases = [
   {

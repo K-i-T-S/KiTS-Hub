@@ -2,7 +2,7 @@ import { Navbar } from "@/components/layout/navbar"
 import { Footer } from "@/components/layout/footer"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { Users, MessageSquare, ThumbsUp, Calendar, ArrowRight, Search, TrendingUp, Award, HelpCircle } from "lucide-react"
+import { Users, MessageSquare, Calendar, ArrowRight, Search, TrendingUp, Award, HelpCircle } from "lucide-react"
 
 const forumCategories = [
   {

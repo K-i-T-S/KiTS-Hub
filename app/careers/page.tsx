@@ -1,8 +1,7 @@
 import { Navbar } from "@/components/layout/navbar"
 import { Footer } from "@/components/layout/footer"
 import { Button } from "@/components/ui/button"
-import Link from "next/link"
-import { MapPin, Briefcase, Clock, DollarSign, ArrowRight, Users, Heart, Target, Zap } from "lucide-react"
+import { MapPin, Briefcase, DollarSign, Users, Heart, Target, Zap } from "lucide-react"
 
 const openPositions = [
   {

@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Sparkles, ArrowRight } from "lucide-react"
 
@@ -48,30 +49,50 @@ export function HeroSection() {
         <div className="mt-16 flex flex-col sm:flex-row items-center justify-center gap-4">
           <div className="flex items-center gap-4">
             <div className="flex -space-x-3">
-              <img
+              <Image
                 src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=200"
                 alt="User avatar"
-                className="w-10 h-10 rounded-full border-2 border-zinc-950 hover:-translate-y-1 transition object-cover z-[1]"
+                width={40}
+                height={40}
+                sizes="40px"
+                className="rounded-full border-2 border-zinc-950 hover:-translate-y-1 transition object-cover z-[1]"
+                style={{ width: 'auto', height: '40px' }}
               />
-              <img
+              <Image
                 src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=200"
                 alt="User avatar"
-                className="w-10 h-10 rounded-full border-2 border-zinc-950 hover:-translate-y-1 transition object-cover z-[2]"
+                width={40}
+                height={40}
+                sizes="40px"
+                className="rounded-full border-2 border-zinc-950 hover:-translate-y-1 transition object-cover z-[2]"
+                style={{ width: 'auto', height: '40px' }}
               />
-              <img
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=200&h=200&auto=format&fit=crop"
+              <Image
+                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=200"
                 alt="User avatar"
-                className="w-10 h-10 rounded-full border-2 border-zinc-950 hover:-translate-y-1 transition object-cover z-[3]"
+                width={40}
+                height={40}
+                sizes="40px"
+                className="rounded-full border-2 border-zinc-950 hover:-translate-y-1 transition object-cover z-[3]"
+                style={{ width: 'auto', height: '40px' }}
               />
-              <img
+              <Image
                 src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200"
                 alt="User avatar"
-                className="w-10 h-10 rounded-full border-2 border-zinc-950 hover:-translate-y-1 transition object-cover z-[4]"
+                width={40}
+                height={40}
+                sizes="40px"
+                className="rounded-full border-2 border-zinc-950 hover:-translate-y-1 transition object-cover z-[4]"
+                style={{ width: 'auto', height: '40px' }}
               />
-              <img
+              <Image
                 src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200"
                 alt="User avatar"
-                className="w-10 h-10 rounded-full border-2 border-zinc-950 hover:-translate-y-1 transition object-cover z-[5]"
+                width={40}
+                height={40}
+                sizes="40px"
+                className="rounded-full border-2 border-zinc-950 hover:-translate-y-1 transition object-cover z-[5]"
+                style={{ width: 'auto', height: '40px' }}
               />
             </div>
             <div className="h-8 w-px bg-zinc-800" />

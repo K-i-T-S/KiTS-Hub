@@ -1,7 +1,6 @@
 import { Navbar } from "@/components/layout/navbar"
 import { Footer } from "@/components/layout/footer"
 import { Button } from "@/components/ui/button"
-import Link from "next/link"
 import { Cookie, Settings, Shield, Eye, ArrowRight } from "lucide-react"
 
 export default function Cookies() {

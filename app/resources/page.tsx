@@ -3,6 +3,7 @@ import { Footer } from "@/components/layout/footer"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import Image from "next/image"
 import { Calendar, Clock, ArrowRight, Search } from "lucide-react"
 
 const blogPosts = [
@@ -162,10 +163,11 @@ export default function ResourcesPage() {
               {featuredPost && (
                 <Card className="bg-card border-border/50 mb-12 overflow-hidden">
                   <div className="relative h-64 md:h-80">
-                    <img
+                    <Image
                       src={featuredPost.image}
                       alt={featuredPost.title}
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 to-transparent" />
                     <div className="absolute bottom-6 left-6 right-6">
@@ -178,10 +180,14 @@ export default function ResourcesPage() {
                       </p>
                       <div className="flex items-center gap-4 text-sm text-zinc-400">
                         <div className="flex items-center gap-2">
-                          <img
+                          <Image
                             src={featuredPost.authorAvatar}
                             alt={featuredPost.author}
-                            className="w-6 h-6 rounded-full"
+                            width={40}
+                            height={40}
+                            sizes="40px"
+                            className="rounded-full object-cover"
+                            style={{ width: 'auto', height: '40px' }}
                           />
                           <span>{featuredPost.author}</span>
                         </div>
@@ -206,10 +212,14 @@ export default function ResourcesPage() {
                 {regularPosts.map((post) => (
                   <Card key={post.id} className="bg-card border-border/50 overflow-hidden group hover:shadow-lg transition-all duration-300">
                     <div className="relative h-48">
-                      <img
+                      <Image
                         src={post.image}
                         alt={post.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        width={300}
+                        height={200}
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className="object-cover"
+                        style={{ width: 'auto', height: '200px' }}
                       />
                       <div className="absolute top-4 left-4">
                         <Badge variant="secondary" className="bg-zinc-900/80 text-white">

@@ -1,7 +1,7 @@
 import { Navbar } from "@/components/layout/navbar"
 import { Footer } from "@/components/layout/footer"
 import { Button } from "@/components/ui/button"
-import { Handshake, Globe, Zap, Users, Heart, Target, CheckCircle, Star } from "lucide-react"
+import { Handshake, Globe, Zap, Users, CheckCircle, Star } from "lucide-react"
 
 const partnerTypes = [
   {

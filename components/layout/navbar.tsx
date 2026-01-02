@@ -3,12 +3,26 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Menu, Search, LogIn } from 'lucide-react'
 import { LiquidCtaButton } from "@/components/buttons/liquid-cta-button"
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const router = useRouter()
+
+  const handleGetStarted = () => {
+    router.push('/pricing')
+  }
+
+  const handleLogin = () => {
+    router.push('/login')
+  }
+
+  const handleSearch = () => {
+    router.push('/search')
+  }
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -20,7 +34,7 @@ export function Navbar() {
               alt="KiTS Hub" 
               width={32}
               height={32}
-              className="h-8 w-auto"
+              className="w-8 h-8"
             />
             <span className="hidden font-bold sm:inline-block text-xl">
               KiTS Hub
@@ -72,18 +86,18 @@ export function Navbar() {
         
         <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
           <div className="w-full flex-1 md:w-auto md:flex-none">
-            <Button variant="ghost" size="icon" className="h-8 w-8">
+            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={handleSearch}>
               <Search className="h-4 w-4" />
               <span className="sr-only">Search</span>
             </Button>
           </div>
           <nav className="flex items-center">
-            <Button variant="ghost" size="sm" className="hidden md:flex items-center space-x-1">
+            <Button variant="ghost" size="sm" className="hidden md:flex items-center space-x-1" onClick={handleLogin}>
               <LogIn className="h-4 w-4" />
               <span>Login</span>
             </Button>
             <div className="hidden md:flex">
-              <LiquidCtaButton theme="dark">
+              <LiquidCtaButton theme="dark" onClick={handleGetStarted}>
                 Get Started Free
               </LiquidCtaButton>
             </div>
@@ -110,7 +124,7 @@ export function Navbar() {
                 alt="KiTS Hub" 
                 width={32}
                 height={32}
-                className="h-8 w-auto"
+                className="w-8 h-8"
               />
               <span className="font-bold">KiTS Hub</span>
             </Link>
@@ -244,12 +258,13 @@ export function Navbar() {
               <Link
                 href="#"
                 className="flex w-full items-center justify-between py-2 font-medium"
+                onClick={handleLogin}
               >
                 Login
               </Link>
             </nav>
             <div className="w-full">
-              <LiquidCtaButton theme="dark">
+              <LiquidCtaButton theme="dark" onClick={handleGetStarted}>
                 Get Started Free
               </LiquidCtaButton>
             </div>

@@ -1,8 +1,10 @@
+"use client"
+
 import { Navbar } from "@/components/layout/navbar"
 import { Footer } from "@/components/layout/footer"
 import { Button } from "@/components/ui/button"
-import Link from "next/link"
-import { Brain, TrendingUp, BarChart3, PieChart, CheckCircle, ArrowRight, Star, Zap, Target } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { Brain, TrendingUp, BarChart3, PieChart, CheckCircle, Star, Zap, Target } from "lucide-react"
 
 const features = [
   {
@@ -136,6 +138,23 @@ const pricing = [
 ]
 
 export default function Analytics() {
+  const router = useRouter()
+
+  const handleStartTrial = () => {
+    router.push('/signup')
+  }
+
+  const handleScheduleDemo = () => {
+    router.push('/demo')
+  }
+
+  const handleViewIntegrations = () => {
+    router.push('/integrations')
+  }
+
+  const handleContactSales = () => {
+    router.push('/contact')
+  }
   return (
     <div className="min-h-screen bg-zinc-950">
       <Navbar />
@@ -154,10 +173,10 @@ export default function Analytics() {
           </p>
           
           <div className="flex flex-wrap justify-center gap-4">
-            <Button className="rounded-full">
+            <Button className="rounded-full" onClick={handleStartTrial}>
               Start Free Trial
             </Button>
-            <Button variant="outline" className="rounded-full">
+            <Button variant="outline" className="rounded-full" onClick={handleScheduleDemo}>
               Schedule Demo
             </Button>
           </div>
@@ -289,7 +308,7 @@ export default function Analytics() {
           </div>
           
           <div className="text-center mt-8">
-            <Button variant="outline" className="rounded-full">
+            <Button variant="outline" className="rounded-full" onClick={handleViewIntegrations}>
               View All Integrations
             </Button>
           </div>
@@ -378,6 +397,7 @@ export default function Analytics() {
                     plan.highlighted ? 'bg-indigo-500 hover:bg-indigo-600' : ''
                   }`}
                   variant={plan.highlighted ? 'default' : 'outline'}
+                  onClick={plan.name === 'Enterprise' ? handleContactSales : handleStartTrial}
                 >
                   {plan.name === 'Enterprise' ? 'Contact Sales' : 'Start Free Trial'}
                 </Button>
@@ -404,7 +424,7 @@ export default function Analytics() {
               placeholder="Your email address"
               className="flex-1 px-4 py-3 bg-zinc-900 border border-zinc-800 rounded-lg text-white placeholder-zinc-400 focus:outline-none focus:border-indigo-500"
             />
-            <Button className="rounded-full">
+            <Button className="rounded-full" onClick={handleStartTrial}>
               Start Free Trial
             </Button>
           </div>

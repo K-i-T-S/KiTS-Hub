@@ -1,14 +1,14 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { Twitter, Linkedin, Github, Facebook } from 'lucide-react'
+import { Facebook, Instagram, Mail, Phone, MessageCircle } from 'lucide-react'
 
 const footerLinks = {
   products: [
-    { name: 'CRM', href: '#crm' },
-    { name: 'Point of Sale', href: '#pos' },
-    { name: 'HR Management', href: '#hr' },
-    { name: 'Accounting', href: '#accounting' },
-    { name: 'Analytics', href: '#analytics' }
+    { name: 'CRM', href: '/crm' },
+    { name: 'Point of Sale', href: '/pos' },
+    { name: 'HR Management', href: '/hr' },
+    { name: 'Accounting', href: '/accounting' },
+    { name: 'Analytics', href: '/analytics' }
   ],
   resources: [
     { name: 'Blog', href: '/blog' },
@@ -34,10 +34,8 @@ const footerLinks = {
 }
 
 const socialLinks = [
-  { icon: Twitter, href: '#', label: 'Twitter' },
-  { icon: Linkedin, href: '#', label: 'LinkedIn' },
-  { icon: Github, href: '#', label: 'GitHub' },
-  { icon: Facebook, href: '#', label: 'Facebook' }
+  { icon: Facebook, href: 'https://www.facebook.com/profile.php?id=61585989414621', label: 'Facebook' },
+  { icon: Instagram, href: 'https://www.instagram.com/kits_solutions', label: 'Instagram' }
 ]
 
 export function Footer() {
@@ -54,7 +52,7 @@ export function Footer() {
                   alt="KiTS Hub" 
                   width={32}
                   height={32}
-                  className="h-8 w-auto"
+                  className="w-8 h-8"
                 />
                 <span className="text-2xl font-bold">KiTS Hub</span>
               </div>
@@ -125,6 +123,25 @@ export function Footer() {
                 </li>
               ))}
             </ul>
+          </div>
+
+          {/* Contact Info */}
+          <div>
+            <h3 className="font-semibold mb-4">Contact</h3>
+            <div className="space-y-3">
+              <a href="mailto:kits.tech.co@gmail.com" className="flex items-center space-x-2 text-zinc-400 hover:text-white transition-colors text-sm">
+                <Mail className="w-4 h-4" />
+                <span>kits.tech.co@gmail.com</span>
+              </a>
+              <a href="tel:+9681290662" className="flex items-center space-x-2 text-zinc-400 hover:text-white transition-colors text-sm">
+                <Phone className="w-4 h-4" />
+                <span>+961 81 290 662</span>
+              </a>
+              <a href="https://wa.me/message/FOTDUBM6EP2IO1" className="flex items-center space-x-2 text-zinc-400 hover:text-white transition-colors text-sm">
+                <MessageCircle className="w-4 h-4" />
+                <span>WhatsApp</span>
+              </a>
+            </div>
           </div>
 
           {/* Legal */}

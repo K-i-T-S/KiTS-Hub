@@ -1,6 +1,7 @@
 "use client"
 
 import { Card, CardContent } from "@/components/ui/card"
+import Image from "next/image"
 import { Star } from "lucide-react"
 
 const testimonials = [
@@ -64,10 +65,14 @@ export function TestimonialsSection() {
             </blockquote>
                 
                 <div className="flex items-center gap-4">
-                  <img
+                  <Image
                     src={testimonial.customer.avatar}
                     alt={testimonial.customer.name}
-                    className="w-12 h-12 rounded-full object-cover"
+                    width={48}
+                    height={48}
+                    sizes="48px"
+                    className="rounded-full object-cover"
+                    style={{ width: 'auto', height: '48px' }}
                   />
                   <div>
                     <div className="font-semibold">{testimonial.customer.name}</div>
