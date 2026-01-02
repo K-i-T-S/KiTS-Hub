@@ -4,21 +4,37 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Sparkles, ArrowRight } from "lucide-react"
 import { motion } from "framer-motion"
-import { useMemo } from "react"
+import { useMemo, useEffect, useState } from "react"
 
-// Helper function to generate random particles
-const generateParticles = () => 
-  [...Array(20)].map((_, i) => ({
+// Helper function to generate deterministic random particles
+const generateParticles = (seed: number) => {
+  // Simple seeded random number generator
+  const random = (seed: number) => {
+    const x = Math.sin(seed) * 10000
+    return x - Math.floor(x)
+  }
+  
+  return [...Array(20)].map((_, i) => ({
     id: i,
-    left: Math.random() * 100,
-    top: Math.random() * 100,
-    duration: 3 + Math.random() * 2,
-    delay: Math.random() * 2
+    left: random(seed + i) * 100,
+    top: random(seed + i + 100) * 100,
+    duration: 3 + random(seed + i + 200) * 2,
+    delay: random(seed + i + 300) * 2
   }))
+}
 
 export function AnimatedHeroSection() {
-  // Memoize particle positions to prevent recalculation on every render
-  const particles = useMemo(() => generateParticles(), [])
+  const [isClient, setIsClient] = useState(false)
+  
+  // Generate particles only on client side to avoid hydration mismatch
+  const particles = useMemo(() => {
+    if (!isClient) return []
+    return generateParticles(12345) // Use fixed seed for consistency
+  }, [isClient])
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
   return (
     <section className="min-h-screen flex flex-col items-center justify-center px-6 pt-24 pb-20 relative overflow-hidden">
       {/* Animated background gradient */}
