@@ -133,7 +133,7 @@ export default function AboutPage() {
           <div className="container mx-auto px-6">
             <div className="max-w-4xl mx-auto text-center">
               <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-6">
-                Empowering businesses to <span className="bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">thrive</span>
+                Empowering businesses to <span className="bg-gradient-to-r from-[#6b21a8] via-[#9333ea] to-[#a855f7] bg-clip-text text-transparent">thrive</span>
               </h1>
               <p className="text-xl text-muted-foreground mb-8">
                 We&apos;re on a mission to provide every business with the tools they need to succeed, 
@@ -141,7 +141,7 @@ export default function AboutPage() {
                 partner for business growth.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button size="lg" className="bg-orange-500 hover:bg-orange-600 text-white">
+                <Button size="lg" className="bg-gradient-to-r from-[#9333ea] via-[#a855f7] to-[#7c3aed] hover:from-[#7c3aed] hover:via-[#9333ea] hover:to-[#6b21a8] text-white shadow-lg shadow-purple-500/25 transition-all duration-300 transform hover:scale-105">
                   Join Our Team
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
@@ -186,7 +186,7 @@ export default function AboutPage() {
               </h2>
               <div className="grid md:grid-cols-2 gap-12">
                 <div>
-                  <h3 className="text-2xl font-semibold mb-4 text-orange-500">Mission</h3>
+                  <h3 className="text-2xl font-semibold mb-4 bg-gradient-to-r from-[#9333ea] to-[#7c3aed] bg-clip-text text-transparent">Mission</h3>
                   <p className="text-muted-foreground leading-relaxed">
                     To democratize business management by providing powerful, affordable, 
                     and easy-to-use tools that enable every business to compete and thrive 
@@ -194,7 +194,7 @@ export default function AboutPage() {
                   </p>
                 </div>
                 <div>
-                  <h3 className="text-2xl font-semibold mb-4 text-orange-500">Vision</h3>
+                  <h3 className="text-2xl font-semibold mb-4 bg-gradient-to-r from-[#9333ea] to-[#7c3aed] bg-clip-text text-transparent">Vision</h3>
                   <p className="text-muted-foreground leading-relaxed">
                     A world where every business, regardless of size or resources, has access 
                     to the same powerful tools and insights that drive enterprise success.
@@ -215,8 +215,8 @@ export default function AboutPage() {
               {values.map((value, index) => (
                 <Card key={index} className="bg-card border-border/50 text-center">
                   <CardContent className="p-6">
-                    <div className="w-12 h-12 bg-orange-500/10 rounded-lg flex items-center justify-center mx-auto mb-4">
-                      <value.icon className="w-6 h-6 text-orange-500" />
+                    <div className="w-12 h-12 bg-gradient-to-br from-[#f3e8ff] to-[#e9d5ff] rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-purple-500/20">
+                      <value.icon className="w-6 h-6 text-[#6b21a8]" />
                     </div>
                     <h3 className="text-xl font-semibold mb-3">{value.title}</h3>
                     <p className="text-muted-foreground text-sm">{value.description}</p>
@@ -238,7 +238,7 @@ export default function AboutPage() {
                 {timeline.map((item, index) => (
                   <div key={index} className="flex gap-6">
                     <div className="flex-shrink-0">
-                      <div className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold">
+                      <div className="w-12 h-12 bg-gradient-to-r from-[#9333ea] to-[#7c3aed] rounded-full flex items-center justify-center text-white font-bold shadow-lg shadow-purple-500/25">
                         {item.year.slice(-2)}
                       </div>
                     </div>
@@ -269,7 +269,7 @@ export default function AboutPage() {
                       className="w-20 h-20 rounded-full mx-auto mb-4 object-cover"
                     />
                     <h3 className="text-xl font-semibold mb-1">{member.name}</h3>
-                    <p className="text-orange-500 mb-3">{member.role}</p>
+                    <p className="text-[#9333ea] mb-3">{member.role}</p>
                     <p className="text-muted-foreground text-sm">{member.bio}</p>
                   </CardContent>
                 </Card>
@@ -305,9 +305,18 @@ export default function AboutPage() {
         </section>
 
         {/* Careers CTA */}
-        <section className="py-20 bg-gradient-to-r from-orange-600 to-orange-500">
+        <section className="py-20 bg-gradient-to-br from-[#2e0f38] via-[#4a0e4e] to-[#551a8b] relative overflow-hidden">
+          {/* Radial gradient overlay for depth */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(168,85,247,0.3)_0%,rgba(107,33,168,0.1)_50%,transparent_100%)]" />
+          
+          {/* Advanced gradient shimmer effect */}
+          <div className="absolute inset-0">
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[rgba(168,85,247,0.6)] to-transparent animate-pulse" />
+            <div className="absolute inset-0 bg-gradient-to-l from-transparent via-[rgba(147,51,234,0.4)] to-transparent animate-pulse" style={{ animationDelay: '1s' }} />
+            <div className="absolute inset-0 bg-gradient-to-t from-transparent via-[rgba(168,85,247,0.3)] to-transparent animate-pulse" style={{ animationDelay: '2s' }} />
+          </div>
           <div className="container mx-auto px-6">
-            <div className="text-center max-w-3xl mx-auto">
+            <div className="text-center max-w-3xl mx-auto relative z-10">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
                 Join Our Team
               </h2>
@@ -315,7 +324,7 @@ export default function AboutPage() {
                 We&apos;re always looking for talented individuals who share our passion for 
                 helping businesses succeed. Check out our open positions and join us on our mission.
               </p>
-              <Button size="lg" className="bg-white text-orange-600 hover:bg-white/90">
+              <Button size="lg" className="bg-white text-[#9333ea] hover:bg-gradient-to-r hover:from-[#f3e8ff] hover:to-[#e9d5ff] hover:text-[#7c3aed] transition-all duration-300 shadow-lg shadow-purple-500/25">
                 View Open Positions
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>

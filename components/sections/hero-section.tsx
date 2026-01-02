@@ -32,7 +32,7 @@ export function HeroSection() {
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link href="#pricing">
-            <Button size="lg" className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-6 text-lg">
+            <Button size="lg" className="bg-gradient-to-r from-[#9333ea] via-[#a855f7] to-[#7c3aed] hover:from-[#7c3aed] hover:via-[#9333ea] hover:to-[#6b21a8] text-white px-8 py-6 text-lg shadow-lg shadow-purple-500/25 transition-all duration-300 transform hover:scale-105">
               Start Free Trial
             </Button>
           </Link>

@@ -151,7 +151,7 @@ export default function PricingPage() {
               <Button variant="outline" size="lg">
                 Monthly
               </Button>
-              <Button size="lg" className="bg-orange-500 hover:bg-orange-600 text-white">
+              <Button size="lg" className="bg-gradient-to-r from-[#9333ea] via-[#a855f7] to-[#7c3aed] hover:from-[#7c3aed] hover:via-[#9333ea] hover:to-[#6b21a8] text-white shadow-lg shadow-purple-500/25 transition-all duration-300 transform hover:scale-105">
                 Annual (Save 20%)
               </Button>
             </div>
@@ -164,13 +164,13 @@ export default function PricingPage() {
                 key={index} 
                 className={`relative ${
                   plan.highlighted 
-                    ? 'border-orange-500 shadow-lg scale-105' 
+                    ? 'border-gradient-to-br from-[#9333ea] to-[#7c3aed] shadow-xl shadow-purple-500/25 scale-105 bg-gradient-to-br from-[#faf5ff]/50 to-[#f3e8ff]/50' 
                     : 'border-border/50'
                 } bg-card`}
               >
                 {plan.highlighted && (
                   <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                    <span className="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                    <span className="bg-gradient-to-r from-[#9333ea] to-[#7c3aed] text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg shadow-purple-500/30 whitespace-nowrap">
                       Most Popular
                     </span>
                   </div>
@@ -204,7 +204,7 @@ export default function PricingPage() {
                   <Button 
                     className={`w-full ${
                       plan.highlighted 
-                        ? 'bg-orange-500 hover:bg-orange-600 text-white' 
+                        ? 'bg-gradient-to-r from-[#9333ea] via-[#a855f7] to-[#7c3aed] hover:from-[#7c3aed] hover:via-[#9333ea] hover:to-[#6b21a8] text-white shadow-lg shadow-purple-500/25 transition-all duration-300 transform hover:scale-105' 
                         : ''
                     }`}
                     variant={plan.highlighted ? "default" : "outline"}
@@ -303,17 +303,21 @@ export default function PricingPage() {
           </div>
 
           {/* CTA Section */}
-          <div className="text-center mt-20 p-8 bg-gradient-to-r from-orange-600 to-orange-500 rounded-2xl max-w-4xl mx-auto">
+          <div className="text-center mt-20 p-8 bg-gradient-to-br from-[#2e0f38] via-[#4a0e4e] to-[#551a8b] rounded-2xl max-w-4xl mx-auto shadow-xl shadow-purple-500/25 relative overflow-hidden">
+            {/* Radial gradient overlay for depth */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(168,85,247,0.2)_0%,rgba(107,33,168,0.1)_50%,transparent_100%)]" />
+            <div className="relative z-10">
             <h2 className="text-3xl font-bold text-white mb-4">
               Need a custom solution?
             </h2>
             <p className="text-white/90 mb-6 max-w-2xl mx-auto">
               Contact our sales team to discuss your specific requirements and get a tailored solution for your business.
             </p>
-            <Button size="lg" className="bg-white text-orange-600 hover:bg-white/90">
+            <Button size="lg" className="bg-white text-[#9333ea] hover:bg-gradient-to-r hover:from-[#f3e8ff] hover:to-[#e9d5ff] hover:text-[#7c3aed] transition-all duration-300 shadow-lg shadow-purple-500/25">
               Contact Sales
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
+          </div>
           </div>
         </div>
       </main>

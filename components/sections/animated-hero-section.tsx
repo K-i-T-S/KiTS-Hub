@@ -54,7 +54,7 @@ export function AnimatedHeroSection() {
       {particles.map((particle) => (
         <motion.div
           key={particle.id}
-          className="absolute w-1 h-1 bg-orange-500 rounded-full opacity-50"
+          className="absolute w-2 h-2 bg-gradient-to-r from-[#a855f7] to-[#9333ea] rounded-full opacity-60 shadow-lg shadow-purple-500/30"
           style={{
             left: `${particle.left}%`,
             top: `${particle.top}%`,

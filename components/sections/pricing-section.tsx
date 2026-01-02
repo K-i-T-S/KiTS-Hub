@@ -76,13 +76,13 @@ export function PricingSection() {
               key={index} 
               className={`relative ${
                 plan.highlighted 
-                  ? 'border-orange-500 shadow-lg scale-105' 
+                  ? 'border-gradient-to-br from-[#9333ea] to-[#7c3aed] shadow-xl shadow-purple-500/25 scale-105 bg-gradient-to-br from-[#faf5ff]/50 to-[#f3e8ff]/50' 
                   : 'border-border/50'
               } bg-card`}
             >
               {plan.highlighted && (
                 <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                  <span className="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                    <span className="bg-gradient-to-r from-[#9333ea] to-[#7c3aed] text-white px-4 py-2 rounded-full text-sm font-medium shadow-lg shadow-purple-500/30 whitespace-nowrap">
                     Most Popular
                   </span>
                 </div>
@@ -110,7 +110,7 @@ export function PricingSection() {
                 <Button 
                   className={`w-full ${
                     plan.highlighted 
-                      ? 'bg-orange-500 hover:bg-orange-600 text-white' 
+                      ? 'bg-gradient-to-r from-[#9333ea] via-[#a855f7] to-[#7c3aed] hover:from-[#7c3aed] hover:via-[#9333ea] hover:to-[#6b21a8] text-white shadow-lg shadow-purple-500/25 transition-all duration-300 transform hover:scale-105' 
                       : ''
                   }`}
                   variant={plan.highlighted ? "default" : "outline"}

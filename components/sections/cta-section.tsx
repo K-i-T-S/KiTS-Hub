@@ -14,8 +14,21 @@ export function CtaSection() {
   }
 
   return (
-    <section className="py-20 bg-gradient-to-r from-orange-600 to-orange-500">
-      <div className="container mx-auto px-6">
+    <section className="py-20 relative overflow-hidden">
+      {/* Advanced gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#2e0f38] via-[#4a0e4e] to-[#551a8b]" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#8f00ff]/20 via-transparent to-[#a855f7]/20" />
+      
+      {/* Radial gradient overlay for depth */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(168,85,247,0.3)_0%,rgba(107,33,168,0.1)_50%,transparent_100%)]" />
+      
+      {/* Animated gradient shimmer effect */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[rgba(168,85,247,0.6)] to-transparent animate-pulse" />
+        <div className="absolute inset-0 bg-gradient-to-l from-transparent via-[rgba(147,51,234,0.4)] to-transparent animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute inset-0 bg-gradient-to-t from-transparent via-[rgba(168,85,247,0.3)] to-transparent animate-pulse" style={{ animationDelay: '2s' }} />
+      </div>
+      <div className="container mx-auto px-6 relative z-10">
         <div className="text-center max-w-4xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4 text-white">
             Ready to grow better?

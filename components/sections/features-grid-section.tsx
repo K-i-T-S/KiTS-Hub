@@ -49,7 +49,7 @@ export function FeaturesGridSection() {
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
-            Everything you need to <span className="bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">grow your business</span>
+            Everything you need to <span className="bg-gradient-to-r from-[#6b21a8] via-[#9333ea] to-[#a855f7] bg-clip-text text-transparent">grow your business</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             All the tools you need to run your business efficiently, integrated seamlessly in one platform.
@@ -63,8 +63,8 @@ export function FeaturesGridSection() {
               className="group hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border-border/50 bg-card"
             >
               <CardHeader>
-                <div className="w-12 h-12 bg-orange-500/10 rounded-lg flex items-center justify-center mb-4">
-                  <feature.icon className="w-6 h-6 text-orange-500" />
+                <div className="w-12 h-12 bg-gradient-to-br from-[#f3e8ff] to-[#e9d5ff] rounded-xl flex items-center justify-center mb-4 shadow-lg shadow-purple-500/20">
+                  <feature.icon className="w-6 h-6 text-[#6b21a8]" />
                 </div>
                 <CardTitle className="text-xl">{feature.title}</CardTitle>
               </CardHeader>
@@ -72,7 +72,7 @@ export function FeaturesGridSection() {
                 <CardDescription className="text-muted-foreground mb-4">
                   {feature.description}
                 </CardDescription>
-                <Button variant="ghost" size="sm" className="group-hover:bg-orange-500/10 transition-colors" asChild>
+                <Button variant="ghost" size="sm" className="group-hover:bg-gradient-to-r group-hover:from-[#f3e8ff] group-hover:to-[#e9d5ff] group-hover:text-[#6b21a8] transition-all duration-300 group-hover:shadow-md group-hover:shadow-purple-500/20" asChild>
                   <a href={feature.link} className="flex items-center gap-2">
                     <span>Learn more</span>
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

@@ -135,7 +135,7 @@ export default function ResourcesPage() {
                 <input
                   type="text"
                   placeholder="Search articles..."
-                  className="w-full pl-10 pr-4 py-3 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-3 bg-background border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9333ea] focus:border-transparent focus:shadow-lg focus:shadow-purple-500/20 transition-all duration-300"
                 />
               </div>
             </div>
@@ -147,7 +147,7 @@ export default function ResourcesPage() {
                   key={category.name}
                   variant={category.name === "All" ? "default" : "outline"}
                   size="sm"
-                  className={category.name === "All" ? "bg-orange-500 hover:bg-orange-600 text-white" : ""}
+                  className={category.name === "All" ? "bg-gradient-to-r from-[#9333ea] via-[#a855f7] to-[#7c3aed] hover:from-[#7c3aed] hover:via-[#9333ea] hover:to-[#6b21a8] text-white shadow-lg shadow-purple-500/25 transition-all duration-300 transform hover:scale-105" : ""}
                 >
                   {category.name} ({category.count})
                 </Button>
@@ -169,7 +169,7 @@ export default function ResourcesPage() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 to-transparent" />
                     <div className="absolute bottom-6 left-6 right-6">
-                      <Badge className="bg-orange-500 text-white mb-3">Featured</Badge>
+                      <Badge className="bg-gradient-to-r from-[#9333ea] to-[#7c3aed] text-white shadow-lg shadow-purple-500/30 mb-3">Featured</Badge>
                       <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
                         {featuredPost.title}
                       </h2>
@@ -193,7 +193,7 @@ export default function ResourcesPage() {
                     </div>
                   </div>
                   <CardContent className="p-6">
-                    <Button className="bg-orange-500 hover:bg-orange-600 text-white">
+                    <Button className="bg-gradient-to-r from-[#9333ea] via-[#a855f7] to-[#7c3aed] hover:from-[#7c3aed] hover:via-[#9333ea] hover:to-[#6b21a8] text-white shadow-lg shadow-purple-500/25 transition-all duration-300 transform hover:scale-105">
                       Read Full Article
                       <ArrowRight className="w-4 h-4 ml-2" />
                     </Button>
@@ -218,7 +218,7 @@ export default function ResourcesPage() {
                       </div>
                     </div>
                     <CardContent className="p-6">
-                      <h3 className="text-xl font-semibold mb-3 line-clamp-2 group-hover:text-orange-500 transition-colors">
+                      <h3 className="text-xl font-semibold mb-3 line-clamp-2 group-hover:bg-gradient-to-r group-hover:from-[#9333ea] group-hover:to-[#7c3aed] group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300">
                         {post.title}
                       </h3>
                       <p className="text-muted-foreground mb-4 line-clamp-3">
@@ -235,7 +235,7 @@ export default function ResourcesPage() {
                             <span>{post.readTime}</span>
                           </div>
                         </div>
-                        <Button variant="ghost" size="sm" className="group-hover:bg-orange-500/10 transition-colors">
+                        <Button variant="ghost" size="sm" className="group-hover:bg-gradient-to-r group-hover:from-[#f3e8ff] group-hover:to-[#e9d5ff] transition-all duration-300 group-hover:shadow-md group-hover:shadow-purple-500/20">
                           Read More
                           <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                         </Button>
@@ -247,7 +247,7 @@ export default function ResourcesPage() {
 
               {/* Load More */}
               <div className="text-center mt-12">
-                <Button variant="outline" size="lg" className="border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white">
+                <Button variant="outline" size="lg" className="border-2 border-[#9333ea] text-[#9333ea] hover:bg-gradient-to-r hover:from-[#9333ea] hover:to-[#7c3aed] hover:text-white hover:border-transparent transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-purple-500/25">
                   Load More Articles
                 </Button>
               </div>
@@ -256,7 +256,7 @@ export default function ResourcesPage() {
             {/* Sidebar */}
             <div className="lg:col-span-1">
               {/* Newsletter Signup */}
-              <Card className="bg-gradient-to-br from-orange-600 to-orange-500 border-none text-white mb-8">
+              <Card className="bg-gradient-to-br from-[#2e0f38] via-[#4a0e4e] to-[#551a8b] border-none text-white mb-8 shadow-xl shadow-purple-500/25">
                 <CardContent className="p-6">
                   <h3 className="text-xl font-bold mb-3">Stay Updated</h3>
                   <p className="text-white/90 mb-4">
@@ -267,7 +267,7 @@ export default function ResourcesPage() {
                     placeholder="Enter your email"
                     className="w-full px-4 py-2 rounded-lg bg-white/20 border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 mb-4"
                   />
-                  <Button className="w-full bg-white text-orange-600 hover:bg-white/90">
+                  <Button className="w-full bg-white text-[#9333ea] hover:bg-gradient-to-r hover:from-[#f3e8ff] hover:to-[#e9d5ff] hover:text-[#7c3aed] transition-all duration-300 shadow-lg shadow-purple-500/25">
                     Subscribe
                   </Button>
                 </CardContent>
@@ -281,9 +281,9 @@ export default function ResourcesPage() {
                 <CardContent className="space-y-4">
                   {popularPosts.map((post, index) => (
                     <div key={index} className="flex items-start gap-3">
-                      <span className="text-orange-500 font-bold text-lg">0{index + 1}</span>
+                      <span className="bg-gradient-to-r from-[#9333ea] to-[#7c3aed] bg-clip-text text-transparent font-bold text-lg">0{index + 1}</span>
                       <div>
-                        <h4 className="font-medium hover:text-orange-500 transition-colors cursor-pointer">
+                        <h4 className="font-medium group-hover:bg-gradient-to-r group-hover:from-[#9333ea] group-hover:to-[#7c3aed] group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300 cursor-pointer">
                           {post.title}
                         </h4>
                         <p className="text-sm text-muted-foreground">{post.readTime}</p>
@@ -300,8 +300,8 @@ export default function ResourcesPage() {
                 </CardHeader>
                 <CardContent className="space-y-2">
                   {categories.slice(1).map((category) => (
-                    <div key={category.name} className="flex items-center justify-between py-2 hover:text-orange-500 transition-colors cursor-pointer">
-                      <span>{category.name}</span>
+                    <div key={category.name} className="flex items-center justify-between py-2 group-hover:bg-gradient-to-r group-hover:from-[#f3e8ff] group-hover:to-[#e9d5ff] group-hover:rounded-lg transition-all duration-300 cursor-pointer">
+                      <span className="group-hover:text-[#9333ea] transition-colors duration-300">{category.name}</span>
                       <Badge variant="secondary">{category.count}</Badge>
                     </div>
                   ))}

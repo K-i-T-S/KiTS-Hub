@@ -28,6 +28,53 @@
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
   --radius: 0.625rem;
+
+  /* Advanced Purple Color System */
+  --purple-50: #faf5ff;
+  --purple-100: #f3e8ff;
+  --purple-200: #e9d5ff;
+  --purple-300: #d8b4fe;
+  --purple-400: #c084fc;
+  --purple-500: #a855f7;
+  --purple-600: #9333ea;
+  --purple-700: #7c3aed;
+  --purple-800: #6b21a8;
+  --purple-900: #581c87;
+  --purple-950: #3b0764;
+
+  /* Professional Purple Palette */
+  --lavender: #e4a0f7;
+  --pale-lavender: #dcd0ff;
+  --lilac: #e0b0ff;
+  --electric-purple: #8f00ff;
+  --indigo: #4b0082;
+  --dark-orchid: #9932cc;
+  --medium-orchid: #ba55d3;
+  --deep-purple: #4a0e4e;
+  --dark-plum: #3d0c02;
+  --royal-purple: #551a8b;
+  --eggplant: #2e0f38;
+
+  /* Advanced Gradient Definitions */
+  --gradient-primary: linear-gradient(135deg, #6b21a8 0%, #9333ea 25%, #a855f7 50%, #c084fc 75%, #d8b4fe 100%);
+  --gradient-luxury: linear-gradient(135deg, #2e0f38 0%, #4a0e4e 25%, #551a8b 50%, #7c3aed 75%, #8f00ff 100%);
+  --gradient-soft: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 25%, #e9d5ff 50%, #d8b4fe 75%, #c084fc 100%);
+  --gradient-vibrant: linear-gradient(135deg, #4b0082 0%, #6b21a8 25%, #9333ea 50%, #a855f7 75%, #c084fc 100%);
+  --gradient-elegant: linear-gradient(135deg, #3b0764 0%, #581c87 25%, #6b21a8 50%, #7c3aed 75%, #9333ea 100%);
+  
+  /* Radial Gradients */
+  --gradient-radial-primary: radial-gradient(circle at 30% 30%, #a855f7 0%, #9333ea 25%, #7c3aed 50%, #6b21a8 75%, #581c87 100%);
+  --gradient-radial-soft: radial-gradient(circle at 50% 50%, #faf5ff 0%, #f3e8ff 25%, #e9d5ff 50%, #d8b4fe 75%, #c084fc 100%);
+  
+  /* Complex Multi-color Gradients */
+  --gradient-premium: linear-gradient(135deg, #2e0f38 0%, #4a0e4e 20%, #551a8b 40%, #6b21a8 60%, #8f00ff 80%, #a855f7 100%);
+  --gradient-sunset: linear-gradient(135deg, #3b0764 0%, #581c87 25%, #7c3aed 50%, #9333ea 75%, #c084fc 100%);
+  
+  /* Advanced Color Combinations */
+  --purple-shadow: rgba(139, 92, 246, 0.25);
+  --purple-glow: rgba(168, 85, 247, 0.3);
+  --purple-overlay: rgba(107, 33, 168, 0.1);
+  --purple-accent: rgba(168, 85, 247, 0.15);
 }
 
 .dark {
