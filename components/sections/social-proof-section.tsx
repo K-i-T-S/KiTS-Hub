@@ -556,15 +556,7 @@ export function SocialProofSection() {
                   <motion.span 
                     className="font-black relative text-2xl sm:text-3xl"
                     style={{
-                      // User's previous size reduction:
-                      // fontSize: isAnimating && typeof currentZeros === 'number' ? `${Math.min(1.4 + (currentZeros / 999 * 1.2), 2.8)}rem` : (typeof currentZeros === 'string' && currentZeros.length > 3 ? '1.4rem sm:1.6rem' : '1.8rem sm:2rem'),
-                      
-                      // New size to match other counters:
-                      // fontSize: isAnimating && typeof currentZeros === 'number' ? `${Math.min(1.2 + (currentZeros / 999 * 1.0), 2.4)}rem` : (typeof currentZeros === 'string' && currentZeros.length > 3 ? '1.2rem sm:1.4rem' : '2.4rem'),
-                      
-                      // Force smaller size for Join-Us!:
-                      // fontSize: typeof currentZeros === 'string' && currentZeros.length > 3 ? '1rem sm:1.2rem' : '2.4rem',
-                      
+                     
                       // Try direct override:
                       fontSize: typeof currentZeros === 'string' && currentZeros.length > 3 ? '0.75rem !important' : '2.4rem !important',
                       transition: 'font-size 0.02s ease',
