@@ -569,9 +569,7 @@ export function SocialProofSection() {
                       wordBreak: 'break-word',
                       cursor: currentZeros === "Join-Us!" ? 'pointer' : 'default',
                       //FUCK AI!!
-                      //background: typeof currentZeros === 'string' 
-                      //</motion.div>  ? 'linear-gradient(135deg, #ec4899, #ec4899, #ec4899)'
-                       // : 'linear-gradient(135deg, #a855f7, #ec4899)',
+                     
                       WebkitBackgroundClip: typeof currentZeros === 'string' && currentZeros.length <= 3 ? 'text' : 'border-box',
                       WebkitTextFillColor: typeof currentZeros === 'string' && currentZeros.length <= 3 ? 'transparent' : '#e39dffff',
                       color: typeof currentZeros === 'string' && currentZeros.length <= 3 ? 'transparent' : '#ffffff',
