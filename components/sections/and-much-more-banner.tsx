@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import { Sparkles, Infinity, Zap, Star, Rocket, ArrowRight, Plus } from "lucide-react"
 import { useState, useEffect } from "react"
+import { FeatureRequestModal } from "@/components/modals/feature-request-modal"
 
 interface FloatingIcon {
   id: number
@@ -37,6 +38,7 @@ const featuresList = [
 export function AndMuchMoreBanner() {
   const [currentFeatureIndex, setCurrentFeatureIndex] = useState(0)
   const [isHovered, setIsHovered] = useState(false)
+  const [isFeatureRequestModalOpen, setIsFeatureRequestModalOpen] = useState(false)
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -123,6 +125,11 @@ export function AndMuchMoreBanner() {
 
           {/* Main heading with animated text */}
           <div className="mb-8">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
+                Everything you need to<span className="bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-400 bg-clip-text text-transparent ml-3 animate-pulse">GROW </span> your business
+              </h2>
+            </div>
             <motion.h2 
               className="text-4xl md:text-6xl lg:text-7xl font-bold mb-4"
               initial={{ opacity: 0, y: 30 }}
@@ -169,7 +176,7 @@ export function AndMuchMoreBanner() {
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.7 }}
             >
-              <span className="text-zinc-300">More always coming on the way</span>
+              <span className="text-zinc-300">All the tools you need to run your business efficiently, integrated seamlessly in one platform. More always coming on the way</span>
               <span className="text-zinc-400"> — We're constantly innovating and adding new features to help your business thrive.</span>
             </motion.p>
           </div>
@@ -213,6 +220,7 @@ export function AndMuchMoreBanner() {
               className="px-8 py-4 border border-purple-500/30 text-purple-300 font-medium rounded-xl hover:bg-purple-500/10 transition-all duration-300 backdrop-blur-sm"
               whileHover={{ scale: 1.05, borderColor: "rgba(168, 85, 247, 0.5)" }}
               whileTap={{ scale: 0.98 }}
+              onClick={() => setIsFeatureRequestModalOpen(true)}
             >
               <div className="flex items-center gap-2">
                 <Plus className="w-5 h-5" />
@@ -246,6 +254,12 @@ export function AndMuchMoreBanner() {
 
       {/* Bottom gradient fade */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-zinc-950 to-transparent" />
+      
+      {/* Feature Request Modal */}
+      <FeatureRequestModal 
+        isOpen={isFeatureRequestModalOpen}
+        onClose={() => setIsFeatureRequestModalOpen(false)}
+      />
     </section>
   )
 }

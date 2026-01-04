@@ -545,6 +545,135 @@ export type Database = {
           created_at?: string
         }
       }
+      feature_requests: {
+        Row: {
+          id: string
+          title: string
+          description: string
+          category: 'feature' | 'bug_fix' | 'enhancement' | 'integration' | 'ui_ux' | 'performance' | 'security' | 'other'
+          priority: 'low' | 'medium' | 'high' | 'critical'
+          status: 'pending' | 'under_review' | 'planned' | 'in_progress' | 'completed' | 'rejected' | 'duplicate'
+          requester_name: string
+          requester_email: string
+          company: string | null
+          use_case: string | null
+          expected_impact: string | null
+          technical_details: string | null
+          attachments: any[]
+          upvotes: number
+          views: number
+          admin_notes: string | null
+          assigned_to: string | null
+          estimated_timeline: string | null
+          actual_completion_date: string | null
+          duplicate_of: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          title: string
+          description: string
+          category: 'feature' | 'bug_fix' | 'enhancement' | 'integration' | 'ui_ux' | 'performance' | 'security' | 'other'
+          priority: 'low' | 'medium' | 'high' | 'critical'
+          status?: 'pending' | 'under_review' | 'planned' | 'in_progress' | 'completed' | 'rejected' | 'duplicate'
+          requester_name: string
+          requester_email: string
+          company?: string | null
+          use_case?: string | null
+          expected_impact?: string | null
+          technical_details?: string | null
+          attachments?: any[]
+          upvotes?: number
+          views?: number
+          admin_notes?: string | null
+          assigned_to?: string | null
+          estimated_timeline?: string | null
+          actual_completion_date?: string | null
+          duplicate_of?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          title?: string
+          description?: string
+          category?: 'feature' | 'bug_fix' | 'enhancement' | 'integration' | 'ui_ux' | 'performance' | 'security' | 'other'
+          priority?: 'low' | 'medium' | 'high' | 'critical'
+          status?: 'pending' | 'under_review' | 'planned' | 'in_progress' | 'completed' | 'rejected' | 'duplicate'
+          requester_name?: string
+          requester_email?: string
+          company?: string | null
+          use_case?: string | null
+          expected_impact?: string | null
+          technical_details?: string | null
+          attachments?: any[]
+          upvotes?: number
+          views?: number
+          admin_notes?: string | null
+          assigned_to?: string | null
+          estimated_timeline?: string | null
+          actual_completion_date?: string | null
+          duplicate_of?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      feature_request_upvotes: {
+        Row: {
+          id: string
+          feature_request_id: string
+          user_email: string
+          user_name: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          feature_request_id: string
+          user_email: string
+          user_name?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          feature_request_id?: string
+          user_email?: string
+          user_name?: string | null
+          created_at?: string
+        }
+      }
+      feature_request_comments: {
+        Row: {
+          id: string
+          feature_request_id: string
+          author_name: string
+          author_email: string
+          comment: string
+          is_internal: boolean
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          feature_request_id: string
+          author_name: string
+          author_email: string
+          comment: string
+          is_internal?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          feature_request_id?: string
+          author_name?: string
+          author_email?: string
+          comment?: string
+          is_internal?: boolean
+          created_at?: string
+          updated_at?: string
+        }
+      }
     }
     Views: {
       [_ in never]: never

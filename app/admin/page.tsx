@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Database } from '@/types/database'
 import { supabase } from '@/lib/supabase'
+import Link from 'next/link'
 import { 
   Users, 
   Phone, 
@@ -26,7 +27,8 @@ import {
   AlertCircle,
   CheckCircle,
   Clock,
-  BarChart3
+  BarChart3,
+  Lightbulb
 } from 'lucide-react'
 
 type Lead = Database['public']['Tables']['leads']['Row']
@@ -470,7 +472,7 @@ export default function AdminDashboard() {
 
         {/* Premium Tabs with Glassmorphism */}
         <Tabs defaultValue="leads" className="space-y-8">
-          <TabsList className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-2 shadow-2xl grid w-full grid-cols-4">
+          <TabsList className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-2 shadow-2xl grid w-full grid-cols-5">
             <TabsTrigger 
               value="leads" 
               className="backdrop-blur-xl data-[state=active]:bg-white/20 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-emerald-500/30 text-emerald-200/80 hover:text-white hover:bg-white/10 transition-all duration-300 rounded-xl"
@@ -505,6 +507,15 @@ export default function AdminDashboard() {
               <div className="flex items-center gap-2">
                 <BarChart3 className="h-4 w-4" />
                 Analytics
+              </div>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="feature-requests" 
+              className="backdrop-blur-xl data-[state=active]:bg-white/20 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-purple-500/30 text-purple-200/80 hover:text-white hover:bg-white/10 transition-all duration-300 rounded-xl"
+            >
+              <div className="flex items-center gap-2">
+                <Lightbulb className="h-4 w-4" />
+                Feature Requests
               </div>
             </TabsTrigger>
           </TabsList>
@@ -984,6 +995,45 @@ export default function AdminDashboard() {
                 </CardContent>
               </Card>
             </div>
+          </TabsContent>
+
+          <TabsContent value="feature-requests" className="space-y-6">
+            <Card className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-3xl shadow-2xl overflow-hidden">
+              <CardHeader className="backdrop-blur-xl bg-white/5 border-b border-white/10">
+                <div className="flex justify-between items-center">
+                  <div className="space-y-2">
+                    <CardTitle className="text-2xl font-bold text-white flex items-center gap-3">
+                      <div className="w-8 h-8 bg-gradient-to-br from-purple-400 to-pink-400 rounded-xl flex items-center justify-center">
+                        <Lightbulb className="h-4 w-4 text-white" />
+                      </div>
+                      Feature Requests Management
+                    </CardTitle>
+                    <CardDescription className="text-purple-200/80">
+                      Manage user-submitted feature requests and track development progress
+                    </CardDescription>
+                  </div>
+                  <Link href="/admin/feature-requests">
+                    <Button className="backdrop-blur-xl bg-purple-500/20 hover:bg-purple-500/30 text-purple-200 border border-purple-500/30">
+                      Manage Feature Requests
+                    </Button>
+                  </Link>
+                </div>
+              </CardHeader>
+              <CardContent className="p-6">
+                <div className="text-center py-12">
+                  <Lightbulb className="h-16 w-16 text-purple-400 mx-auto mb-4" />
+                  <h3 className="text-xl font-semibold text-white mb-2">Feature Requests Hub</h3>
+                  <p className="text-purple-200/80 mb-6 max-w-md mx-auto">
+                    View and manage all user-submitted feature requests, track progress, and prioritize development efforts.
+                  </p>
+                  <Link href="/admin/feature-requests">
+                    <Button className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white">
+                      Open Feature Requests Dashboard
+                    </Button>
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
         </Tabs>
       </div>

@@ -5,11 +5,13 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import { Menu, Search, LogIn } from 'lucide-react'
+import { Menu, Search, LogIn, Lightbulb } from 'lucide-react'
 import { LiquidCtaButton } from "@/components/buttons/liquid-cta-button"
+import { FeatureRequestModal } from "@/components/modals/feature-request-modal"
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isFeatureRequestModalOpen, setIsFeatureRequestModalOpen] = useState(false)
   const router = useRouter()
 
   const handleGetStarted = useCallback(() => {
@@ -23,6 +25,10 @@ export function Navbar() {
   const handleSearch = useCallback(() => {
     router.push('/search')
   }, [router])
+
+  const handleFeatureRequest = useCallback(() => {
+    setIsFeatureRequestModalOpen(true)
+  }, [])
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -97,6 +103,10 @@ export function Navbar() {
             </Button>
           </div>
           <nav className="flex items-center">
+            <Button variant="ghost" size="sm" className="hidden md:flex items-center space-x-1" onClick={handleFeatureRequest}>
+              <Lightbulb className="h-4 w-4" />
+              <span>Request Feature</span>
+            </Button>
             <Button variant="ghost" size="sm" className="hidden md:flex items-center space-x-1" onClick={handleLogin}>
               <LogIn className="h-4 w-4" />
               <span>Login</span>
@@ -263,6 +273,16 @@ export function Navbar() {
               <Link
                 href="#"
                 className="flex w-full items-center justify-between py-2 font-medium"
+                onClick={(e) => {
+                  e.preventDefault()
+                  handleFeatureRequest()
+                }}
+              >
+                Request Feature
+              </Link>
+              <Link
+                href="#"
+                className="flex w-full items-center justify-between py-2 font-medium"
                 onClick={handleLogin}
               >
                 Login
@@ -276,6 +296,12 @@ export function Navbar() {
           </div>
         </div>
       )}
+      
+      {/* Feature Request Modal */}
+      <FeatureRequestModal 
+        isOpen={isFeatureRequestModalOpen}
+        onClose={() => setIsFeatureRequestModalOpen(false)}
+      />
     </header>
   )
 }

@@ -176,11 +176,11 @@ export default function AboutPage() {
           <div className="container mx-auto px-6">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
               <div className="space-y-2">
-                <div className="text-3xl md:text-4xl font-bold text-zinc-100">100K+</div>
+                <div className="text-3xl md:text-4xl font-bold text-zinc-100">99+</div>
                 <div className="text-sm text-zinc-400">Active Customers</div>
               </div>
               <div className="space-y-2">
-                <div className="text-3xl md:text-4xl font-bold text-zinc-100">150+</div>
+                <div className="text-3xl md:text-4xl font-bold text-zinc-100">9+</div>
                 <div className="text-sm text-zinc-400">Countries</div>
               </div>
               <div className="space-y-2">
@@ -188,7 +188,7 @@ export default function AboutPage() {
                 <div className="text-sm text-zinc-400">Uptime</div>
               </div>
               <div className="space-y-2">
-                <div className="text-3xl md:text-4xl font-bold text-zinc-100">500+</div>
+                <div className="text-3xl md:text-4xl font-bold text-zinc-100">99+</div>
                 <div className="text-sm text-zinc-400">Team Members</div>
               </div>
             </div>

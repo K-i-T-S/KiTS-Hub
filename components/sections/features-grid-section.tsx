@@ -51,15 +51,7 @@ export function FeaturesGridSection() {
         {/* And Much More Banner - Moved to top */}
         <AndMuchMoreBanner />
 
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">
-            Everything you need to <span className="bg-gradient-to-r from-[#6b21a8] via-[#9333ea] to-[#a855f7] bg-clip-text text-transparent">grow your business</span>
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            All the tools you need to run your business efficiently, integrated seamlessly in one platform.
-          </p>
-        </div>
-
+        
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => (
             <Card 
