@@ -4,7 +4,7 @@ import { Navbar } from "@/components/layout/navbar"
 import { Footer } from "@/components/layout/footer"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { LogIn, Lock, Mail, AlertCircle } from "lucide-react"
+import { LogIn, Lock, Mail, AlertCircle, RefreshCw, Clock, Users } from "lucide-react"
 import { useState } from "react"
 import { validateEmail, RateLimiter } from "@/lib/security"
 import { useAuth } from "@/components/providers/auth-provider"
@@ -21,6 +21,10 @@ export default function Login() {
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [isLoading, setIsLoading] = useState(false)
   const rateLimiter = new RateLimiter(5, 60000) // 5 attempts per minute
+
+  const handleCheckStatus = () => {
+    router.push('/queue-status')
+  }
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {}
@@ -104,6 +108,41 @@ export default function Login() {
                 Sign in to your KiTS Hub account to access your dashboard
               </p>
             </header>
+
+            {/* Status Check Option */}
+            <div className="mb-8 p-6 bg-zinc-800/30 rounded-xl border border-zinc-700/50 backdrop-blur-sm">
+              <div className="flex items-start gap-4">
+                <div className="flex-shrink-0">
+                  <div className="w-10 h-10 bg-indigo-500/10 rounded-lg flex items-center justify-center">
+                    <Clock className="w-5 h-5 text-indigo-400" />
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-white font-semibold mb-2">Waiting for your account setup?</h3>
+                  <p className="text-zinc-300 text-sm mb-4 leading-relaxed">
+                    Check the status of your provisioning request without signing in. Track your queue position and estimated completion time.
+                  </p>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={handleCheckStatus}
+                    className="border-zinc-600 text-zinc-200 hover:bg-zinc-700/50 hover:text-white hover:border-zinc-500 transition-all duration-200"
+                  >
+                    <RefreshCw className="w-4 h-4 mr-2" />
+                    Check Provisioning Status
+                  </Button>
+                </div>
+              </div>
+            </div>
+
+            <div className="relative mb-8">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-zinc-700/50"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-4 bg-zinc-900 text-zinc-400 font-medium">Or continue with your account</span>
+              </div>
+            </div>
             
             <form onSubmit={handleSubmit} className="space-y-6" noValidate aria-label="Login form">
               <fieldset>

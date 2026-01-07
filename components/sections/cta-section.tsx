@@ -11,13 +11,13 @@ export function CtaSection() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    // Navigate to signup with email pre-filled
-    router.push(`/signup?email=${encodeURIComponent(email)}`)
+    // Navigate to onboarding with email pre-filled
+    router.push(`/onboarding?email=${encodeURIComponent(email)}`)
   }
 
   const handleGetStarted = () => {
-    // Navigate to signup
-    router.push('/signup')
+    // Navigate directly to onboarding
+    router.push('/onboarding')
   }
 
   return (

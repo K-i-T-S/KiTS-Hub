@@ -12,10 +12,16 @@ import { FeatureRequestModal } from "@/components/modals/feature-request-modal"
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isFeatureRequestModalOpen, setIsFeatureRequestModalOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const router = useRouter()
 
+  // Prevent hydration mismatch
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
+
   const handleGetStarted = useCallback(() => {
-    router.push('/pricing')
+    router.push('/onboarding')
   }, [router])
 
   const handleLogin = useCallback(() => {
@@ -112,9 +118,18 @@ export function Navbar() {
               <span>Login</span>
             </Button>
             <div className="hidden md:flex">
-              <LiquidCtaButton theme="dark" onClick={handleGetStarted}>
-                Get Started Free
-              </LiquidCtaButton>
+              {mounted ? (
+                <LiquidCtaButton theme="dark" onClick={handleGetStarted}>
+                  Get Started Free
+                </LiquidCtaButton>
+              ) : (
+                <Button 
+                  className="bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-white"
+                  onClick={handleGetStarted}
+                >
+                  Get Started Free
+                </Button>
+              )}
             </div>
           </nav>
         </div>

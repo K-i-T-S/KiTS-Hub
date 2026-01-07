@@ -17,7 +17,7 @@ const fallbackTestimonials = [
       name: "Sarah Johnson",
       title: "CEO",
       company: "TechStart Inc.",
-      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200" as string | null
+      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&h=200&auto=format&fit=crop" as string | null
     }
   },
   {
@@ -37,7 +37,7 @@ const fallbackTestimonials = [
       name: "Emily Rodriguez",
       title: "Founder",
       company: "Creative Agency",
-      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=200" as string | null
+      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=200&h=200&auto=format&fit=crop" as string | null
     }
   }
 ]

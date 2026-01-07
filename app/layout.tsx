@@ -5,6 +5,7 @@ import "../styles/admin-animations.css";
 import FloatingHelpBubble from "@/components/floating-help-bubble";
 import FloatingCloud from "@/components/floating-cloud";
 import { AuthProvider } from "@/components/providers/auth-provider";
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,6 +40,7 @@ export default function RootLayout({
           {children}
           <FloatingCloud />
           <FloatingHelpBubble />
+          <Toaster />
         </AuthProvider>
       </body>
     </html>

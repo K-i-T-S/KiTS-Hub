@@ -414,7 +414,7 @@ export function PricingSection() {
                       </motion.div>
                     </Link>
                   ) : (
-                    <Link href="/signup" passHref>
+                    <Link href="/onboarding" passHref>
                       <motion.div
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}

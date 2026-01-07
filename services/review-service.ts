@@ -147,7 +147,6 @@ export class ReviewService {
         .from('reviews')
         .select('*')
         .eq('status', 'approved')
-        .eq('flagged', false)
         .order('created_at', { ascending: false })
         .limit(50) // Reasonable limit for performance
 
@@ -202,7 +201,7 @@ export class ReviewService {
 
       const { data, error } = await this.supabase
         .from('reviews')
-        .select('*')
+        .select('*') // Select all columns to handle missing flagged gracefully
         .order('created_at', { ascending: false })
         .limit(100) // Reasonable limit
 
@@ -444,7 +443,7 @@ export class ReviewService {
         approved: approvedReviews.length,
         pending: reviews.filter(r => r.status === 'pending').length,
         rejected: reviews.filter(r => r.status === 'rejected').length,
-        flagged: reviews.filter(r => r.flagged).length,
+        flagged: reviews.filter(r => r.flagged).length, // Handle gracefully if flagged doesn't exist
         averageRating: approvedReviews.length > 0 
           ? approvedReviews.reduce((sum, r) => sum + (r.rating || 0), 0) / approvedReviews.length 
           : 0

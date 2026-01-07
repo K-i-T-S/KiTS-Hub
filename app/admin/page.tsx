@@ -269,20 +269,26 @@ export default function AdminDashboard() {
                   <RefreshCw className={`h-4 w-4 ${refreshing ? 'animate-spin' : ''}`} />
                   {refreshing ? 'Syncing...' : 'Sync Data'}
                 </Button>
-                <Button className="backdrop-blur-xl bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 border-0 text-white shadow-lg hover:shadow-emerald-500/30 transition-all duration-300 flex items-center gap-2">
-                  <Download className="h-4 w-4" />
-                  Export Report
+                <Button 
+                  onClick={() => window.location.href = '/admin/provisioning'}
+                  className="backdrop-blur-xl bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 border-0 text-white shadow-lg hover:shadow-emerald-500/30 transition-all duration-300 flex items-center gap-2 px-6 py-3"
+                >
+                  <Database className="h-4 w-4" />
+                  Provisioning
                 </Button>
                 <Button 
-                  onClick={() => {
-                    window.location.href = '/admin/reviews'
-                  }}
-                  className="backdrop-blur-xl bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 border-0 text-white shadow-lg hover:shadow-purple-500/30 transition-all duration-300 flex items-center gap-2"
+                  onClick={() => window.location.href = '/admin/reviews'}
+                  className="backdrop-blur-xl bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 border-0 text-white shadow-lg hover:shadow-blue-500/30 transition-all duration-300 flex items-center gap-2 px-6 py-3"
                 >
-                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                  </svg>
-                  Manage Reviews
+                  <Users className="h-4 w-4" />
+                  Reviews
+                </Button>
+                <Button 
+                  onClick={() => window.location.href = '/admin/feature-requests'}
+                  className="backdrop-blur-xl bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 border-0 text-white shadow-lg hover:shadow-orange-500/30 transition-all duration-300 flex items-center gap-2 px-6 py-3"
+                >
+                  <Lightbulb className="h-4 w-4" />
+                  Features
                 </Button>
                 <Button 
                   onClick={() => {

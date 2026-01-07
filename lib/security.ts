@@ -2,6 +2,12 @@
  * Security utilities for input sanitization and XSS prevention
  */
 
+import { createCipheriv, createDecipheriv, randomBytes, scryptSync } from 'crypto';
+
+// Encryption key (in production, this should come from environment variables)
+const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY || 'fallback-key-for-development-only';
+const ALGORITHM = 'aes-256-gcm';
+
 // Simple email validation regex
 export const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -143,5 +149,56 @@ export class RateLimiter {
     if (this.attempts.length === 0) return 0
     const oldestAttempt = Math.min(...this.attempts)
     return oldestAttempt + this.windowMs
+  }
+}
+
+/**
+ * Encrypt sensitive data using AES-256-GCM
+ */
+export function encryptData(data: string): string {
+  try {
+    const key = scryptSync(ENCRYPTION_KEY, 'salt', 32);
+    const iv = randomBytes(16);
+    const cipher = createCipheriv(ALGORITHM, key, iv);
+    
+    let encrypted = cipher.update(data, 'utf8', 'hex');
+    encrypted += cipher.final('hex');
+    
+    const authTag = cipher.getAuthTag();
+    
+    // Combine iv + authTag + encrypted data
+    return iv.toString('hex') + ':' + authTag.toString('hex') + ':' + encrypted;
+  } catch (error) {
+    console.error('Encryption error:', error);
+    throw new Error('Failed to encrypt data');
+  }
+}
+
+/**
+ * Decrypt sensitive data using AES-256-GCM
+ */
+export function decryptData(encryptedData: string): string {
+  try {
+    const key = scryptSync(ENCRYPTION_KEY, 'salt', 32);
+    const parts = encryptedData.split(':');
+    
+    if (parts.length !== 3) {
+      throw new Error('Invalid encrypted data format');
+    }
+    
+    const iv = Buffer.from(parts[0], 'hex');
+    const authTag = Buffer.from(parts[1], 'hex');
+    const encrypted = parts[2];
+    
+    const decipher = createDecipheriv(ALGORITHM, key, iv);
+    decipher.setAuthTag(authTag);
+    
+    let decrypted = decipher.update(encrypted, 'hex', 'utf8');
+    decrypted += decipher.final('utf8');
+    
+    return decrypted;
+  } catch (error) {
+    console.error('Decryption error:', error);
+    throw new Error('Failed to decrypt data');
   }
 }
