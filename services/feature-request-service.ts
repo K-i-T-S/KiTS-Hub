@@ -7,7 +7,7 @@ import {
   FeatureRequestFilters,
   ValidationError 
 } from '@/types/feature-request'
-import { logger } from '@/utils/logger'
+import { logger } from '@/lib/logger'
 import { cache } from '@/utils/cache'
 
 export class FeatureRequestService {

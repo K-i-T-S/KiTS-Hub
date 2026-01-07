@@ -40,3 +40,15 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .env*.local
+
+# Production-specific ignores
+*.sql
+docs/
+*.log
+.DS_Store
+Thumbs.db
+coverage/
+.nyc_output/
+.cache/
+.temp/
+.tmp/

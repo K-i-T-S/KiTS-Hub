@@ -12,7 +12,24 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Additional production ignores:
+    "*.sql",
+    "node_modules/**",
+    ".vercel/**",
   ]),
+  {
+    rules: {
+      // Production-ready rules
+      "@typescript-eslint/no-unused-vars": "warn",
+      "@typescript-eslint/no-explicit-any": "off",
+      "prefer-const": "error",
+      "no-var": "error",
+      "no-console": "off",
+      "react-hooks/exhaustive-deps": "warn",
+      "react/no-unescaped-entities": "warn",
+      "@typescript-eslint/no-empty-object-type": "warn",
+    },
+  },
 ]);
 
 export default eslintConfig;

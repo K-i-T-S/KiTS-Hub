@@ -1,7 +1,7 @@
 import { supabase } from '@/lib/supabase'
 import { Review, ReviewFormData } from '@/types/review'
 import { ReviewValidator, ValidationError } from '@/utils/validation'
-import { logger } from '@/utils/logger'
+import { logger } from '@/lib/logger'
 import { cache } from '@/utils/cache'
 
 export class ReviewService {
