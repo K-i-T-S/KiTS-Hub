@@ -73,6 +73,7 @@ const priorityConfig: Record<number, { label: string; color: string }> = {
 };
 
 export default function ProvisioningDashboard() {
+  const router = useRouter()
   const [queue, setQueue] = useState<ProvisioningQueue[]>([])
   const [stats, setStats] = useState<QueueStats | null>(null)
   const [selectedStatus, setSelectedStatus] = useState<string>('all')

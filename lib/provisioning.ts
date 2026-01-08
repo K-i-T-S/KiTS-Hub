@@ -12,6 +12,7 @@ import {
 import { encryptData, decryptData } from './security';
 import { createClient } from '@supabase/supabase-js';
 import { EmailService } from './email';
+import { logger } from './logger';
 
 // Helper to ensure supabaseAdmin is not null
 function getSupabaseAdmin() {
@@ -82,7 +83,7 @@ export class ProvisioningService {
 
       return { success: true, data: { queue_id: data.id } };
     } catch (error) {
-      console.error('Error creating provisioning request:', error);
+      logger.error('Error creating provisioning request', { error: error instanceof Error ? error.message : 'Unknown error', customerId, formData: { plan_type: formData.plan_type, company_name: formData.company_name } });
       return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
     }
   }
@@ -100,11 +101,11 @@ export class ProvisioningService {
         .single();
 
       if (queueError) {
-        console.error('🔧 Queue Position Debug: Error getting customer queue:', queueError);
+        logger.error('Queue Position Debug: Error getting customer queue', { error: queueError.details, customerId });
         throw queueError;
       }
 
-      console.log('🔧 Queue Position Debug: Customer queue data:', customerQueue);
+      logger.debug('Queue Position Debug: Customer queue data', { customerQueue, customerId });
 
       // If customer is not pending anymore, return current status
       if (customerQueue.status !== 'pending') {
@@ -127,17 +128,17 @@ export class ProvisioningService {
         .or(`priority.gt.${customerQueue.priority},and(priority.eq.${customerQueue.priority},created_at.lt.${customerQueue.created_at})`);
 
       if (countError) {
-        console.error('🔧 Queue Position Debug: Error counting ahead:', countError);
+        logger.error('Queue Position Debug: Error counting ahead', { error: countError.details, customerId });
         throw countError;
       }
 
-      console.log('🔧 Queue Position Debug: Count ahead:', count);
+      logger.debug('Queue Position Debug: Count ahead', { count, customerId });
 
       // Calculate estimated wait time (rough estimate: 30 mins per item in queue)
       const estimatedWaitHours = (count || 0) * 0.5;
 
       const position = (count || 0) + 1;
-      console.log('🔧 Queue Position Debug: Final position:', position, 'Wait time:', estimatedWaitHours);
+      logger.info('Queue Position Calculated', { position, customerId, waitTime: estimatedWaitHours });
 
       return {
         success: true,

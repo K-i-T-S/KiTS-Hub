@@ -1,0 +1,197 @@
+{
+  "suiteName": "Provisioning System Test Suite",
+  "timestamp": "2026-01-08T00:40:39.623Z",
+  "summary": {
+    "totalTests": 10,
+    "passedTests": 10,
+    "failedTests": 0,
+    "successRate": 100,
+    "totalDuration": 2
+  },
+  "testResults": [
+    {
+      "testName": "Customer Creation",
+      "passed": true,
+      "duration": 1
+    },
+    {
+      "testName": "Duplicate Customer Creation",
+      "passed": true,
+      "duration": 0
+    },
+    {
+      "testName": "Queue Position Calculation",
+      "passed": true,
+      "duration": 0
+    },
+    {
+      "testName": "Queue Processing Order",
+      "passed": true,
+      "duration": 0
+    },
+    {
+      "testName": "Admin Task Claiming",
+      "passed": true,
+      "duration": 0
+    },
+    {
+      "testName": "Credentials Submission",
+      "passed": true,
+      "duration": 0
+    },
+    {
+      "testName": "Migration Process",
+      "passed": true,
+      "duration": 1
+    },
+    {
+      "testName": "Queue Status Retrieval",
+      "passed": true,
+      "duration": 0
+    },
+    {
+      "testName": "Error Handling",
+      "passed": true,
+      "duration": 0
+    },
+    {
+      "testName": "Plan Priority System",
+      "passed": true,
+      "duration": 0
+    }
+  ],
+  "testData": {
+    "customers": [
+      {
+        "id": "cust_1",
+        "company_name": "Test Company Alpha",
+        "email": "alpha@testcompany.com",
+        "contact_name": "John Doe",
+        "created_at": "2026-01-07T22:40:39.620Z",
+        "plan_type": "enterprise",
+        "priority": 2
+      },
+      {
+        "id": "cust_2",
+        "company_name": "Test Company Beta",
+        "email": "beta@testcompany.com",
+        "contact_name": "Jane Smith",
+        "created_at": "2026-01-07T23:40:39.620Z",
+        "plan_type": "professional",
+        "priority": 1
+      },
+      {
+        "id": "cust_3",
+        "company_name": "Test Company Gamma",
+        "email": "gamma@testcompany.com",
+        "contact_name": "Bob Wilson",
+        "created_at": "2026-01-08T00:10:39.620Z",
+        "plan_type": "standard",
+        "priority": 0
+      },
+      {
+        "company_name": "Test Company",
+        "email": "new-test@company.com",
+        "contact_name": "Test Contact",
+        "plan_type": "professional",
+        "priority": 1,
+        "id": "cust_4",
+        "created_at": "2026-01-08T00:40:39.621Z"
+      },
+      {
+        "company_name": "Enterprise Corp",
+        "email": "enterprise@test.com",
+        "contact_name": "Enterprise Contact",
+        "plan_type": "enterprise",
+        "priority": 2,
+        "id": "cust_6",
+        "created_at": "2026-01-08T00:40:39.623Z"
+      },
+      {
+        "company_name": "Professional LLC",
+        "email": "professional@test.com",
+        "contact_name": "Professional Contact",
+        "plan_type": "professional",
+        "priority": 1,
+        "id": "cust_8",
+        "created_at": "2026-01-08T00:40:39.623Z"
+      },
+      {
+        "company_name": "Standard Inc",
+        "email": "standard@test.com",
+        "contact_name": "Standard Contact",
+        "plan_type": "standard",
+        "priority": 0,
+        "id": "cust_10",
+        "created_at": "2026-01-08T00:40:39.623Z"
+      }
+    ],
+    "queueItems": [
+      {
+        "id": "queue_1",
+        "customer_id": "cust_1",
+        "status": "completed",
+        "priority": 2,
+        "created_at": "2026-01-07T22:40:39.620Z",
+        "assigned_to": "admin_1",
+        "credentials": {
+          "supabase_url": "https://test.supabase.co",
+          "supabase_key": "test-key",
+          "database_url": "postgresql://test"
+        },
+        "migration_progress": 100,
+        "estimated_completion": "2026-01-08T00:40:39.623Z"
+      },
+      {
+        "id": "queue_2",
+        "customer_id": "cust_2",
+        "status": "pending",
+        "priority": 1,
+        "created_at": "2026-01-07T23:40:39.620Z"
+      },
+      {
+        "id": "queue_3",
+        "customer_id": "cust_3",
+        "status": "pending",
+        "priority": 0,
+        "created_at": "2026-01-08T00:10:39.620Z"
+      },
+      {
+        "customer_id": "cust_4",
+        "status": "pending",
+        "priority": 1,
+        "id": "queue_5",
+        "created_at": "2026-01-08T00:40:39.621Z"
+      },
+      {
+        "customer_id": "cust_6",
+        "status": "pending",
+        "priority": 2,
+        "id": "queue_7",
+        "created_at": "2026-01-08T00:40:39.623Z"
+      },
+      {
+        "customer_id": "cust_8",
+        "status": "pending",
+        "priority": 1,
+        "id": "queue_9",
+        "created_at": "2026-01-08T00:40:39.623Z"
+      },
+      {
+        "customer_id": "cust_10",
+        "status": "pending",
+        "priority": 0,
+        "id": "queue_11",
+        "created_at": "2026-01-08T00:40:39.623Z"
+      }
+    ],
+    "admins": [
+      {
+        "id": "admin_1",
+        "email": "admin@kits-hub.com",
+        "role": "admin",
+        "created_at": "2026-01-01T00:40:39.620Z"
+      }
+    ]
+  }
+}

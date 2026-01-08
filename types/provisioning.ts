@@ -183,6 +183,7 @@ export interface QueuePositionResponse {
   position: number;
   estimated_wait_hours: number;
   ahead_in_queue: number;
+  status: string;
 }
 
 // Real-time subscription types

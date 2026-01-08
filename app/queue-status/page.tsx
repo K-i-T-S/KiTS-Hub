@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -27,7 +27,7 @@ interface QueueStatusResponse {
   error?: string
 }
 
-export default function QueueStatusPage() {
+function QueueStatusContent() {
   const searchParams = useSearchParams()
   const [email, setEmail] = useState(searchParams.get('email') || '')
   const [isLoading, setIsLoading] = useState(false)
@@ -413,5 +413,13 @@ export default function QueueStatusPage() {
         </Card>
       </div>
     </div>
+  )
+}
+
+export default function QueueStatusPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <QueueStatusContent />
+    </Suspense>
   )
 }

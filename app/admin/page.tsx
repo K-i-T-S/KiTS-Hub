@@ -9,7 +9,6 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { Database } from '@/types/database'
 import { supabase } from '@/lib/supabase'
 import Link from 'next/link'
 import { 
@@ -28,13 +27,59 @@ import {
   CheckCircle,
   Clock,
   BarChart3,
-  Lightbulb
+  Lightbulb,
+  Server
 } from 'lucide-react'
 
-type Lead = Database['public']['Tables']['leads']['Row']
-type Contact = Database['public']['Tables']['contacts']['Row']
-type Subscription = Database['public']['Tables']['subscriptions']['Row']
-type Visitor = Database['public']['Tables']['visitors']['Row']
+// Define types inline since Database type is not available
+interface Lead {
+  id: string
+  company_name: string
+  email: string
+  phone?: string
+  status: 'new' | 'contacted' | 'qualified' | 'converted'
+  created_at: string
+  full_name?: string
+  company?: string
+}
+
+interface Contact {
+  id: string
+  name: string
+  email: string
+  phone?: string
+  message: string
+  created_at: string
+  full_name?: string
+  company?: string
+}
+
+interface Subscription {
+  id: string
+  email: string
+  status: 'active' | 'cancelled' | 'trial'
+  plan: string
+  created_at: string
+  stripe_customer_id?: string
+  stripe_subscription_id?: string
+  current_period_start?: string
+  current_period_end?: string
+}
+
+interface Visitor {
+  id: string
+  page_url: string
+  user_agent?: string
+  ip_address?: string
+  created_at: string
+  session_id?: string
+  browser?: string
+  os?: string
+  device_type?: string
+  country?: string
+  last_seen_at?: string
+  total_visits?: number
+}
 
 type AdminStats = {
   totalLeads: number
@@ -273,7 +318,7 @@ export default function AdminDashboard() {
                   onClick={() => window.location.href = '/admin/provisioning'}
                   className="backdrop-blur-xl bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 border-0 text-white shadow-lg hover:shadow-emerald-500/30 transition-all duration-300 flex items-center gap-2 px-6 py-3"
                 >
-                  <Database className="h-4 w-4" />
+                  <Server className="h-4 w-4" />
                   Provisioning
                 </Button>
                 <Button 
@@ -822,13 +867,13 @@ export default function AdminDashboard() {
                             </TableCell>
                             <TableCell className="text-purple-200/80 border-r border-white/10">
                               <span className="font-medium">
-                                {new Date(subscription.current_period_start).toLocaleDateString('en-US', { 
+                                {subscription.current_period_start ? new Date(subscription.current_period_start).toLocaleDateString('en-US', { 
                                   month: 'short', 
                                   day: 'numeric' 
-                                })} - {new Date(subscription.current_period_end).toLocaleDateString('en-US', { 
+                                }) : 'N/A'} - {subscription.current_period_end ? new Date(subscription.current_period_end).toLocaleDateString('en-US', { 
                                   month: 'short', 
                                   day: 'numeric' 
-                                })}
+                                }) : 'N/A'}
                               </span>
                             </TableCell>
                             <TableCell className="text-purple-200/80">
@@ -901,7 +946,7 @@ export default function AdminDashboard() {
                           </div>
                           <div className="text-right">
                             <p className="text-orange-100 font-semibold">
-                              {new Date(visitor.last_seen_at).toLocaleDateString()}
+                              {visitor.last_seen_at ? new Date(visitor.last_seen_at).toLocaleDateString() : 'N/A'}
                             </p>
                             <p className="text-orange-200/60 text-sm">{visitor.total_visits} visits</p>
                           </div>
