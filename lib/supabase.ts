@@ -1,25 +1,31 @@
-import { createClient } from '@supabase/supabase-js'
+/**
+ * @deprecated This file is deprecated for security reasons.
+ * Please use the new separated client files:
+ * - Browser client: import { getSupabaseClient } from '@/lib/clients/browser'
+ * - Admin client: import { requireSupabaseAdmin } from '@/lib/clients/admin'
+ * 
+ * Migration guide: See SUPABASE_SECURITY_MIGRATION.md
+ */
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+import { getSupabaseClient, getSupabaseClientSafe } from './clients/browser'
+import { requireSupabaseAdmin } from './clients/admin'
 
-// Only create Supabase client if environment variables are properly configured
-export const supabase = supabaseUrl && supabaseAnonKey 
-  ? createClient(supabaseUrl, supabaseAnonKey)
-  : null
+// Legacy exports with deprecation warnings
+export const supabase = getSupabaseClient()
+export const supabaseAdmin = typeof window === 'undefined' ? requireSupabaseAdmin() : null
 
-// Admin client is optional - only used in server-side operations
-const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
-export const supabaseAdmin = (supabaseUrl && serviceRoleKey) 
-  ? createClient(supabaseUrl, serviceRoleKey, {
-      auth: {
-        autoRefreshToken: false,
-        persistSession: false
-      }
-    })
-  : null
-
-// Helper function to check if Supabase is configured
+// Legacy helper functions
 export const isSupabaseConfigured = (): boolean => {
-  return !!(supabaseUrl && supabaseAnonKey)
+  return getSupabaseClientSafe() !== null
+}
+
+// Console warning in development
+if (process.env.NODE_ENV === 'development') {
+  console.warn(
+    '⚠️  DEPRECATION WARNING: Using legacy @/lib/supabase imports.\n' +
+    'Please migrate to the new separated client files for improved security.\n' +
+    'See SUPABASE_SECURITY_MIGRATION.md for migration instructions.\n' +
+    '- Browser: import { getSupabaseClient } from "@/lib/clients/browser"\n' +
+    '- Admin: import { requireSupabaseAdmin } from "@/lib/clients/admin"'
+  )
 }
