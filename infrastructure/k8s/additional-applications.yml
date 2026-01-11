@@ -1,0 +1,394 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crm-system
+  namespace: kits-hub
+  labels:
+    app: crm-system
+    solution: crm
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: crm-system
+  template:
+    metadata:
+      labels:
+        app: crm-system
+        solution: crm
+    spec:
+      containers:
+      - name: crm-system
+        image: ghcr.io/your-username/kits-hub-crm-system:latest
+        ports:
+        - containerPort: 3003
+        env:
+        - name: NODE_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: kits-hub-config
+              key: NODE_ENV
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: kits-hub-secrets
+              key: DATABASE_URL
+        - name: REDIS_URL
+          valueFrom:
+            configMapKeyRef:
+              name: kits-hub-config
+              key: REDIS_URL
+        - name: NEXTAUTH_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: kits-hub-secrets
+              key: NEXTAUTH_SECRET
+        - name: NEXTAUTH_URL
+          value: "https://crm.kits-hub.com"
+        - name: OTLP_EXPORTER_OTLP_ENDPOINT
+          valueFrom:
+            configMapKeyRef:
+              name: kits-hub-config
+              key: OTLP_EXPORTER_OTLP_ENDPOINT
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /api/health
+            port: 3003
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /api/health
+            port: 3003
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1001
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: crm-system-service
+  namespace: kits-hub
+  labels:
+    app: crm-system
+spec:
+  selector:
+    app: crm-system
+  ports:
+  - name: http
+    port: 80
+    targetPort: 3003
+    protocol: TCP
+  type: ClusterIP
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hr-management
+  namespace: kits-hub
+  labels:
+    app: hr-management
+    solution: hr
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hr-management
+  template:
+    metadata:
+      labels:
+        app: hr-management
+        solution: hr
+    spec:
+      containers:
+      - name: hr-management
+        image: ghcr.io/your-username/kits-hub-hr-management:latest
+        ports:
+        - containerPort: 3004
+        env:
+        - name: NODE_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: kits-hub-config
+              key: NODE_ENV
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: kits-hub-secrets
+              key: DATABASE_URL
+        - name: REDIS_URL
+          valueFrom:
+            configMapKeyRef:
+              name: kits-hub-config
+              key: REDIS_URL
+        - name: NEXTAUTH_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: kits-hub-secrets
+              key: NEXTAUTH_SECRET
+        - name: NEXTAUTH_URL
+          value: "https://hr.kits-hub.com"
+        - name: OTLP_EXPORTER_OTLP_ENDPOINT
+          valueFrom:
+            configMapKeyRef:
+              name: kits-hub-config
+              key: OTLP_EXPORTER_OTLP_ENDPOINT
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /api/health
+            port: 3004
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /api/health
+            port: 3004
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1001
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hr-management-service
+  namespace: kits-hub
+  labels:
+    app: hr-management
+spec:
+  selector:
+    app: hr-management
+  ports:
+  - name: http
+    port: 80
+    targetPort: 3004
+    protocol: TCP
+  type: ClusterIP
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: accounting-system
+  namespace: kits-hub
+  labels:
+    app: accounting-system
+    solution: accounting
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: accounting-system
+  template:
+    metadata:
+      labels:
+        app: accounting-system
+        solution: accounting
+    spec:
+      containers:
+      - name: accounting-system
+        image: ghcr.io/your-username/kits-hub-accounting-system:latest
+        ports:
+        - containerPort: 3005
+        env:
+        - name: NODE_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: kits-hub-config
+              key: NODE_ENV
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: kits-hub-secrets
+              key: DATABASE_URL
+        - name: REDIS_URL
+          valueFrom:
+            configMapKeyRef:
+              name: kits-hub-config
+              key: REDIS_URL
+        - name: NEXTAUTH_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: kits-hub-secrets
+              key: NEXTAUTH_SECRET
+        - name: NEXTAUTH_URL
+          value: "https://accounting.kits-hub.com"
+        - name: OTLP_EXPORTER_OTLP_ENDPOINT
+          valueFrom:
+            configMapKeyRef:
+              name: kits-hub-config
+              key: OTLP_EXPORTER_OTLP_ENDPOINT
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /api/health
+            port: 3005
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /api/health
+            port: 3005
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1001
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: accounting-system-service
+  namespace: kits-hub
+  labels:
+    app: accounting-system
+spec:
+  selector:
+    app: accounting-system
+  ports:
+  - name: http
+    port: 80
+    targetPort: 3005
+    protocol: TCP
+  type: ClusterIP
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: analytics-dashboard
+  namespace: kits-hub
+  labels:
+    app: analytics-dashboard
+    solution: analytics
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: analytics-dashboard
+  template:
+    metadata:
+      labels:
+        app: analytics-dashboard
+        solution: analytics
+    spec:
+      containers:
+      - name: analytics-dashboard
+        image: ghcr.io/your-username/kits-hub-analytics-dashboard:latest
+        ports:
+        - containerPort: 3006
+        env:
+        - name: NODE_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: kits-hub-config
+              key: NODE_ENV
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: kits-hub-secrets
+              key: DATABASE_URL
+        - name: REDIS_URL
+          valueFrom:
+            configMapKeyRef:
+              name: kits-hub-config
+              key: REDIS_URL
+        - name: NEXTAUTH_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: kits-hub-secrets
+              key: NEXTAUTH_SECRET
+        - name: NEXTAUTH_URL
+          value: "https://analytics.kits-hub.com"
+        - name: OTLP_EXPORTER_OTLP_ENDPOINT
+          valueFrom:
+            configMapKeyRef:
+              name: kits-hub-config
+              key: OTLP_EXPORTER_OTLP_ENDPOINT
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /api/health
+            port: 3006
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /api/health
+            port: 3006
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1001
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: analytics-dashboard-service
+  namespace: kits-hub
+  labels:
+    app: analytics-dashboard
+spec:
+  selector:
+    app: analytics-dashboard
+  ports:
+  - name: http
+    port: 80
+    targetPort: 3006
+    protocol: TCP
+  type: ClusterIP

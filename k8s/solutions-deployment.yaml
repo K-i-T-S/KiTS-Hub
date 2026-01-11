@@ -1,0 +1,629 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kits-hub-inventory
+  namespace: kits-hub
+  labels:
+    app: kits-hub-inventory
+    component: inventory
+    version: v1
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: kits-hub-inventory
+  template:
+    metadata:
+      labels:
+        app: kits-hub-inventory
+        component: inventory
+        version: v1
+    spec:
+      containers:
+      - name: inventory
+        image: kits-hub/inventory:latest
+        ports:
+        - containerPort: 4177
+          name: http
+        env:
+        - name: NODE_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: kits-hub-config
+              key: NODE_ENV
+        - name: API_BASE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: kits-hub-config
+              key: API_BASE_URL
+        - name: SUPABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: kits-hub-secrets
+              key: SUPABASE_URL
+        - name: SUPABASE_ANON_KEY
+          valueFrom:
+            secretKeyRef:
+              name: kits-hub-secrets
+              key: SUPABASE_ANON_KEY
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 4177
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 4177
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 101
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kits-hub-inventory-service
+  namespace: kits-hub
+  labels:
+    app: kits-hub-inventory
+    component: inventory
+spec:
+  type: ClusterIP
+  ports:
+  - port: 4177
+    targetPort: 4177
+    protocol: TCP
+    name: http
+  selector:
+    app: kits-hub-inventory
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kits-hub-pos
+  namespace: kits-hub
+  labels:
+    app: kits-hub-pos
+    component: pos
+    version: v1
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: kits-hub-pos
+  template:
+    metadata:
+      labels:
+        app: kits-hub-pos
+        component: pos
+        version: v1
+    spec:
+      containers:
+      - name: pos
+        image: kits-hub/pos:latest
+        ports:
+        - containerPort: 4178
+          name: http
+        env:
+        - name: NODE_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: kits-hub-config
+              key: NODE_ENV
+        - name: API_BASE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: kits-hub-config
+              key: API_BASE_URL
+        - name: SUPABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: kits-hub-secrets
+              key: SUPABASE_URL
+        - name: SUPABASE_ANON_KEY
+          valueFrom:
+            secretKeyRef:
+              name: kits-hub-secrets
+              key: SUPABASE_ANON_KEY
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 4178
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 4178
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 101
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kits-hub-pos-service
+  namespace: kits-hub
+  labels:
+    app: kits-hub-pos
+    component: pos
+spec:
+  type: ClusterIP
+  ports:
+  - port: 4178
+    targetPort: 4178
+    protocol: TCP
+    name: http
+  selector:
+    app: kits-hub-pos
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kits-hub-crm
+  namespace: kits-hub
+  labels:
+    app: kits-hub-crm
+    component: crm
+    version: v1
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: kits-hub-crm
+  template:
+    metadata:
+      labels:
+        app: kits-hub-crm
+        component: crm
+        version: v1
+    spec:
+      containers:
+      - name: crm
+        image: kits-hub/crm:latest
+        ports:
+        - containerPort: 4179
+          name: http
+        env:
+        - name: NODE_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: kits-hub-config
+              key: NODE_ENV
+        - name: API_BASE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: kits-hub-config
+              key: API_BASE_URL
+        - name: SUPABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: kits-hub-secrets
+              key: SUPABASE_URL
+        - name: SUPABASE_ANON_KEY
+          valueFrom:
+            secretKeyRef:
+              name: kits-hub-secrets
+              key: SUPABASE_ANON_KEY
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 4179
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 4179
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 101
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kits-hub-crm-service
+  namespace: kits-hub
+  labels:
+    app: kits-hub-crm
+    component: crm
+spec:
+  type: ClusterIP
+  ports:
+  - port: 4179
+    targetPort: 4179
+    protocol: TCP
+    name: http
+  selector:
+    app: kits-hub-crm
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kits-hub-hr
+  namespace: kits-hub
+  labels:
+    app: kits-hub-hr
+    component: hr
+    version: v1
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: kits-hub-hr
+  template:
+    metadata:
+      labels:
+        app: kits-hub-hr
+        component: hr
+        version: v1
+    spec:
+      containers:
+      - name: hr
+        image: kits-hub/hr:latest
+        ports:
+        - containerPort: 4180
+          name: http
+        env:
+        - name: NODE_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: kits-hub-config
+              key: NODE_ENV
+        - name: API_BASE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: kits-hub-config
+              key: API_BASE_URL
+        - name: SUPABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: kits-hub-secrets
+              key: SUPABASE_URL
+        - name: SUPABASE_ANON_KEY
+          valueFrom:
+            secretKeyRef:
+              name: kits-hub-secrets
+              key: SUPABASE_ANON_KEY
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 4180
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 4180
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 101
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kits-hub-hr-service
+  namespace: kits-hub
+  labels:
+    app: kits-hub-hr
+    component: hr
+spec:
+  type: ClusterIP
+  ports:
+  - port: 4180
+    targetPort: 4180
+    protocol: TCP
+    name: http
+  selector:
+    app: kits-hub-hr
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kits-hub-accounting
+  namespace: kits-hub
+  labels:
+    app: kits-hub-accounting
+    component: accounting
+    version: v1
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: kits-hub-accounting
+  template:
+    metadata:
+      labels:
+        app: kits-hub-accounting
+        component: accounting
+        version: v1
+    spec:
+      containers:
+      - name: accounting
+        image: kits-hub/accounting:latest
+        ports:
+        - containerPort: 4181
+          name: http
+        env:
+        - name: NODE_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: kits-hub-config
+              key: NODE_ENV
+        - name: API_BASE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: kits-hub-config
+              key: API_BASE_URL
+        - name: SUPABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: kits-hub-secrets
+              key: SUPABASE_URL
+        - name: SUPABASE_ANON_KEY
+          valueFrom:
+            secretKeyRef:
+              name: kits-hub-secrets
+              key: SUPABASE_ANON_KEY
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 4181
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 4181
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 101
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kits-hub-accounting-service
+  namespace: kits-hub
+  labels:
+    app: kits-hub-accounting
+    component: accounting
+spec:
+  type: ClusterIP
+  ports:
+  - port: 4181
+    targetPort: 4181
+    protocol: TCP
+    name: http
+  selector:
+    app: kits-hub-accounting
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kits-hub-analytics
+  namespace: kits-hub
+  labels:
+    app: kits-hub-analytics
+    component: analytics
+    version: v1
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: kits-hub-analytics
+  template:
+    metadata:
+      labels:
+        app: kits-hub-analytics
+        component: analytics
+        version: v1
+    spec:
+      containers:
+      - name: analytics
+        image: kits-hub/analytics:latest
+        ports:
+        - containerPort: 4182
+          name: http
+        env:
+        - name: NODE_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: kits-hub-config
+              key: NODE_ENV
+        - name: API_BASE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: kits-hub-config
+              key: API_BASE_URL
+        - name: SUPABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: kits-hub-secrets
+              key: SUPABASE_URL
+        - name: SUPABASE_ANON_KEY
+          valueFrom:
+            secretKeyRef:
+              name: kits-hub-secrets
+              key: SUPABASE_ANON_KEY
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 4182
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 4182
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 101
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kits-hub-analytics-service
+  namespace: kits-hub
+  labels:
+    app: kits-hub-analytics
+    component: analytics
+spec:
+  type: ClusterIP
+  ports:
+  - port: 4182
+    targetPort: 4182
+    protocol: TCP
+    name: http
+  selector:
+    app: kits-hub-analytics

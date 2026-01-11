@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Debug Test</title>
+</head>
+<body>
+    <div id="root">
+        <h1>Loading...</h1>
+    </div>
+    
+    <script>
+        console.log('=== DEBUG SCRIPT STARTING ===');
+        
+        // Add global error handlers
+        window.addEventListener('error', function(e) {
+            console.error('GLOBAL ERROR:', e.error);
+            document.body.innerHTML = '<div style="background: red; color: white; padding: 20px;"><h1>JavaScript Error</h1><pre>' + e.error.stack + '</pre></div>';
+        });
+        
+        window.addEventListener('unhandledrejection', function(e) {
+            console.error('UNHANDLED PROMISE REJECTION:', e.reason);
+            document.body.innerHTML = '<div style="background: orange; color: white; padding: 20px;"><h1>Promise Rejection</h1><pre>' + e.reason + '</pre></div>';
+        });
+        
+        // Test basic JavaScript
+        setTimeout(() => {
+            console.log('Timeout executed - JavaScript is working');
+            document.getElementById('root').innerHTML = '<h1 style="color: green;">JavaScript Working!</h1>';
+        }, 1000);
+    </script>
+    
+    <!-- Load the main script with error handling -->
+    <script>
+        console.log('=== LOADING MAIN SCRIPT ===');
+        const script = document.createElement('script');
+        script.src = '/main.js';
+        script.onerror = function(e) {
+            console.error('SCRIPT LOAD ERROR:', e);
+            document.body.innerHTML = '<div style="background: purple; color: white; padding: 20px;"><h1>Script Load Failed</h1><p>Failed to load main.js</p></div>';
+        };
+        script.onload = function() {
+            console.log('=== MAIN SCRIPT LOADED ===');
+        };
+        document.head.appendChild(script);
+    </script>
+</body>
+</html>

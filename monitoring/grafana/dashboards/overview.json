@@ -1,0 +1,159 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "KiTS Hub Overview",
+    "tags": ["kits-hub", "overview"],
+    "timezone": "browser",
+    "panels": [
+      {
+        "title": "Active Tenants",
+        "type": "stat",
+        "gridPos": {"h": 8, "w": 6, "x": 0, "y": 0},
+        "targets": [
+          {
+            "expr": "kits_tenants_total",
+            "refId": "A",
+            "legendFormat": "Total Tenants"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {"mode": "palette-classic"},
+            "custom": {"displayMode": "list", "orientation": "horizontal"},
+            "mappings": [],
+            "thresholds": {"steps": [{"color": "green", "value": null}, {"color": "red", "value": 80}]}
+          },
+          "overrides": []
+        },
+        "options": {
+          "reduceOptions": {"values": false, "calcs": ["lastNotNull"], "fields": ""},
+          "orientation": "auto",
+          "textMode": "auto",
+          "colorMode": "value"
+        }
+      },
+      {
+        "title": "Active Users",
+        "type": "stat",
+        "gridPos": {"h": 8, "w": 6, "x": 6, "y": 0},
+        "targets": [
+          {
+            "expr": "sum(kits_active_users_total)",
+            "refId": "A",
+            "legendFormat": "Total Active Users"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {"mode": "palette-classic"},
+            "custom": {"displayMode": "list", "orientation": "horizontal"},
+            "mappings": [],
+            "thresholds": {"steps": [{"color": "green", "value": null}, {"color": "red", "value": 80}]}
+          },
+          "overrides": []
+        },
+        "options": {
+          "reduceOptions": {"values": false, "calcs": ["lastNotNull"], "fields": ""},
+          "orientation": "auto",
+          "textMode": "auto",
+          "colorMode": "value"
+        }
+      },
+      {
+        "title": "API Request Rate",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0},
+        "targets": [
+          {
+            "expr": "sum(rate(kits_api_requests_total[5m])) by (solution)",
+            "refId": "A",
+            "legendFormat": "{{solution}}"
+          }
+        ],
+        "yAxes": [{"label": "Requests per second"}],
+        "xAxes": [{"mode": "time", "name": "Time"}]
+      },
+      {
+        "title": "Response Time",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, sum(rate(kits_api_response_time_seconds_bucket[5m])) by (le, solution))",
+            "refId": "A",
+            "legendFormat": "95th percentile - {{solution}}"
+          },
+          {
+            "expr": "histogram_quantile(0.50, sum(rate(kits_api_response_time_seconds_bucket[5m])) by (le, solution))",
+            "refId": "B",
+            "legendFormat": "50th percentile - {{solution}}"
+          }
+        ],
+        "yAxes": [{"label": "Seconds"}]
+      },
+      {
+        "title": "Error Rate",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
+        "targets": [
+          {
+            "expr": "sum(rate(kits_errors_total[5m])) by (error_type)",
+            "refId": "A",
+            "legendFormat": "{{error_type}}"
+          }
+        ],
+        "yAxes": [{"label": "Errors per second"}]
+      },
+      {
+        "title": "Database Connections",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 16},
+        "targets": [
+          {
+            "expr": "kits_db_connections_active",
+            "refId": "A",
+            "legendFormat": "Active Connections"
+          }
+        ],
+        "yAxes": [{"label": "Connections"}]
+      },
+      {
+        "title": "Solution Health",
+        "type": "table",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 16},
+        "targets": [
+          {
+            "expr": "up{job=\"kits-hub-applications\"}",
+            "refId": "A",
+            "format": "table",
+            "instant": true
+          }
+        ],
+        "transformations": [
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {"Time": true, "__name__": true, "job": true},
+              "indexByName": {},
+              "renameByName": {"instance": "Solution", "Value": "Status"}
+            }
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {"mode": "thresholds"},
+            "thresholds": {"steps": [{"color": "red", "value": 0}, {"color": "green", "value": 1}]},
+            "mappings": [
+              {
+                "options": {"0": {"text": "DOWN"}, "1": {"text": "UP"}},
+                "type": "value"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "time": {"from": "now-1h", "to": "now"},
+    "refresh": "30s"
+  }
+}

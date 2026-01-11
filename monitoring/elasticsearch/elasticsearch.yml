@@ -1,0 +1,21 @@
+cluster.name: "kits-hub-logs"
+node.name: "kits-hub-es-node-1"
+path.data: /usr/share/elasticsearch/data
+path.logs: /usr/share/elasticsearch/logs
+network.host: 0.0.0.0
+http.port: 9200
+discovery.type: single-node
+
+# Security settings
+xpack.security.enabled: false
+xpack.monitoring.enabled: false
+
+# Performance settings
+bootstrap.memory_lock: false
+
+# Index settings
+action.auto_create_index: "+*"
+action.destructive_requires_name: true
+
+# Memory settings
+ES_JAVA_OPTS: "-Xms512m -Xmx512m"

@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: kits-hub
+  labels:
+    name: kits-hub
+    environment: production
+    app: kits-hub

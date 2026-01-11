@@ -1,0 +1,179 @@
+groups:
+  - name: kits-hub-alerts
+    rules:
+      # High error rate
+      - alert: HighErrorRate
+        expr: rate(kits_errors_total[5m]) > 0.1
+        for: 2m
+        labels:
+          severity: warning
+          service: kits-hub
+        annotations:
+          summary: "High error rate detected"
+          description: "Error rate is {{ $value }} errors per second for {{ $labels.solution }}"
+
+      # High response time
+      - alert: HighResponseTime
+        expr: histogram_quantile(0.95, rate(kits_api_response_time_seconds[5m])) > 1
+        for: 5m
+        labels:
+          severity: critical
+          service: kits-hub
+        annotations:
+          summary: "High API response time"
+          description: "95th percentile response time is {{ $value }} seconds for {{ $labels.solution }}"
+
+      # Database connection issues
+      - alert: DatabaseConnectionIssues
+        expr: kits_db_connections_active == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: kits-hub
+        annotations:
+          summary: "No active database connections"
+          description: "Database connection pool is exhausted"
+
+      # High memory usage
+      - alert: HighMemoryUsage
+        expr: (process_resident_memory_bytes / 1024 / 1024 / 1024) > 0.8
+        for: 5m
+        labels:
+          severity: warning
+          service: kits-hub
+        annotations:
+          summary: "High memory usage"
+          description: "Memory usage is {{ $value | humanizePercentage }} for {{ $labels.solution }}"
+
+      # High CPU usage
+      - alert: HighCPUUsage
+        expr: rate(process_cpu_seconds_total[5m]) * 100 > 80
+        for: 5m
+        labels:
+          severity: warning
+          service: kits-hub
+        annotations:
+          summary: "High CPU usage"
+          description: "CPU usage is {{ $value }}% for {{ $labels.solution }}"
+
+      # Service down
+      - alert: ServiceDown
+        expr: up{job="kits-hub-applications"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: kits-hub
+        annotations:
+          summary: "Service is down"
+          description: "{{ $labels.solution }} service has been down for more than 1 minute"
+
+      # Tenant isolation breach
+      - alert: TenantIsolationBreach
+        expr: increase(kits_security_events_total{type="data_leak"}[5m]) > 0
+        for: 0m
+        labels:
+          severity: critical
+          service: kits-hub
+        annotations:
+          summary: "Potential tenant data isolation breach"
+          description: "Security event detected potential data leak between tenants"
+
+      # Failed tenant provisioning
+      - alert: TenantProvisioningFailure
+        expr: increase(kits_tenant_provisioning_failures_total[5m]) > 0
+        for: 0m
+        labels:
+          severity: warning
+          service: kits-hub
+        annotations:
+          summary: "Tenant provisioning failure"
+          description: "Failed to provision tenant {{ $labels.tenant_id }}"
+
+      # Disk space running low
+      - alert: DiskSpaceLow
+        expr: (node_filesystem_avail_bytes / node_filesystem_size_bytes) * 100 < 10
+        for: 5m
+        labels:
+          severity: warning
+          service: kits-hub
+        annotations:
+          summary: "Disk space running low"
+          description: "Disk space is {{ $value }}% available on {{ $labels.instance }}"
+
+      # Database connections high
+      - alert: DatabaseConnectionsHigh
+        expr: kits_db_connections_active > 80
+        for: 5m
+        labels:
+          severity: warning
+          service: kits-hub
+        annotations:
+          summary: "High database connections"
+          description: "Database has {{ $value }} active connections"
+
+      # API rate limit exceeded
+      - alert: APIRateLimitExceeded
+        expr: increase(kits_api_rate_limit_exceeded_total[5m]) > 10
+        for: 2m
+        labels:
+          severity: warning
+          service: kits-hub
+        annotations:
+          summary: "API rate limit exceeded"
+          description: "Rate limit exceeded {{ $value }} times in the last 5 minutes"
+
+  - name: infrastructure-alerts
+    rules:
+      # Node down
+      - alert: NodeDown
+        expr: up{job="kits-hub-infrastructure"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: infrastructure
+        annotations:
+          summary: "Infrastructure node down"
+          description: "{{ $labels.instance }} has been down for more than 1 minute"
+
+      # PostgreSQL down
+      - alert: PostgreSQLDown
+        expr: pg_up == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: database
+        annotations:
+          summary: "PostgreSQL is down"
+          description: "PostgreSQL database is not responding"
+
+      # Redis down
+      - alert: RedisDown
+        expr: redis_up == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: cache
+        annotations:
+          summary: "Redis is down"
+          description: "Redis cache is not responding"
+
+      # Elasticsearch cluster health
+      - alert: ElasticsearchClusterRed
+        expr: elasticsearch_cluster_health_status{color="red"} == 1
+        for: 0m
+        labels:
+          severity: critical
+          service: logging
+        annotations:
+          summary: "Elasticsearch cluster is red"
+          description: "Elasticsearch cluster health is red"
+
+      - alert: ElasticsearchClusterYellow
+        expr: elasticsearch_cluster_health_status{color="yellow"} == 1
+        for: 5m
+        labels:
+          severity: warning
+          service: logging
+        annotations:
+          summary: "Elasticsearch cluster is yellow"
+          description: "Elasticsearch cluster health is yellow"

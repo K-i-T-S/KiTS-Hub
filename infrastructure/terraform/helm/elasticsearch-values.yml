@@ -1,0 +1,44 @@
+# Elasticsearch Helm Values
+replicas: 3
+minimumMasterNodes: 2
+
+clusterName: "kits-hub-logs"
+nodeGroup: "master"
+
+esJavaOpts: "-Xmx1g -Xms1g"
+
+resources:
+  requests:
+    cpu: "1000m"
+    memory: "2Gi"
+  limits:
+    cpu: "2000m"
+    memory: "4Gi"
+
+persistence:
+  enabled: true
+  storageClassName: "ebs-gp3"
+  size: 30Gi
+
+volumeClaimTemplate:
+  accessModes: [ "ReadWriteOnce" ]
+  storageClassName: "ebs-gp3"
+  resources:
+    requests:
+      storage: 30Gi
+
+ingress:
+  enabled: true
+  hosts:
+    - elasticsearch.kits-hub.com
+  tls:
+    - secretName: elasticsearch-tls
+      hosts:
+        - elasticsearch.kits-hub.com
+
+# Security settings
+xpack:
+  security:
+    enabled: false
+  monitoring:
+    enabled: false

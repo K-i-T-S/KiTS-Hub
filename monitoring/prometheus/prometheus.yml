@@ -1,0 +1,99 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  - "alert_rules.yml"
+
+scrape_configs:
+  - job_name: 'kits-hub-applications'
+    static_configs:
+      - targets:
+          - 'inventory-management:3001'
+          - 'point-of-sale:3002'
+          - 'crm-system:3003'
+          - 'hr-management:3004'
+          - 'accounting-system:3005'
+          - 'analytics-dashboard:3006'
+    metrics_path: '/metrics'
+    relabel_configs:
+      - source_labels: [__address__]
+        regex: '([^:]+):.*'
+        target_label: solution
+        replacement: '${1}'
+    scrape_interval: 10s
+    scrape_timeout: 5s
+
+  - job_name: 'kits-hub-infrastructure'
+    static_configs:
+      - targets:
+          - 'node-exporter:9100'
+          - 'postgres-exporter:9187'
+          - 'redis-exporter:9121'
+          - 'nginx-exporter:9113'
+    metrics_path: '/metrics'
+    scrape_interval: 30s
+
+  - job_name: 'supabase'
+    static_configs:
+      - targets: ['supabase-kw:3000']
+    metrics_path: '/metrics'
+    basic_auth:
+      username: 'admin'
+      password: 'supabase_password'
+    scrape_interval: 30s
+
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'grafana'
+    static_configs:
+      - targets: ['grafana:3000']
+    metrics_path: '/metrics'
+    basic_auth:
+      username: 'admin'
+      password: 'admin123'
+
+  - job_name: 'jaeger'
+    static_configs:
+      - targets: ['jaeger:14269']
+
+  - job_name: 'elasticsearch'
+    static_configs:
+      - targets: ['elasticsearch:9200']
+    metrics_path: '/_prometheus/metrics'
+
+  - job_name: 'kubernetes-pods'
+    kubernetes_sd_configs:
+      - role: pod
+        namespaces:
+          names:
+            - kits-hub
+    relabel_configs:
+      - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+        action: keep
+        regex: true
+      - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+        action: replace
+        target_label: __metrics_path__
+        regex: (.+)
+      - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+        action: replace
+        regex: ([^:]+)(?::\d+)?;(\d+)
+        replacement: $1:$2
+        target_label: __address__
+      - action: labelmap
+        regex: __meta_kubernetes_pod_label_(.+)
+      - source_labels: [__meta_kubernetes_namespace]
+        action: replace
+        target_label: kubernetes_namespace
+      - source_labels: [__meta_kubernetes_pod_name]
+        action: replace
+        target_label: kubernetes_pod_name
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - alertmanager:9093

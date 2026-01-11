@@ -1,0 +1,114 @@
+[
+  {
+    "component": "KiTS Hub v2.0",
+    "category": "Build Process",
+    "status": "failed",
+    "error": "require is not defined"
+  },
+  {
+    "component": "Business Kits",
+    "category": "Build Process",
+    "status": "failed",
+    "error": "require is not defined"
+  },
+  {
+    "component": "Inventory Management",
+    "category": "Build Process",
+    "status": "failed",
+    "error": "require is not defined"
+  },
+  {
+    "component": "Accounting System",
+    "category": "Build Process",
+    "status": "failed",
+    "error": "require is not defined"
+  },
+  {
+    "component": "CRM System",
+    "category": "Build Process",
+    "status": "failed",
+    "error": "require is not defined"
+  },
+  {
+    "component": "HR Management",
+    "category": "Build Process",
+    "status": "failed",
+    "error": "require is not defined"
+  },
+  {
+    "component": "Point of Sale",
+    "category": "Build Process",
+    "status": "failed",
+    "error": "require is not defined"
+  },
+  {
+    "component": "Analytics Dashboard",
+    "category": "Build Process",
+    "status": "failed",
+    "error": "require is not defined"
+  },
+  {
+    "component": "KiTS Hub v2.0",
+    "category": "Dependencies",
+    "status": "warning",
+    "nodeModulesExists": true,
+    "packageJsonExists": true,
+    "error": "Dependencies may have issues"
+  },
+  {
+    "component": "Business Kits",
+    "category": "Dependencies",
+    "status": "warning",
+    "nodeModulesExists": true,
+    "packageJsonExists": true,
+    "error": "Dependencies may have issues"
+  },
+  {
+    "component": "Inventory Management",
+    "category": "Dependencies",
+    "status": "warning",
+    "nodeModulesExists": true,
+    "packageJsonExists": true,
+    "error": "Dependencies may have issues"
+  },
+  {
+    "component": "Accounting System",
+    "category": "Dependencies",
+    "status": "warning",
+    "nodeModulesExists": true,
+    "packageJsonExists": true,
+    "error": "Dependencies may have issues"
+  },
+  {
+    "component": "CRM System",
+    "category": "Dependencies",
+    "status": "warning",
+    "nodeModulesExists": true,
+    "packageJsonExists": true,
+    "error": "Dependencies may have issues"
+  },
+  {
+    "component": "HR Management",
+    "category": "Dependencies",
+    "status": "warning",
+    "nodeModulesExists": true,
+    "packageJsonExists": true,
+    "error": "Dependencies may have issues"
+  },
+  {
+    "component": "Point of Sale",
+    "category": "Dependencies",
+    "status": "warning",
+    "nodeModulesExists": true,
+    "packageJsonExists": true,
+    "error": "Dependencies may have issues"
+  },
+  {
+    "component": "Analytics Dashboard",
+    "category": "Dependencies",
+    "status": "warning",
+    "nodeModulesExists": true,
+    "packageJsonExists": true,
+    "error": "Dependencies may have issues"
+  }
+]

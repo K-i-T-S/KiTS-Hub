@@ -1,0 +1,133 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kits-hub-ingress
+  namespace: kits-hub
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/rate-limit: "100"
+    nginx.ingress.kubernetes.io/rate-limit-window: "1m"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+    nginx.ingress.kubernetes.io/cors-allow-methods: "GET, POST, PUT, DELETE, OPTIONS"
+    nginx.ingress.kubernetes.io/cors-allow-headers: "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      more_set_headers "X-Frame-Options: SAMEORIGIN";
+      more_set_headers "X-Content-Type-Options: nosniff";
+      more_set_headers "X-XSS-Protection: 1; mode=block";
+      more_set_headers "Referrer-Policy: strict-origin-when-cross-origin";
+      more_set_headers "Content-Security-Policy: default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data: https:; connect-src 'self' https: wss:; frame-ancestors 'self';";
+spec:
+  tls:
+  - hosts:
+    - kits-hub.com
+    - www.kits-hub.com
+    secretName: kits-hub-tls
+  rules:
+  - host: kits-hub.com
+    http:
+      paths:
+      - path: /(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: kits-hub-shell-service
+            port:
+              number: 80
+      - path: /inventory(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: kits-hub-inventory-service
+            port:
+              number: 4177
+      - path: /pos(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: kits-hub-pos-service
+            port:
+              number: 4178
+      - path: /crm(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: kits-hub-crm-service
+            port:
+              number: 4179
+      - path: /hr(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: kits-hub-hr-service
+            port:
+              number: 4180
+      - path: /accounting(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: kits-hub-accounting-service
+            port:
+              number: 4181
+      - path: /analytics(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: kits-hub-analytics-service
+            port:
+              number: 4182
+  - host: www.kits-hub.com
+    http:
+      paths:
+      - path: /(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: kits-hub-shell-service
+            port:
+              number: 80
+      - path: /inventory(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: kits-hub-inventory-service
+            port:
+              number: 4177
+      - path: /pos(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: kits-hub-pos-service
+            port:
+              number: 4178
+      - path: /crm(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: kits-hub-crm-service
+            port:
+              number: 4179
+      - path: /hr(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: kits-hub-hr-service
+            port:
+              number: 4180
+      - path: /accounting(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: kits-hub-accounting-service
+            port:
+              number: 4181
+      - path: /analytics(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: kits-hub-analytics-service
+            port:
+              number: 4182

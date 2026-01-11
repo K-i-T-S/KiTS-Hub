@@ -1,0 +1,43 @@
+# Jaeger Helm Values
+provisionDataStore:
+  cassandra: false
+  elasticsearch: true
+
+storage:
+  type: elasticsearch
+
+elasticsearch:
+  host: elasticsearch.logging.svc.cluster.local
+  port: 9200
+  user: ""
+  password: ""
+
+query:
+  service:
+    type: LoadBalancer
+    port: 80
+  ingress:
+    enabled: true
+    hosts:
+      - jaeger.kits-hub.com
+    tls:
+      - secretName: jaeger-tls
+        hosts:
+          - jaeger.kits-hub.com
+
+collector:
+  service:
+    type: ClusterIP
+  otlp:
+    grpc:
+      host: 0.0.0.0
+      port: 4317
+    http:
+      host: 0.0.0.0
+      port: 4318
+
+agent:
+  enabled: true
+
+spark:
+  enabled: false

@@ -1,0 +1,37 @@
+{
+  "passed": [
+    {
+      "page": "/login",
+      "test": "Login Form",
+      "loadTime": 4038,
+      "expected": "Form submission should work"
+    },
+    {
+      "page": "/signup",
+      "test": "Signup Form",
+      "loadTime": 4005,
+      "expected": "Form submission should work"
+    },
+    {
+      "page": "/contact",
+      "test": "Contact Form",
+      "loadTime": 4453,
+      "expected": "Contact form should be functional"
+    }
+  ],
+  "failed": [
+    {
+      "page": "/pricing",
+      "test": "Pricing Cards",
+      "error": "Component not found: .pricing-card, [data-testid*=\"pricing\"], .card",
+      "loadTime": 2
+    },
+    {
+      "page": "/search",
+      "test": "Search Input",
+      "error": "Component not found: input[type=\"search\"], input[placeholder*=\"search\"]",
+      "loadTime": 5
+    }
+  ],
+  "totalTime": 0
+}

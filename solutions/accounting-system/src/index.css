@@ -1,0 +1,195 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* KiTS Hub Design System - Based on kits-hub-v2.0 */
+:root {
+  --background: oklch(0.09 0 0);
+  --foreground: oklch(0.95 0 0);
+  --card: oklch(0.12 0 0);
+  --card-foreground: oklch(0.95 0 0);
+  --primary: oklch(0.95 0 0);
+  --primary-foreground: oklch(0.09 0 0);
+  --secondary: oklch(0.18 0 0);
+  --secondary-foreground: oklch(0.95 0 0);
+  --muted: oklch(0.18 0 0);
+  --muted-foreground: oklch(0.55 0 0);
+  --accent: oklch(0.18 0 0);
+  --accent-foreground: oklch(0.95 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.95 0 0);
+  --border: oklch(0.22 0 0);
+  --input: oklch(0.22 0 0);
+  --ring: oklch(0.45 0 0);
+
+  /* Advanced Purple Color System */
+  --purple-50: #faf5ff;
+  --purple-100: #f3e8ff;
+  --purple-200: #e9d5ff;
+  --purple-300: #d8b4fe;
+  --purple-400: #c084fc;
+  --purple-500: #a855f7;
+  --purple-600: #9333ea;
+  --purple-700: #7c3aed;
+  --purple-800: #6b21a8;
+  --purple-900: #581c87;
+  --purple-950: #3b0764;
+
+  /* Professional Purple Palette */
+  --lavender: #e4a0f7;
+  --pale-lavender: #dcd0ff;
+  --lilac: #e0b0ff;
+  --electric-purple: #8f00ff;
+  --indigo: #4b0082;
+  --dark-orchid: #9932cc;
+  --medium-orchid: #ba55d3;
+  --deep-purple: #4a0e4e;
+  --dark-plum: #3d0c02;
+  --royal-purple: #551a8b;
+  --eggplant: #2e0f38;
+
+  /* Advanced Gradient Definitions */
+  --gradient-primary: linear-gradient(135deg, #6b21a8 0%, #9333ea 25%, #a855f7 50%, #c084fc 75%, #d8b4fe 100%);
+  --gradient-luxury: linear-gradient(135deg, #2e0f38 0%, #4a0e4e 25%, #551a8b 50%, #7c3aed 75%, #8f00ff 100%);
+  --gradient-soft: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 25%, #e9d5ff 50%, #d8b4fe 75%, #c084fc 100%);
+  --gradient-vibrant: linear-gradient(135deg, #4b0082 0%, #6b21a8 25%, #9333ea 50%, #a855f7 75%, #c084fc 100%);
+  --gradient-elegant: linear-gradient(135deg, #3b0764 0%, #581c87 25%, #6b21a8 50%, #7c3aed 75%, #9333ea 100%);
+  
+  /* Radial Gradients */
+  --gradient-radial-primary: radial-gradient(circle at 30% 30%, #a855f7 0%, #9333ea 25%, #7c3aed 50%, #6b21a8 75%, #581c87 100%);
+  --gradient-radial-soft: radial-gradient(circle at 50% 50%, #faf5ff 0%, #f3e8ff 25%, #e9d5ff 50%, #d8b4fe 75%, #c084fc 100%);
+  
+  /* Complex Multi-color Gradients */
+  --gradient-premium: linear-gradient(135deg, #2e0f38 0%, #4a0e4e 20%, #551a8b 40%, #6b21a8 60%, #8f00ff 80%, #a855f7 100%);
+  --gradient-sunset: linear-gradient(135deg, #3b0764 0%, #581c87 25%, #7c3aed 50%, #9333ea 75%, #c084fc 100%);
+  
+  /* Advanced Color Combinations */
+  --purple-shadow: rgba(139, 92, 246, 0.25);
+  --purple-glow: rgba(168, 85, 247, 0.3);
+  --purple-overlay: rgba(107, 33, 168, 0.1);
+  --purple-accent: rgba(168, 85, 247, 0.15);
+
+  /* Legacy KiTS Colors for compatibility */
+  --kits-primary: #7c3aed;
+  --kits-primary-hover: #6d28d9;
+  --kits-primary-light: #a78bfa;
+  --kits-secondary: #64748b;
+  --kits-secondary-hover: #475569;
+  --kits-secondary-light: #94a3b8;
+  --kits-success: #10b981;
+  --kits-success-hover: #059669;
+  --kits-success-light: #34d399;
+  --kits-warning: #f59e0b;
+  --kits-warning-hover: #d97706;
+  --kits-warning-light: #fbbf24;
+  --kits-error: #ef4444;
+  --kits-error-hover: #dc2626;
+  --kits-error-light: #f87171;
+  --kits-gray-50: #f8fafc;
+  --kits-gray-100: #f1f5f9;
+  --kits-gray-900: #0f172a;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* RTL Support for Arabic */
+[dir="rtl"] {
+  text-align: right;
+}
+
+[dir="rtl"] .text-left {
+  text-align: right;
+}
+
+[dir="rtl"] .text-right {
+  text-align: left;
+}
+
+[dir="rtl"] .ml-4 {
+  margin-right: 1rem;
+  margin-left: 0;
+}
+
+[dir="rtl"] .mr-4 {
+  margin-left: 1rem;
+  margin-right: 0;
+}
+
+/* Component Styles */
+.kits-card {
+  @apply bg-white rounded-lg shadow-sm border border-gray-200 p-6;
+}
+
+.kits-button {
+  @apply px-4 py-2 rounded-md font-medium transition-colors duration-200;
+}
+
+.kits-button-primary {
+  @apply kits-button bg-kits-primary text-white hover:bg-kits-primary-hover focus:ring-2 focus:ring-kits-primary focus:ring-offset-2;
+}
+
+.kits-button-secondary {
+  @apply kits-button bg-kits-secondary text-white hover:bg-kits-secondary-hover focus:ring-2 focus:ring-kits-secondary focus:ring-offset-2;
+}
+
+.kits-input {
+  @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-kits-primary focus:border-transparent;
+}
+
+.kits-table {
+  @apply w-full border-collapse bg-white shadow-sm rounded-lg overflow-hidden;
+}
+
+.kits-table th {
+  @apply bg-gray-50 px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider;
+}
+
+.kits-table td {
+  @apply px-6 py-4 whitespace-nowrap text-sm text-gray-900 border-t border-gray-200;
+}
+
+/* Loading States */
+.kits-skeleton {
+  @apply animate-pulse bg-gray-200 rounded;
+}
+
+.kits-spinner {
+  @apply animate-spin rounded-full h-8 w-8 border-b-2 border-gray-300 border-t-kits-primary;
+}
+
+/* Utility Classes */
+.text-kits-primary {
+  color: var(--kits-primary);
+}
+
+.bg-kits-primary {
+  background-color: var(--kits-primary);
+}
+
+.text-kits-success {
+  color: var(--kits-success);
+}
+
+.bg-kits-success {
+  background-color: var(--kits-success);
+}
+
+.text-kits-warning {
+  color: var(--kits-warning);
+}
+
+.bg-kits-warning {
+  background-color: var(--kits-warning);
+}
+
+.text-kits-error {
+  color: var(--kits-error);
+}
+
+.bg-kits-error {
+  background-color: var(--kits-error);
+}

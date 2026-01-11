@@ -1,0 +1,82 @@
+# Ingress Nginx Helm Values
+controller:
+  replicaCount: 3
+  
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+    requests:
+      cpu: 500m
+      memory: 512Mi
+
+  service:
+    type: LoadBalancer
+    annotations:
+      service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+      service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+
+  config:
+    # Rate limiting
+    rate-limit-requests-per-second: "100"
+    rate-limit-window: "1m"
+    
+    # SSL settings
+    ssl-protocols: "TLSv1.2 TLSv1.3"
+    ssl-ciphers: "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384"
+    
+    # Security headers
+    add-header: "X-Frame-Options: DENY"
+    add-header: "X-Content-Type-Options: nosniff"
+    add-header: "X-XSS-Protection: 1; mode=block"
+    add-header: "Strict-Transport-Security: max-age=31536000; includeSubDomains"
+    
+    # Client settings
+    client-max-body-size: "50m"
+    proxy-body-size: "50m"
+    
+    # Performance
+    keep-alive-requests: "100"
+    keep-alive-timeout: "75"
+
+  # Ingress annotations for security
+  ingressClassResource:
+    name: nginx
+    enabled: true
+    default: false
+    controllerValue: "k8s.io/ingress-nginx"
+
+  # Admission webhooks
+  admissionWebhooks:
+    enabled: true
+    patchWebhookJob:
+      resources:
+        limits:
+          cpu: 1000m
+          memory: 1Gi
+        requests:
+          cpu: 500m
+          memory: 512Mi
+
+  # Metrics
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+      namespace: "monitoring"
+
+# Default backend
+defaultBackend:
+  replicaCount: 2
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 50m
+      memory: 64Mi
+
+# RBAC
+rbac:
+  create: true
+  scope: true

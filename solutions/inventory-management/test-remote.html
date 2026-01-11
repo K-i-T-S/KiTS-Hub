@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Remote Inventory Management</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+                sans-serif;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            background: #7c3aed;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .test-section {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #6b7280;
+        }
+        .error {
+            color: #ef4444;
+            padding: 20px;
+            background: #fef2f2;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .success {
+            color: #10b981;
+            padding: 20px;
+            background: #f0fdf4;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧪 Module Federation Test - Inventory Management</h1>
+            <p>Testing remote loading of inventory management components</p>
+        </div>
+
+        <div class="test-section">
+            <h2>Remote Loading Test</h2>
+            <div id="loading-status" class="loading">Loading remote module...</div>
+            <div id="remote-content"></div>
+            <div id="error-output"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>Available Components</h2>
+            <div id="components-list">
+                <p>Checking available components...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Test remote loading
+        async function testRemoteLoading() {
+            const loadingStatus = document.getElementById('loading-status');
+            const remoteContent = document.getElementById('remote-content');
+            const errorOutput = document.getElementById('error-output');
+            const componentsList = document.getElementById('components-list');
+
+            try {
+                // Load the remote entry
+                const remoteEntry = await import('http://localhost:4177/remoteEntry.js');
+                
+                loadingStatus.innerHTML = '✅ Remote entry loaded successfully!';
+                
+                // Get the remote container
+                const remoteContainer = await remoteEntry.get('inventoryManagement');
+                
+                // Test loading the main app
+                const InventoryApp = remoteContainer.get('./InventoryApp');
+                if (InventoryApp) {
+                    const App = InventoryApp();
+                    remoteContent.innerHTML = '<div class="success">✅ InventoryApp component loaded successfully!</div>';
+                    
+                    // List available components
+                    const availableComponents = [
+                        './InventoryApp',
+                        './InventoryDashboard', 
+                        './ProductsPage',
+                        './SuppliersPage',
+                        './LocationsPage',
+                        './ReportsPage',
+                        './SettingsPage'
+                    ];
+                    
+                    componentsList.innerHTML = '<h3>✅ Available Exposed Components:</h3><ul>' +
+                        availableComponents.map(comp => `<li><code>${comp}</code> - ✅ Available</li>`).join('') +
+                        '</ul>';
+                } else {
+                    errorOutput.innerHTML = '<div class="error">❌ Failed to load InventoryApp component</div>';
+                }
+                
+            } catch (error) {
+                console.error('Remote loading error:', error);
+                loadingStatus.innerHTML = '❌ Failed to load remote module';
+                errorOutput.innerHTML = `<div class="error">❌ Error: ${error.message}</div>`;
+                componentsList.innerHTML = '<p>❌ Could not verify available components</p>';
+            }
+        }
+
+        // Run test when page loads
+        testRemoteLoading();
+    </script>
+</body>
+</html>

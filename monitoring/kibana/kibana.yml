@@ -1,0 +1,28 @@
+server.name: "kits-hub-kibana"
+server.host: "0.0.0.0"
+server.port: 5601
+
+# Elasticsearch configuration
+elasticsearch.hosts: ["http://elasticsearch:9200"]
+elasticsearch.requestTimeout: 90000
+elasticsearch.pingTimeout: 3000
+
+# Security settings
+xpack.security.enabled: false
+xpack.monitoring.enabled: false
+
+# Logging settings
+logging.dest: stdout
+logging.silent: false
+logging.quiet: false
+logging.verbose: false
+
+# UI settings
+uiSettings:
+  defaults:
+    "theme:darkMode": false
+    "dateFormat:tz": "UTC"
+    "defaultIndex": "kits-hub-*"
+
+# Index patterns and saved objects
+# These will be automatically created when Kibana starts

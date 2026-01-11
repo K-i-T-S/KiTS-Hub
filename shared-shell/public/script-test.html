@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>KiTS Hub - Script Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #1e40af;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎉 KiTS Hub - SCRIPT EXECUTION TEST</h1>
+    <p>If you see this, HTML is working!</p>
+    <p id="status">Loading JavaScript...</p>
+    
+    <script>
+        console.log('=== INLINE SCRIPT WORKING ===');
+        document.getElementById('status').textContent = 'Inline JavaScript working!';
+        
+        // Test if main.js loads and executes
+        const script = document.createElement('script');
+        script.type = 'module';
+        script.src = '/main.js';
+        script.onload = () => {
+            console.log('=== MAIN.JS LOADED ===');
+            document.body.innerHTML += '<p style="color: #22c55e;">✅ main.js loaded!</p>';
+            
+            // Wait a bit for React to execute
+            setTimeout(() => {
+                if (document.querySelector('[style*="background:#1e40af"]')) {
+                    console.log('=== REACT EXECUTED ===');
+                    document.body.innerHTML += '<p style="color: #22c55e;">✅ React executed!</p>';
+                } else {
+                    console.log('=== REACT NOT EXECUTED ===');
+                    document.body.innerHTML += '<p style="color: #ef4444;">❌ React not executed!</p>';
+                }
+            }, 1000);
+        };
+        script.onerror = (e) => {
+            console.error('=== MAIN.JS FAILED ===', e);
+            document.body.innerHTML += '<p style="color: #ef4444;">❌ main.js failed!</p>';
+        };
+        document.head.appendChild(script);
+    </script>
+</body>
+</html>

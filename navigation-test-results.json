@@ -1,0 +1,223 @@
+{
+  "passed": [
+    {
+      "route": "/queue-status",
+      "status": 200,
+      "loadTime": 36,
+      "title": "KiTS Hub - Enterprise SaaS Platform"
+    },
+    {
+      "route": "/forgot-password",
+      "status": 200,
+      "loadTime": 45,
+      "title": "KiTS Hub - Enterprise SaaS Platform"
+    },
+    {
+      "route": "/admin",
+      "status": 200,
+      "loadTime": 46,
+      "title": "KiTS Hub - Enterprise SaaS Platform"
+    },
+    {
+      "route": "/onboarding",
+      "status": 200,
+      "loadTime": 49,
+      "title": "KiTS Hub - Enterprise SaaS Platform"
+    },
+    {
+      "route": "/login",
+      "status": 200,
+      "loadTime": 50,
+      "title": "KiTS Hub - Enterprise SaaS Platform"
+    },
+    {
+      "route": "/signup",
+      "status": 200,
+      "loadTime": 53,
+      "title": "KiTS Hub - Enterprise SaaS Platform"
+    },
+    {
+      "route": "/pricing",
+      "status": 200,
+      "loadTime": 54,
+      "title": "KiTS Hub - Enterprise SaaS Platform"
+    },
+    {
+      "route": "/terms",
+      "status": 200,
+      "loadTime": 62,
+      "title": "KiTS Hub - Enterprise SaaS Platform"
+    },
+    {
+      "route": "/analytics",
+      "status": 200,
+      "loadTime": 64,
+      "title": "KiTS Hub - Enterprise SaaS Platform"
+    },
+    {
+      "route": "/privacy",
+      "status": 200,
+      "loadTime": 66,
+      "title": "KiTS Hub - Enterprise SaaS Platform"
+    },
+    {
+      "route": "/demo",
+      "status": 200,
+      "loadTime": 88,
+      "title": "KiTS Hub - Enterprise SaaS Platform"
+    },
+    {
+      "route": "/blog",
+      "status": 200,
+      "loadTime": 96,
+      "title": "KiTS Hub - Enterprise SaaS Platform"
+    },
+    {
+      "route": "/cookies",
+      "status": 200,
+      "loadTime": 100,
+      "title": "KiTS Hub - Enterprise SaaS Platform"
+    },
+    {
+      "route": "/contact",
+      "status": 200,
+      "loadTime": 112,
+      "title": "KiTS Hub - Enterprise SaaS Platform"
+    },
+    {
+      "route": "/search",
+      "status": 200,
+      "loadTime": 112,
+      "title": "KiTS Hub - Enterprise SaaS Platform"
+    },
+    {
+      "route": "/integrations",
+      "status": 200,
+      "loadTime": 116,
+      "title": "KiTS Hub - Enterprise SaaS Platform"
+    },
+    {
+      "route": "/webinars",
+      "status": 200,
+      "loadTime": 116,
+      "title": "KiTS Hub - Enterprise SaaS Platform"
+    },
+    {
+      "route": "/press",
+      "status": 200,
+      "loadTime": 127,
+      "title": "KiTS Hub - Enterprise SaaS Platform"
+    },
+    {
+      "route": "/about",
+      "status": 200,
+      "loadTime": 130,
+      "title": "About KiTS Hub - Our Mission, Team & Values"
+    },
+    {
+      "route": "/docs",
+      "status": 200,
+      "loadTime": 130,
+      "title": "KiTS Hub - Enterprise SaaS Platform"
+    },
+    {
+      "route": "/careers",
+      "status": 200,
+      "loadTime": 134,
+      "title": "KiTS Hub - Enterprise SaaS Platform"
+    },
+    {
+      "route": "/resources",
+      "status": 200,
+      "loadTime": 134,
+      "title": "KiTS Hub - Enterprise SaaS Platform"
+    },
+    {
+      "route": "/community",
+      "status": 200,
+      "loadTime": 135,
+      "title": "KiTS Hub - Enterprise SaaS Platform"
+    },
+    {
+      "route": "/security",
+      "status": 200,
+      "loadTime": 137,
+      "title": "KiTS Hub - Enterprise SaaS Platform"
+    },
+    {
+      "route": "/crm",
+      "status": 200,
+      "loadTime": 138,
+      "title": "KiTS Hub - Enterprise SaaS Platform"
+    },
+    {
+      "route": "/hr",
+      "status": 200,
+      "loadTime": 148,
+      "title": "KiTS Hub - Enterprise SaaS Platform"
+    },
+    {
+      "route": "/tutorials",
+      "status": 200,
+      "loadTime": 150,
+      "title": "KiTS Hub - Enterprise SaaS Platform"
+    },
+    {
+      "route": "/compliance",
+      "status": 200,
+      "loadTime": 161,
+      "title": "KiTS Hub - Enterprise SaaS Platform"
+    },
+    {
+      "route": "/accounting",
+      "status": 200,
+      "loadTime": 170,
+      "title": "KiTS Hub - Enterprise SaaS Platform"
+    },
+    {
+      "route": "/pos",
+      "status": 200,
+      "loadTime": 248,
+      "title": "KiTS Hub - Enterprise SaaS Platform"
+    },
+    {
+      "route": "/partners",
+      "status": 200,
+      "loadTime": 253,
+      "title": "KiTS Hub - Enterprise SaaS Platform"
+    }
+  ],
+  "failed": [
+    {
+      "route": "/",
+      "status": 500,
+      "error": "HTTP 500",
+      "loadTime": 367
+    },
+    {
+      "route": "/admin/dashboard",
+      "status": 404,
+      "error": "HTTP 404",
+      "loadTime": 44
+    },
+    {
+      "route": "/admin/settings",
+      "status": 404,
+      "error": "HTTP 404",
+      "loadTime": 55
+    },
+    {
+      "route": "/admin/users",
+      "status": 404,
+      "error": "HTTP 404",
+      "loadTime": 41
+    },
+    {
+      "route": "/onboarding/step-1",
+      "status": 404,
+      "error": "HTTP 404",
+      "loadTime": 40
+    }
+  ],
+  "totalTime": 0
+}

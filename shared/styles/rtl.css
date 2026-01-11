@@ -1,0 +1,545 @@
+/* RTL (Right-to-Left) Support for KiTS Hub Arabic Interface */
+
+/* Base RTL Styles */
+.rtl {
+  direction: rtl;
+  text-align: right;
+}
+
+/* RTL Text Utilities */
+.rtl .text-left {
+  text-align: right !important;
+}
+
+.rtl .text-right {
+  text-align: left !important;
+}
+
+.rtl .text-start {
+  text-align: end !important;
+}
+
+.rtl .text-end {
+  text-align: start !important;
+}
+
+/* RTL Margin & Padding Utilities */
+.rtl .ml-2 {
+  margin-left: 0.5rem !important;
+  margin-right: 0.5rem;
+}
+
+.rtl .ml-4 {
+  margin-left: 1rem !important;
+  margin-right: 1rem;
+}
+
+.rtl .mr-2 {
+  margin-right: 0.5rem !important;
+  margin-left: 0.5rem;
+}
+
+.rtl .mr-4 {
+  margin-right: 1rem !important;
+  margin-left: 1rem;
+}
+
+.rtl .ml-auto {
+  margin-left: auto !important;
+  margin-right: auto;
+}
+
+.rtl .mr-auto {
+  margin-right: auto !important;
+  margin-left: auto;
+}
+
+.rtl .pl-2 {
+  padding-left: 0.5rem !important;
+  padding-right: 0.5rem;
+}
+
+.rtl .pl-4 {
+  padding-left: 1rem !important;
+  padding-right: 1rem;
+}
+
+.rtl .pr-2 {
+  padding-right: 0.5rem !important;
+  padding-left: 0.5rem;
+}
+
+.rtl .pr-4 {
+  padding-right: 1rem !important;
+  padding-left: 1rem;
+}
+
+.rtl .pl-auto {
+  padding-left: auto !important;
+  padding-right: auto;
+}
+
+.rtl .pr-auto {
+  padding-right: auto !important;
+  padding-left: auto;
+}
+
+/* RTL Flex Utilities */
+.rtl .flex-row {
+  flex-direction: row-reverse !important;
+}
+
+.rtl .flex-row-reverse {
+  flex-direction: row !important;
+}
+
+.rtl .justify-start {
+  justify-content: flex-end !important;
+}
+
+.rtl .justify-end {
+  justify-content: flex-start !important;
+}
+
+.rtl .justify-center {
+  justify-content: center !important;
+}
+
+.rtl .items-start {
+  align-items: flex-end !important;
+}
+
+.rtl .items-end {
+  align-items: flex-start !important;
+}
+
+/* RTL Border Utilities */
+.rtl .border-l {
+  border-left: none !important;
+  border-right: 1px solid #e5e7eb !important;
+}
+
+.rtl .border-r {
+  border-right: none !important;
+  border-left: 1px solid #e5e7eb !important;
+}
+
+.rtl .border-l-2 {
+  border-left-width: 0 !important;
+  border-right-width: 2px !important;
+}
+
+.rtl .border-r-2 {
+  border-right-width: 0 !important;
+  border-left-width: 2px !important;
+}
+
+.rtl .border-l-4 {
+  border-left-width: 0 !important;
+  border-right-width: 4px !important;
+}
+
+.rtl .border-r-4 {
+  border-right-width: 0 !important;
+  border-left-width: 4px !important;
+}
+
+/* RTL Transform Utilities */
+.rtl .transform-flip {
+  transform: scaleX(-1) !important;
+}
+
+.rtl .transform-normal {
+  transform: scaleX(1) !important;
+}
+
+/* RTL Specific Component Styles */
+.rtl .sidebar {
+  left: auto !important;
+  right: 0 !important;
+}
+
+.rtl .sidebar-left {
+  left: auto !important;
+  right: 0 !important;
+}
+
+.rtl .sidebar-right {
+  left: 0 !important;
+  right: auto !important;
+}
+
+.rtl .dropdown-menu {
+  left: auto !important;
+  right: 0 !important;
+  transform-origin: top right !important;
+}
+
+.rtl .dropdown-menu .dropdown-item {
+  text-align: right !important;
+}
+
+.rtl .dropdown-menu .dropdown-item::before {
+  left: auto !important;
+  right: 0.5rem !important;
+}
+
+.rtl .table th,
+.rtl .table td {
+  text-align: right !important;
+}
+
+.rtl .table th:first-child,
+.rtl .table td:first-child {
+  padding-right: 0.75rem !important;
+  padding-left: 0.75rem !important;
+}
+
+.rtl .table th:last-child,
+.rtl .table td:last-child {
+  padding-left: 0.75rem !important;
+  padding-right: 0.75rem !important;
+}
+
+.rtl .form-input {
+  text-align: right !important;
+}
+
+.rtl .form-label {
+  text-align: right !important;
+}
+
+.rtl .checkbox {
+  margin-left: 0.5rem !important;
+  margin-right: 0 !important;
+}
+
+.rtl .radio {
+  margin-left: 0.5rem !important;
+  margin-right: 0 !important;
+}
+
+.rtl .pagination .page-link {
+  margin-left: 0.5rem !important;
+  margin-right: 0.5rem;
+}
+
+.rtl .pagination .page-link:first-child {
+  margin-left: 0 !important;
+  margin-right: 0.5rem !important;
+}
+
+.rtl .pagination .page-link:last-child {
+  margin-right: 0 !important;
+  margin-left: 0.5rem !important;
+}
+
+/* RTL Navigation */
+.rtl .nav-menu {
+  left: auto !important;
+  right: 0 !important;
+}
+
+.rtl .nav-menu .nav-item {
+  text-align: right !important;
+}
+
+.rtl .nav-menu .nav-item::after {
+  left: auto !important;
+  right: 0.5rem !important;
+  transform: scaleX(-1) !important;
+}
+
+.rtl .nav-menu .nav-item:hover::after {
+  transform: scaleX(-1) translateX(2px) !important;
+}
+
+/* RTL Cards */
+.rtl .card {
+  text-align: right !important;
+}
+
+.rtl .card .card-header {
+  text-align: right !important;
+}
+
+.rtl .card .card-body {
+  text-align: right !important;
+}
+
+.rtl .card .card-footer {
+  text-align: right !important;
+}
+
+.rtl .badge {
+  margin-left: 0.5rem !important;
+  margin-right: 0 !important;
+}
+
+.rtl .btn {
+  text-align: right !important;
+}
+
+.rtl .btn .btn-icon {
+  margin-left: 0.5rem !important;
+  margin-right: 0 !important;
+}
+
+.rtl .btn .btn-text {
+  text-align: right !important;
+}
+
+/* RTL Modal */
+.rtl .modal {
+  text-align: right !important;
+}
+
+.rtl .modal .modal-header {
+  text-align: right !important;
+}
+
+.rtl .modal .modal-body {
+  text-align: right !important;
+}
+
+.rtl .modal .modal-footer {
+  text-align: right !important;
+}
+
+.rtl .modal .close-btn {
+  left: 1rem !important;
+  right: auto !important;
+}
+
+/* RTL Forms */
+.rtl .form-group {
+  text-align: right !important;
+}
+
+.rtl .form-group label {
+  text-align: right !important;
+  display: block;
+}
+
+.rtl .form-group input,
+.rtl .form-group select,
+.rtl .form-group textarea {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+.rtl .form-group input::placeholder {
+  text-align: right !important;
+}
+
+.rtl .form-group .error-message {
+  text-align: right !important;
+}
+
+.rtl .form-group .help-text {
+  text-align: right !important;
+}
+
+/* RTL Tables */
+.rtl .data-table {
+  direction: rtl !important;
+}
+
+.rtl .data-table th {
+  text-align: right !important;
+}
+
+.rtl .data-table td {
+  text-align: right !important;
+}
+
+.rtl .data-table .sort-icon {
+  margin-left: 0.5rem !important;
+  margin-right: 0 !important;
+}
+
+.rtl .data-table .sort-icon.asc::after {
+  transform: rotate(180deg) !important;
+}
+
+.rtl .data-table .sort-icon.desc::after {
+  transform: rotate(0deg) !important;
+}
+
+/* RTL Dashboard */
+.rtl .dashboard-card {
+  text-align: right !important;
+}
+
+.rtl .dashboard-card .card-title {
+  text-align: right !important;
+}
+
+.rtl .dashboard-card .card-value {
+  text-align: right !important;
+}
+
+.rtl .dashboard-card .card-change {
+  margin-left: 0.5rem !important;
+  margin-right: 0 !important;
+}
+
+.rtl .dashboard-card .card-change.positive {
+  color: #10b981 !important;
+}
+
+.rtl .dashboard-card .card-change.negative {
+  color: #ef4444 !important;
+}
+
+/* RTL Responsive */
+@media (max-width: 768px) {
+  .rtl .sidebar {
+    left: 0 !important;
+    right: -100% !important;
+    transform: translateX(100%) !important;
+  }
+  
+  .rtl .sidebar.open {
+    transform: translateX(0) !important;
+  }
+}
+
+/* RTL Print Styles */
+@media print {
+  .rtl {
+    direction: rtl !important;
+  }
+  
+  .rtl .table th,
+  .rtl .table td {
+    text-align: right !important;
+  }
+  
+  .rtl .form-group {
+    text-align: right !important;
+  }
+}
+
+/* RTL Animation Support */
+.rtl .slide-in-left {
+  animation: slideInRight 0.3s ease-out !important;
+}
+
+.rtl .slide-in-right {
+  animation: slideInLeft 0.3s ease-out !important;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* RTL Scrollbar Styling */
+.rtl ::-webkit-scrollbar {
+  width: 8px;
+}
+
+.rtl ::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.rtl ::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+.rtl ::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* RTL Focus States */
+.rtl .focus-visible:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.rtl .focus-visible:focus {
+  outline-offset: -2px;
+}
+
+/* RTL Accessibility */
+.rtl [aria-label] {
+  text-align: right !important;
+}
+
+.rtl [role="button"] {
+  text-align: center !important;
+}
+
+.rtl [role="menuitem"] {
+  text-align: right !important;
+}
+
+.rtl [role="menuitem"]::before {
+  left: auto !important;
+  right: 0.5rem !important;
+}
+
+/* RTL Special Characters */
+.rtl .arabic-font {
+  font-family: 'Noto Sans Arabic', 'Arial', sans-serif !important;
+  line-height: 1.6 !important;
+}
+
+.rtl .number-input {
+  direction: ltr !important;
+  text-align: right !important;
+  unicode-bidi: isolate !important;
+}
+
+/* RTL Calendar */
+.rtl .calendar {
+  direction: ltr !important;
+}
+
+.rtl .calendar .calendar-header {
+  text-align: right !important;
+}
+
+.rtl .calendar .calendar-day {
+  text-align: right !important;
+}
+
+.rtl .calendar .calendar-weekday {
+  text-align: right !important;
+}
+
+/* RTL Charts */
+.rtl .chart-container {
+  direction: ltr !important;
+}
+
+.rtl .chart-legend {
+  text-align: right !important;
+}
+
+.rtl .chart-axis {
+  direction: rtl !important;
+}
+
+.rtl .chart-tick {
+  text-anchor: end !important;
+}

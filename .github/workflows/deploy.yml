@@ -1,0 +1,323 @@
+name: Deploy to Production
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+        - staging
+        - production
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: kits-hub
+
+jobs:
+  # Security and Quality Checks
+  security:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run security audit
+        run: npm audit --audit-level=moderate
+
+      - name: Run Snyk security scan
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+  # Test Suite
+  test:
+    runs-on: ubuntu-latest
+    needs: security
+    strategy:
+      matrix:
+        app: [shell, inventory, pos, crm, hr, accounting, analytics]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          if [ "${{ matrix.app }}" = "shell" ]; then
+            cd shared-shell
+          else
+            cd solutions/${{ matrix.app }}-management
+          fi
+          npm ci
+
+      - name: Run tests
+        run: |
+          if [ "${{ matrix.app }}" = "shell" ]; then
+            cd shared-shell
+          else
+            cd solutions/${{ matrix.app }}-management
+          fi
+          npm run test
+
+      - name: Run type checking
+        run: |
+          if [ "${{ matrix.app }}" = "shell" ]; then
+            cd shared-shell
+          else
+            cd solutions/${{ matrix.app }}-management
+          fi
+          npm run typecheck
+
+      - name: Run linting
+        run: |
+          if [ "${{ matrix.app }}" = "shell" ]; then
+            cd shared-shell
+          else
+            cd solutions/${{ matrix.app }}-management
+          fi
+          npm run lint
+
+  # Build Applications
+  build:
+    runs-on: ubuntu-latest
+    needs: test
+    strategy:
+      matrix:
+        app: [shell, inventory, pos, crm, hr, accounting, analytics]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          if [ "${{ matrix.app }}" = "shell" ]; then
+            cd shared-shell
+          else
+            cd solutions/${{ matrix.app }}-management
+          fi
+          npm ci
+
+      - name: Build application
+        run: |
+          if [ "${{ matrix.app }}" = "shell" ]; then
+            cd shared-shell
+          else
+            cd solutions/${{ matrix.app }}-management
+          fi
+          npm run build:prod
+
+      - name: Analyze bundle size
+        run: |
+          if [ "${{ matrix.app }}" = "shell" ]; then
+            cd shared-shell
+          else
+            cd solutions/${{ matrix.app }}-management
+          fi
+          ANALYZE=true npm run build:prod
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.app }}-build
+          path: |
+            shared-shell/dist
+            solutions/${{ matrix.app }}-management/dist
+          retention-days: 1
+
+  # Deploy to Staging
+  deploy-staging:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
+    environment: staging
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'v1.28.0'
+
+      - name: Configure kubectl
+        run: |
+          echo "${{ secrets.KUBE_CONFIG_STAGING }}" | base64 -d > kubeconfig
+          export KUBECONFIG=kubeconfig
+
+      - name: Deploy to staging
+        run: |
+          export KUBECONFIG=kubeconfig
+          kubectl apply -f k8s/namespace.yaml
+          kubectl apply -f k8s/configmap.yaml
+          kubectl apply -f k8s/secrets.yaml
+          kubectl apply -f k8s/shell-deployment.yaml
+          kubectl apply -f k8s/solutions-deployment.yaml
+          kubectl apply -f k8s/ingress.yaml
+          kubectl apply -f k8s/hpa.yaml
+
+      - name: Wait for deployment
+        run: |
+          export KUBECONFIG=kubeconfig
+          kubectl rollout status deployment/kits-hub-shell -n kits-hub --timeout=300s
+          kubectl rollout status deployment/kits-hub-inventory -n kits-hub --timeout=300s
+          kubectl rollout status deployment/kits-hub-pos -n kits-hub --timeout=300s
+          kubectl rollout status deployment/kits-hub-crm -n kits-hub --timeout=300s
+          kubectl rollout status deployment/kits-hub-hr -n kits-hub --timeout=300s
+          kubectl rollout status deployment/kits-hub-accounting -n kits-hub --timeout=300s
+          kubectl rollout status deployment/kits-hub-analytics -n kits-hub --timeout=300s
+
+      - name: Run smoke tests
+        run: |
+          # Wait for services to be ready
+          sleep 30
+          
+          # Test shell application
+          curl -f https://staging.kits-hub.com/health || exit 1
+          
+          # Test remote applications
+          curl -f https://staging.kits-hub.com/inventory/health || exit 1
+          curl -f https://staging.kits-hub.com/pos/health || exit 1
+          curl -f https://staging.kits-hub.com/crm/health || exit 1
+          curl -f https://staging.kits-hub.com/hr/health || exit 1
+          curl -f https://staging.kits-hub.com/accounting/health || exit 1
+          curl -f https://staging.kits-hub.com/analytics/health || exit 1
+
+      - name: Notify Slack
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          channel: '#deployments'
+          webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always()
+
+  # Deploy to Production
+  deploy-production:
+    runs-on: ubuntu-latest
+    needs: deploy-staging
+    if: startsWith(github.ref, 'refs/tags/v') || (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'production')
+    environment: production
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'v1.28.0'
+
+      - name: Configure kubectl
+        run: |
+          echo "${{ secrets.KUBE_CONFIG_PRODUCTION }}" | base64 -d > kubeconfig
+          export KUBECONFIG=kubeconfig
+
+      - name: Deploy to production
+        run: |
+          export KUBECONFIG=kubeconfig
+          kubectl apply -f k8s/namespace.yaml
+          kubectl apply -f k8s/configmap.yaml
+          kubectl apply -f k8s/secrets.yaml
+          kubectl apply -f k8s/shell-deployment.yaml
+          kubectl apply -f k8s/solutions-deployment.yaml
+          kubectl apply -f k8s/ingress.yaml
+          kubectl apply -f k8s/hpa.yaml
+
+      - name: Wait for deployment
+        run: |
+          export KUBECONFIG=kubeconfig
+          kubectl rollout status deployment/kits-hub-shell -n kits-hub --timeout=600s
+          kubectl rollout status deployment/kits-hub-inventory -n kits-hub --timeout=600s
+          kubectl rollout status deployment/kits-hub-pos -n kits-hub --timeout=600s
+          kubectl rollout status deployment/kits-hub-crm -n kits-hub --timeout=600s
+          kubectl rollout status deployment/kits-hub-hr -n kits-hub --timeout=600s
+          kubectl rollout status deployment/kits-hub-accounting -n kits-hub --timeout=600s
+          kubectl rollout status deployment/kits-hub-analytics -n kits-hub --timeout=600s
+
+      - name: Run comprehensive tests
+        run: |
+          # Wait for services to be ready
+          sleep 60
+          
+          # Test shell application
+          curl -f https://kits-hub.com/health || exit 1
+          
+          # Test remote applications
+          curl -f https://kits-hub.com/inventory/health || exit 1
+          curl -f https://kits-hub.com/pos/health || exit 1
+          curl -f https://kits-hub.com/crm/health || exit 1
+          curl -f https://kits-hub.com/hr/health || exit 1
+          curl -f https://kits-hub.com/accounting/health || exit 1
+          curl -f https://kits-hub.com/analytics/health || exit 1
+          
+          # Test micro-frontend integration
+          curl -f https://kits-hub.com/remoteEntry.js || exit 1
+          curl -f https://kits-hub.com/inventory/remoteEntry.js || exit 1
+          curl -f https://kits-hub.com/pos/remoteEntry.js || exit 1
+          curl -f https://kits-hub.com/crm/remoteEntry.js || exit 1
+          curl -f https://kits-hub.com/hr/remoteEntry.js || exit 1
+          curl -f https://kits-hub.com/accounting/remoteEntry.js || exit 1
+          curl -f https://kits-hub.com/analytics/remoteEntry.js || exit 1
+
+      - name: Create deployment tag
+        run: |
+          git tag -a "deployed-$(date +%Y%m%d-%H%M%S)" -m "Deployed to production"
+          git push origin "deployed-$(date +%Y%m%d-%H%M%S)"
+
+      - name: Notify Slack
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          channel: '#deployments'
+          webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always()
+
+  # Rollback on failure
+  rollback:
+    runs-on: ubuntu-latest
+    needs: deploy-production
+    if: failure()
+    environment: production
+    steps:
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'v1.28.0'
+
+      - name: Configure kubectl
+        run: |
+          echo "${{ secrets.KUBE_CONFIG_PRODUCTION }}" | base64 -d > kubeconfig
+          export KUBECONFIG=kubeconfig
+
+      - name: Rollback deployment
+        run: |
+          export KUBECONFIG=kubeconfig
+          kubectl rollout undo deployment/kits-hub-shell -n kits-hub
+          kubectl rollout undo deployment/kits-hub-inventory -n kits-hub
+          kubectl rollout undo deployment/kits-hub-pos -n kits-hub
+          kubectl rollout undo deployment/kits-hub-crm -n kits-hub
+          kubectl rollout undo deployment/kits-hub-hr -n kits-hub
+          kubectl rollout undo deployment/kits-hub-accounting -n kits-hub
+          kubectl rollout undo deployment/kits-hub-analytics -n kits-hub
+
+      - name: Notify Slack about rollback
+        uses: 8398a7/action-slack@v3
+        with:
+          status: 'failure'
+          channel: '#deployments'
+          text: 'Production deployment failed and has been rolled back'
+          webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}

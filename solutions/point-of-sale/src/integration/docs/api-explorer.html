@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KiTS Hub API Explorer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .api-method { @apply px-3 py-1 text-xs font-bold rounded; }
+        .method-get { @apply bg-blue-100 text-blue-800; }
+        .method-post { @apply bg-green-100 text-green-800; }
+        .method-put { @apply bg-yellow-100 text-yellow-800; }
+        .method-delete { @apply bg-red-100 text-red-800; }
+        .method-patch { @apply bg-purple-100 text-purple-800; }
+        .code-block { @apply bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto; }
+        .response-success { @apply border-green-200 bg-green-50; }
+        .response-error { @apply border-red-200 bg-red-50; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div id="app">
+        <!-- Header -->
+        <header class="bg-white shadow-sm border-b">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center py-4">
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-cube text-blue-600 text-2xl"></i>
+                        <h1 class="text-2xl font-bold text-gray-900">KiTS Hub API Explorer</h1>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <button @click="showAuthModal = true" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                            <i class="fas fa-key mr-2"></i>Configure Auth
+                        </button>
+                        <select v-model="selectedEnvironment" class="border rounded-lg px-3 py-2">
+                            <option value="production">Production</option>
+                            <option value="staging">Staging</option>
+                            <option value="development">Development</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                <!-- Sidebar -->
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h2 class="text-lg font-semibold mb-4">API Categories</h2>
+                        <nav class="space-y-2">
+                            <button 
+                                v-for="category in apiCategories" 
+                                :key="category.name"
+                                @click="selectedCategory = category.name"
+                                :class="[
+                                    'w-full text-left px-3 py-2 rounded-lg transition-colors',
+                                    selectedCategory === category.name 
+                                        ? 'bg-blue-100 text-blue-700' 
+                                        : 'hover:bg-gray-100'
+                                ]"
+                            >
+                                <i :class="category.icon + ' mr-2'"></i>
+                                {{ category.displayName }}
+                            </button>
+                        </nav>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="bg-white rounded-lg shadow p-6 mt-6">
+                        <h3 class="text-lg font-semibold mb-4">Quick Actions</h3>
+                        <div class="space-y-2">
+                            <button @click="exportCurl" class="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100">
+                                <i class="fas fa-terminal mr-2"></i>Export as cURL
+                            </button>
+                            <button @click="generateSDK" class="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100">
+                                <i class="fas fa-code mr-2"></i>Generate SDK Code
+                            </button>
+                            <button @click="showDocumentation = true" class="w-full text-left px-3 py-2 rounded-lg hover:bg-gray-100">
+                                <i class="fas fa-book mr-2"></i>View Documentation
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- API Endpoints -->
+                <div class="lg:col-span-3">
+                    <div class="bg-white rounded-lg shadow">
+                        <div class="p-6 border-b">
+                            <div class="flex justify-between items-center">
+                                <h2 class="text-xl font-semibold">{{ getCurrentCategory().displayName }}</h2>
+                                <div class="flex items-center space-x-2">
+                                    <input 
+                                        v-model="searchQuery" 
+                                        type="text" 
+                                        placeholder="Search endpoints..."
+                                        class="border rounded-lg px-3 py-2"
+                                    >
+                                    <button @click="refreshEndpoints" class="p-2 hover:bg-gray-100 rounded-lg">
+                                        <i class="fas fa-sync-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Endpoints List -->
+                        <div class="divide-y">
+                            <div 
+                                v-for="endpoint in filteredEndpoints" 
+                                :key="endpoint.id"
+                                class="p-6 hover:bg-gray-50"
+                            >
+                                <div class="flex justify-between items-start mb-4">
+                                    <div class="flex-1">
+                                        <div class="flex items-center space-x-3 mb-2">
+                                            <span :class="['api-method', 'method-' + endpoint.method.toLowerCase()]">
+                                                {{ endpoint.method }}
+                                            </span>
+                                            <h3 class="text-lg font-mono">{{ endpoint.path }}</h3>
+                                        </div>
+                                        <p class="text-gray-600 mb-3">{{ endpoint.description }}</p>
+                                        
+                                        <!-- Parameters -->
+                                        <div v-if="endpoint.parameters && endpoint.parameters.length > 0" class="mb-4">
+                                            <h4 class="font-semibold mb-2">Parameters</h4>
+                                            <div class="space-y-2">
+                                                <div v-for="param in endpoint.parameters" :key="param.name" class="flex items-center space-x-3">
+                                                    <span class="text-sm font-mono bg-gray-100 px-2 py-1 rounded">{{ param.name }}</span>
+                                                    <span class="text-sm text-gray-500">{{ param.type }}</span>
+                                                    <span v-if="param.required" class="text-xs bg-red-100 text-red-700 px-2 py-1 rounded">Required</span>
+                                                    <span class="text-sm text-gray-600">{{ param.description }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Request Body -->
+                                        <div v-if="endpoint.requestBody" class="mb-4">
+                                            <h4 class="font-semibold mb-2">Request Body</h4>
+                                            <div class="code-block">
+                                                <pre><code>{{ JSON.stringify(endpoint.requestBody.example, null, 2) }}</code></pre>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button 
+                                        @click="tryEndpoint(endpoint)"
+                                        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 ml-4"
+                                    >
+                                        <i class="fas fa-play mr-2"></i>Try it
+                                    </button>
+                                </div>
+
+                                <!-- Response Example -->
+                                <div class="border-t pt-4">
+                                    <h4 class="font-semibold mb-2">Response Example</h4>
+                                    <div class="code-block">
+                                        <pre><code>{{ JSON.stringify(endpoint.response.example, null, 2) }}</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Auth Modal -->
+        <div v-if="showAuthModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
+                <div class="p-6 border-b">
+                    <h3 class="text-lg font-semibold">API Authentication</h3>
+                </div>
+                <div class="p-6">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Tenant ID</label>
+                            <input v-model="auth.tenantId" type="text" class="w-full border rounded-lg px-3 py-2" placeholder="your-tenant-id">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">API Key</label>
+                            <input v-model="auth.apiKey" type="password" class="w-full border rounded-lg px-3 py-2" placeholder="your-api-key">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Base URL</label>
+                            <input v-model="auth.baseUrl" type="url" class="w-full border rounded-lg px-3 py-2" placeholder="https://api.kits-hub.com">
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6 border-t flex justify-end space-x-3">
+                    <button @click="showAuthModal = false" class="px-4 py-2 border rounded-lg hover:bg-gray-50">Cancel</button>
+                    <button @click="saveAuth" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Save</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Try Endpoint Modal -->
+        <div v-if="showTryModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div class="bg-white rounded-lg shadow-xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+                <div class="p-6 border-b">
+                    <h3 class="text-lg font-semibold">Try API Endpoint</h3>
+                    <p class="text-gray-600 mt-1">{{ selectedEndpoint.method }} {{ selectedEndpoint.path }}</p>
+                </div>
+                <div class="p-6">
+                    <!-- Parameters Form -->
+                    <div v-if="selectedEndpoint.parameters && selectedEndpoint.parameters.length > 0" class="mb-6">
+                        <h4 class="font-semibold mb-4">Parameters</h4>
+                        <div class="space-y-3">
+                            <div v-for="param in selectedEndpoint.parameters" :key="param.name" class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <label class="font-medium text-sm">{{ param.name }}</label>
+                                <input 
+                                    v-model="tryRequest.params[param.name]" 
+                                    :type="param.type === 'number' ? 'number' : 'text'"
+                                    class="border rounded-lg px-3 py-2"
+                                    :placeholder="param.default || ''"
+                                >
+                                <span class="text-sm text-gray-500">{{ param.description }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Request Body -->
+                    <div v-if="selectedEndpoint.requestBody" class="mb-6">
+                        <h4 class="font-semibold mb-4">Request Body</h4>
+                        <textarea 
+                            v-model="tryRequest.body"
+                            class="w-full border rounded-lg px-3 py-2 h-48 font-mono text-sm"
+                            placeholder="Enter JSON request body..."
+                        ></textarea>
+                    </div>
+
+                    <!-- Headers -->
+                    <div class="mb-6">
+                        <h4 class="font-semibold mb-4">Headers</h4>
+                        <div class="space-y-2">
+                            <div v-for="(value, key) in tryRequest.headers" :key="key" class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                                <label class="font-medium text-sm">{{ key }}</label>
+                                <input 
+                                    v-model="tryRequest.headers[key]" 
+                                    type="text"
+                                    class="border rounded-lg px-3 py-2"
+                                    readonly
+                                >
+                                <span class="text-sm text-gray-500">Auto-generated</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Execute Button -->
+                    <div class="flex justify-center">
+                        <button 
+                            @click="executeRequest"
+                            :disabled="isLoading"
+                            class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 disabled:opacity-50"
+                        >
+                            <i v-if="isLoading" class="fas fa-spinner fa-spin mr-2"></i>
+                            <i v-else class="fas fa-play mr-2"></i>
+                            {{ isLoading ? 'Executing...' : 'Execute Request' }}
+                        </button>
+                    </div>
+
+                    <!-- Response -->
+                    <div v-if="tryResponse" class="mt-6">
+                        <h4 class="font-semibold mb-4">Response</h4>
+                        <div :class="['border rounded-lg p-4', tryResponse.success ? 'response-success' : 'response-error']">
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="font-semibold">
+                                    Status: {{ tryResponse.status }} {{ tryResponse.statusText }}
+                                </span>
+                                <button @click="copyResponse" class="text-blue-600 hover:text-blue-700">
+                                    <i class="fas fa-copy mr-1"></i>Copy
+                                </button>
+                            </div>
+                            <div class="code-block">
+                                <pre><code>{{ JSON.stringify(tryResponse.data, null, 2) }}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6 border-t flex justify-end">
+                    <button @click="showTryModal = false" class="px-4 py-2 border rounded-lg hover:bg-gray-50">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    selectedCategory: 'core',
+                    selectedEnvironment: 'development',
+                    searchQuery: '',
+                    showAuthModal: false,
+                    showTryModal: false,
+                    showDocumentation: false,
+                    isLoading: false,
+                    selectedEndpoint: null,
+                    auth: {
+                        tenantId: '',
+                        apiKey: '',
+                        baseUrl: 'https://api.kits-hub.com'
+                    },
+                    tryRequest: {
+                        params: {},
+                        body: '',
+                        headers: {}
+                    },
+                    tryResponse: null,
+                    apiCategories: [
+                        { name: 'core', displayName: 'Core APIs', icon: 'fas fa-cube' },
+                        { name: 'inventory', displayName: 'Inventory', icon: 'fas fa-boxes' },
+                        { name: 'pos', displayName: 'Point of Sale', icon: 'fas fa-cash-register' },
+                        { name: 'crm', displayName: 'CRM', icon: 'fas fa-users' },
+                        { name: 'analytics', displayName: 'Analytics', icon: 'fas fa-chart-line' },
+                        { name: 'payments', displayName: 'Payments', icon: 'fas fa-credit-card' },
+                        { name: 'emails', displayName: 'Email Service', icon: 'fas fa-envelope' },
+                        { name: 'sms', displayName: 'SMS Service', icon: 'fas fa-sms' },
+                        { name: 'webhooks', displayName: 'Webhooks', icon: 'fas fa-webhook' },
+                        { name: 'sync', displayName: 'Data Sync', icon: 'fas fa-sync' }
+                    ],
+                    endpoints: {
+                        core: [
+                            {
+                                id: 'health',
+                                method: 'GET',
+                                path: '/api/v1/health',
+                                description: 'Check API health status',
+                                parameters: [],
+                                response: {
+                                    example: {
+                                        success: true,
+                                        data: {
+                                            status: 'healthy',
+                                            timestamp: '2024-01-01T00:00:00Z',
+                                            version: '1.0.0'
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                id: 'tenant',
+                                method: 'GET',
+                                path: '/api/v1/tenant',
+                                description: 'Get tenant information',
+                                parameters: [],
+                                response: {
+                                    example: {
+                                        success: true,
+                                        data: {
+                                            tenant_id: 'tenant_123',
+                                            name: 'Acme Corporation',
+                                            plan: 'premium',
+                                            active_solutions: ['inventory', 'pos', 'crm']
+                                        }
+                                    }
+                                }
+                            }
+                        ],
+                        inventory: [
+                            {
+                                id: 'products',
+                                method: 'GET',
+                                path: '/api/v1/inventory/products',
+                                description: 'Get products list',
+                                parameters: [
+                                    { name: 'category', type: 'string', description: 'Filter by category' },
+                                    { name: 'in_stock_only', type: 'boolean', description: 'Only show products with stock' },
+                                    { name: 'search', type: 'string', description: 'Search term' },
+                                    { name: 'page', type: 'number', description: 'Page number', default: 1 },
+                                    { name: 'limit', type: 'number', description: 'Items per page', default: 50 }
+                                ],
+                                response: {
+                                    example: {
+                                        success: true,
+                                        data: [
+                                            {
+                                                id: 'prod_123',
+                                                name: 'Wireless Mouse',
+                                                sku: 'WM-001',
+                                                price: 29.99,
+                                                current_stock: 150,
+                                                category: 'Electronics'
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            {
+                                id: 'update-stock',
+                                method: 'POST',
+                                path: '/api/v1/inventory/stock/update',
+                                description: 'Update product stock levels',
+                                parameters: [],
+                                requestBody: {
+                                    example: {
+                                        movements: [
+                                            {
+                                                product_id: 'prod_123',
+                                                quantity: -5,
+                                                type: 'sale',
+                                                reference_id: 'sale_456'
+                                            }
+                                        ]
+                                    }
+                                },
+                                response: {
+                                    example: {
+                                        success: true,
+                                        data: {
+                                            updated_products: 1,
+                                            stock_levels: [
+                                                {
+                                                    product_id: 'prod_123',
+                                                    previous_stock: 150,
+                                                    new_stock: 145
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        ],
+                        pos: [
+                            {
+                                id: 'create-sale',
+                                method: 'POST',
+                                path: '/api/v1/pos/sales',
+                                description: 'Create a new sale',
+                                parameters: [],
+                                requestBody: {
+                                    example: {
+                                        customer_id: 'cust_123',
+                                        items: [
+                                            {
+                                                product_id: 'prod_123',
+                                                quantity: 2,
+                                                unit_price: 29.99,
+                                                total_price: 59.98
+                                            }
+                                        ],
+                                        payment_method: 'credit_card'
+                                    }
+                                },
+                                response: {
+                                    example: {
+                                        success: true,
+                                        data: {
+                                            id: 'sale_456',
+                                            customer_id: 'cust_123',
+                                            total_amount: 64.78,
+                                            status: 'completed'
+                                        }
+                                    }
+                                }
+                            }
+                        ],
+                        crm: [
+                            {
+                                id: 'customers',
+                                method: 'GET',
+                                path: '/api/v1/crm/customers',
+                                description: 'Get customers list',
+                                parameters: [
+                                    { name: 'search', type: 'string', description: 'Search by name, email, or phone' },
+                                    { name: 'tags', type: 'string', description: 'Filter by tags (comma-separated)' }
+                                ],
+                                response: {
+                                    example: {
+                                        success: true,
+                                        data: [
+                                            {
+                                                id: 'cust_123',
+                                                name: 'John Doe',
+                                                email: 'john@example.com',
+                                                phone: '+1-555-0123',
+                                                tags: ['vip', 'repeat_customer']
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        ],
+                        payments: [
+                            {
+                                id: 'process-payment',
+                                method: 'POST',
+                                path: '/api/v1/payments/process',
+                                description: 'Process a payment',
+                                parameters: [],
+                                requestBody: {
+                                    example: {
+                                        provider: 'stripe',
+                                        amount: 6478,
+                                        currency: 'usd',
+                                        payment_method: 'pm_123',
+                                        customer_id: 'cust_123'
+                                    }
+                                },
+                                response: {
+                                    example: {
+                                        success: true,
+                                        data: {
+                                            payment_id: 'pay_456',
+                                            status: 'completed',
+                                            amount: 6478,
+                                            currency: 'usd'
+                                        }
+                                    }
+                                }
+                            }
+                        ],
+                        emails: [
+                            {
+                                id: 'send-email',
+                                method: 'POST',
+                                path: '/api/v1/emails/send',
+                                description: 'Send an email',
+                                parameters: [],
+                                requestBody: {
+                                    example: {
+                                        provider: 'sendgrid',
+                                        to: 'customer@example.com',
+                                        from: 'noreply@yourcompany.com',
+                                        subject: 'Order Confirmation',
+                                        html: '<h1>Thank you for your order!</h1>'
+                                    }
+                                },
+                                response: {
+                                    example: {
+                                        success: true,
+                                        data: {
+                                            message_id: 'msg_123',
+                                            status: 'sent'
+                                        }
+                                    }
+                                }
+                            }
+                        ],
+                        sms: [
+                            {
+                                id: 'send-sms',
+                                method: 'POST',
+                                path: '/api/v1/sms/send',
+                                description: 'Send an SMS',
+                                parameters: [],
+                                requestBody: {
+                                    example: {
+                                        provider: 'twilio',
+                                        to: '+15551234567',
+                                        body: 'Your order #456 has been confirmed.'
+                                    }
+                                },
+                                response: {
+                                    example: {
+                                        success: true,
+                                        data: {
+                                            message_id: 'sms_123',
+                                            status: 'sent'
+                                        }
+                                    }
+                                }
+                            }
+                        ],
+                        webhooks: [
+                            {
+                                id: 'subscribe',
+                                method: 'POST',
+                                path: '/api/v1/webhooks/subscribe',
+                                description: 'Subscribe to webhook events',
+                                parameters: [],
+                                requestBody: {
+                                    example: {
+                                        url: 'https://yourapp.com/webhooks/kits',
+                                        events: ['product.created', 'sale.completed'],
+                                        secret: 'your-webhook-secret'
+                                    }
+                                },
+                                response: {
+                                    example: {
+                                        success: true,
+                                        data: {
+                                            id: 'webhook_123',
+                                            active: true,
+                                            events: ['product.created']
+                                        }
+                                    }
+                                }
+                            }
+                        ],
+                        sync: [
+                            {
+                                id: 'create-sync-job',
+                                method: 'POST',
+                                path: '/api/v1/sync/jobs',
+                                description: 'Create a data synchronization job',
+                                parameters: [],
+                                requestBody: {
+                                    example: {
+                                        source_solution: 'inventory',
+                                        target_solution: 'pos',
+                                        entity_type: 'product',
+                                        sync_type: 'incremental'
+                                    }
+                                },
+                                response: {
+                                    example: {
+                                        success: true,
+                                        data: {
+                                            id: 'sync_123',
+                                            status: 'pending',
+                                            created_at: '2024-01-01T00:00:00Z'
+                                        }
+                                    }
+                                }
+                            }
+                        ],
+                        analytics: [
+                            {
+                                id: 'sales-report',
+                                method: 'GET',
+                                path: '/api/v1/analytics/reports/sales',
+                                description: 'Get sales analytics report',
+                                parameters: [
+                                    { name: 'date_from', type: 'string', description: 'Start date (ISO 8601)', required: true },
+                                    { name: 'date_to', type: 'string', description: 'End date (ISO 8601)', required: true },
+                                    { name: 'group_by', type: 'string', description: 'Group by field' }
+                                ],
+                                response: {
+                                    example: {
+                                        success: true,
+                                        data: {
+                                            summary: {
+                                                total_sales: 12500.00,
+                                                total_orders: 150,
+                                                average_order_value: 83.33
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                };
+            },
+            computed: {
+                filteredEndpoints() {
+                    const categoryEndpoints = this.endpoints[this.selectedCategory] || [];
+                    if (!this.searchQuery) return categoryEndpoints;
+                    
+                    return categoryEndpoints.filter(endpoint => 
+                        endpoint.path.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                        endpoint.description.toLowerCase().includes(this.searchQuery.toLowerCase())
+                    );
+                }
+            },
+            methods: {
+                getCurrentCategory() {
+                    return this.apiCategories.find(cat => cat.name === this.selectedCategory) || {};
+                },
+                tryEndpoint(endpoint) {
+                    this.selectedEndpoint = endpoint;
+                    this.tryRequest = {
+                        params: {},
+                        body: endpoint.requestBody ? JSON.stringify(endpoint.requestBody.example, null, 2) : '',
+                        headers: this.generateHeaders()
+                    };
+                    this.tryResponse = null;
+                    this.showTryModal = true;
+                },
+                generateHeaders() {
+                    const timestamp = Date.now();
+                    const signature = this.generateSignature(timestamp);
+                    
+                    return {
+                        'X-Tenant-ID': this.auth.tenantId,
+                        'X-API-Key': this.auth.apiKey,
+                        'X-Timestamp': timestamp.toString(),
+                        'X-Signature': signature,
+                        'Content-Type': 'application/json'
+                    };
+                },
+                generateSignature(timestamp) {
+                    // In a real implementation, this would generate HMAC signature
+                    return 'mock-signature-' + timestamp;
+                },
+                async executeRequest() {
+                    this.isLoading = true;
+                    this.tryResponse = null;
+                    
+                    try {
+                        const config = {
+                            method: this.selectedEndpoint.method,
+                            url: this.auth.baseUrl + this.selectedEndpoint.path,
+                            headers: this.tryRequest.headers
+                        };
+                        
+                        if (this.selectedEndpoint.method !== 'GET' && this.tryRequest.body) {
+                            config.data = JSON.parse(this.tryRequest.body);
+                        }
+                        
+                        if (Object.keys(this.tryRequest.params).length > 0) {
+                            config.params = this.tryRequest.params;
+                        }
+                        
+                        const response = await axios(config);
+                        
+                        this.tryResponse = {
+                            success: true,
+                            status: response.status,
+                            statusText: response.statusText,
+                            data: response.data
+                        };
+                    } catch (error) {
+                        this.tryResponse = {
+                            success: false,
+                            status: error.response?.status || 500,
+                            statusText: error.response?.statusText || 'Error',
+                            data: error.response?.data || { error: error.message }
+                        };
+                    } finally {
+                        this.isLoading = false;
+                    }
+                },
+                copyResponse() {
+                    navigator.clipboard.writeText(JSON.stringify(this.tryResponse.data, null, 2));
+                },
+                saveAuth() {
+                    // Save auth to localStorage in a real implementation
+                    this.showAuthModal = false;
+                },
+                exportCurl() {
+                    // Generate cURL command for current endpoint
+                    alert('cURL export functionality would be implemented here');
+                },
+                generateSDK() {
+                    // Generate SDK code for current endpoint
+                    alert('SDK code generation would be implemented here');
+                },
+                refreshEndpoints() {
+                    // Refresh endpoints from server
+                    alert('Endpoints refresh would be implemented here');
+                }
+            },
+            mounted() {
+                // Load saved auth from localStorage
+                const savedAuth = localStorage.getItem('kits-hub-auth');
+                if (savedAuth) {
+                    this.auth = JSON.parse(savedAuth);
+                }
+            },
+            watch: {
+                auth: {
+                    handler(newAuth) {
+                        localStorage.setItem('kits-hub-auth', JSON.stringify(newAuth));
+                    },
+                    deep: true
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>

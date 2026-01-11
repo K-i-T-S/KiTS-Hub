@@ -1,0 +1,262 @@
+version: '3.8'
+
+services:
+  # Database Services
+  postgres:
+    image: postgres:15-alpine
+    container_name: kits-postgres
+    environment:
+      POSTGRES_DB: kits_hub
+      POSTGRES_USER: kits_user
+      POSTGRES_PASSWORD: kits_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./shared/supabase-template/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    networks:
+      - kits-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kits_user -d kits_hub"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: kits-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - kits-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Application Services
+  inventory-management:
+    build:
+      context: ./solutions/inventory-management
+      dockerfile: Dockerfile
+    container_name: kits-inventory
+    ports:
+      - "3001:3001"
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgresql://kits_user:kits_password@postgres:5432/kits_hub
+      REDIS_URL: redis://redis:6379
+      NEXTAUTH_SECRET: dev-secret-key
+      NEXTAUTH_URL: http://localhost:3001
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - kits-network
+    volumes:
+      - ./solutions/inventory-management:/app
+      - /app/node_modules
+    command: npm run dev
+
+  point-of-sale:
+    build:
+      context: ./solutions/point-of-sale
+      dockerfile: Dockerfile
+    container_name: kits-pos
+    ports:
+      - "3002:3002"
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgresql://kits_user:kits_password@postgres:5432/kits_hub
+      REDIS_URL: redis://redis:6379
+      NEXTAUTH_SECRET: dev-secret-key
+      NEXTAUTH_URL: http://localhost:3002
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - kits-network
+    volumes:
+      - ./solutions/point-of-sale:/app
+      - /app/node_modules
+    command: npm run dev
+
+  crm-system:
+    build:
+      context: ./solutions/crm-system
+      dockerfile: Dockerfile
+    container_name: kits-crm
+    ports:
+      - "3003:3003"
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgresql://kits_user:kits_password@postgres:5432/kits_hub
+      REDIS_URL: redis://redis:6379
+      NEXTAUTH_SECRET: dev-secret-key
+      NEXTAUTH_URL: http://localhost:3003
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - kits-network
+    volumes:
+      - ./solutions/crm-system:/app
+      - /app/node_modules
+    command: npm run dev
+
+  hr-management:
+    build:
+      context: ./solutions/hr-management
+      dockerfile: Dockerfile
+    container_name: kits-hr
+    ports:
+      - "3004:3004"
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgresql://kits_user:kits_password@postgres:5432/kits_hub
+      REDIS_URL: redis://redis:6379
+      NEXTAUTH_SECRET: dev-secret-key
+      NEXTAUTH_URL: http://localhost:3004
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - kits-network
+    volumes:
+      - ./solutions/hr-management:/app
+      - /app/node_modules
+    command: npm run dev
+
+  accounting-system:
+    build:
+      context: ./solutions/accounting-system
+      dockerfile: Dockerfile
+    container_name: kits-accounting
+    ports:
+      - "3005:3005"
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgresql://kits_user:kits_password@postgres:5432/kits_hub
+      REDIS_URL: redis://redis:6379
+      NEXTAUTH_SECRET: dev-secret-key
+      NEXTAUTH_URL: http://localhost:3005
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - kits-network
+    volumes:
+      - ./solutions/accounting-system:/app
+      - /app/node_modules
+    command: npm run dev
+
+  analytics-dashboard:
+    build:
+      context: ./solutions/analytics-dashboard
+      dockerfile: Dockerfile
+    container_name: kits-analytics
+    ports:
+      - "3006:3006"
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgresql://kits_user:kits_password@postgres:5432/kits_hub
+      REDIS_URL: redis://redis:6379
+      NEXTAUTH_SECRET: dev-secret-key
+      NEXTAUTH_URL: http://localhost:3006
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - kits-network
+    volumes:
+      - ./solutions/analytics-dashboard:/app
+      - /app/node_modules
+    command: npm run dev
+
+  # Monitoring Services
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: kits-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    networks:
+      - kits-network
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: kits-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
+    networks:
+      - kits-network
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: kits-jaeger
+    ports:
+      - "16686:16686"
+      - "14268:14268"
+    environment:
+      COLLECTOR_OTLP_ENABLED: "true"
+    networks:
+      - kits-network
+
+  # Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    container_name: kits-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./infrastructure/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./infrastructure/nginx/ssl:/etc/nginx/ssl
+    depends_on:
+      - inventory-management
+      - point-of-sale
+      - crm-system
+      - hr-management
+      - accounting-system
+      - analytics-dashboard
+    networks:
+      - kits-network
+
+volumes:
+  postgres_data:
+  redis_data:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  kits-network:
+    driver: bridge

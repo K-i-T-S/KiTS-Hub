@@ -1,0 +1,179 @@
+groups:
+  - name: kits-hub-alerts
+    rules:
+      # Application Health Alerts
+      - alert: ApplicationDown
+        expr: up{job=~"kits-hub-.*"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: "kits-hub"
+        annotations:
+          summary: "KiTS Hub application {{ $labels.job }} is down"
+          description: "The {{ $labels.job }} application has been down for more than 1 minute."
+
+      - alert: HighErrorRate
+        expr: rate(http_requests_total{status=~"5.."}[5m]) / rate(http_requests_total[5m]) > 0.05
+        for: 2m
+        labels:
+          severity: warning
+          service: "kits-hub"
+        annotations:
+          summary: "High error rate in {{ $labels.job }}"
+          description: "Error rate is {{ $value | humanizePercentage }} for {{ $labels.job }}."
+
+      - alert: HighResponseTime
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 1
+        for: 5m
+        labels:
+          severity: warning
+          service: "kits-hub"
+        annotations:
+          summary: "High response time in {{ $labels.job }}"
+          description: "95th percentile response time is {{ $value }}s for {{ $labels.job }}."
+
+      # Memory and CPU Alerts
+      - alert: HighMemoryUsage
+        expr: (container_memory_usage_bytes / container_spec_memory_limit_bytes) * 100 > 80
+        for: 5m
+        labels:
+          severity: warning
+          service: "kits-hub"
+        annotations:
+          summary: "High memory usage in {{ $labels.pod }}"
+          description: "Memory usage is {{ $value }}% for pod {{ $labels.pod }}."
+
+      - alert: HighCPUUsage
+        expr: rate(container_cpu_usage_seconds_total[5m]) * 100 > 80
+        for: 5m
+        labels:
+          severity: warning
+          service: "kits-hub"
+        annotations:
+          summary: "High CPU usage in {{ $labels.pod }}"
+          description: "CPU usage is {{ $value }}% for pod {{ $labels.pod }}."
+
+      # Database Alerts
+      - alert: DatabaseDown
+        expr: up{job="postgres-exporter"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: "database"
+        annotations:
+          summary: "Database is down"
+          description: "The PostgreSQL database has been down for more than 1 minute."
+
+      - alert: DatabaseHighConnections
+        expr: pg_stat_database_numbackends / pg_settings_max_connections * 100 > 80
+        for: 5m
+        labels:
+          severity: warning
+          service: "database"
+        annotations:
+          summary: "High database connections"
+          description: "Database connection usage is {{ $value }}%."
+
+      # Redis Alerts
+      - alert: RedisDown
+        expr: up{job="redis-exporter"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: "cache"
+        annotations:
+          summary: "Redis is down"
+          description: "Redis cache has been down for more than 1 minute."
+
+      - alert: RedisHighMemoryUsage
+        expr: redis_memory_used_bytes / redis_memory_max_bytes * 100 > 80
+        for: 5m
+        labels:
+          severity: warning
+          service: "cache"
+        annotations:
+          summary: "High Redis memory usage"
+          description: "Redis memory usage is {{ $value }}%."
+
+      # Kubernetes Alerts
+      - alert: PodCrashLooping
+        expr: rate(kube_pod_container_status_restarts_total[15m]) > 0
+        for: 5m
+        labels:
+          severity: warning
+          service: "kubernetes"
+        annotations:
+          summary: "Pod {{ $labels.pod }} is crash looping"
+          description: "Pod {{ $labels.pod }} has been restarting {{ $value }} times in the last 15 minutes."
+
+      - alert: PodNotReady
+        expr: kube_pod_status_ready{condition="true"} == 0
+        for: 5m
+        labels:
+          severity: warning
+          service: "kubernetes"
+        annotations:
+          summary: "Pod {{ $labels.pod }} is not ready"
+          description: "Pod {{ $labels.pod }} has been not ready for more than 5 minutes."
+
+      - alert: NodeNotReady
+        expr: kube_node_status_condition{condition="Ready",status="true"} == 0
+        for: 10m
+        labels:
+          severity: critical
+          service: "kubernetes"
+        annotations:
+          summary: "Node {{ $labels.node }} is not ready"
+          description: "Node {{ $labels.node }} has been not ready for more than 10 minutes."
+
+      # Business Metrics Alerts
+      - alert: LowUserActivity
+        expr: rate(user_sessions_total[1h]) < 10
+        for: 30m
+        labels:
+          severity: info
+          service: "business"
+        annotations:
+          summary: "Low user activity"
+          description: "User activity is only {{ $value }} sessions per hour."
+
+      - alert: HighFailedLogins
+        expr: rate(login_attempts_total{status="failed"}[5m]) / rate(login_attempts_total[5m]) > 0.2
+        for: 5m
+        labels:
+          severity: warning
+          service: "security"
+        annotations:
+          summary: "High failed login rate"
+          description: "Failed login rate is {{ $value | humanizePercentage }}."
+
+      # Micro-frontend Specific Alerts
+      - alert: RemoteApplicationUnavailable
+        expr: remote_application_up{remote=~".*"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: "micro-frontend"
+        annotations:
+          summary: "Remote application {{ $labels.remote }} is unavailable"
+          description: "Remote application {{ $labels.remote }} has been unavailable for more than 1 minute."
+
+      - alert: RemoteApplicationSlow
+        expr: remote_application_response_time_seconds{remote=~".*"} > 2
+        for: 5m
+        labels:
+          severity: warning
+          service: "micro-frontend"
+        annotations:
+          summary: "Slow remote application {{ $labels.remote }}"
+          description: "Remote application {{ $labels.remote }} response time is {{ $value }}s."
+
+      - alert: ModuleFederationError
+        expr: increase(module_federation_errors_total[5m]) > 0
+        for: 1m
+        labels:
+          severity: warning
+          service: "micro-frontend"
+        annotations:
+          summary: "Module Federation errors detected"
+          description: "{{ $value }} Module Federation errors in the last 5 minutes."

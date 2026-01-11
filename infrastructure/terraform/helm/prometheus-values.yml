@@ -1,0 +1,95 @@
+# Prometheus Helm Values
+prometheus:
+  prometheusSpec:
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: "ebs-gp3"
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 50Gi
+
+grafana:
+  adminPassword: "admin123"
+  persistence:
+    enabled: true
+    storageClassName: "ebs-gp3"
+    size: 10Gi
+  service:
+    type: LoadBalancer
+    port: 80
+  ingress:
+    enabled: true
+    hosts:
+      - grafana.kits-hub.com
+    tls:
+      - secretName: grafana-tls
+        hosts:
+          - grafana.kits-hub.com
+
+alertmanager:
+  enabled: true
+  persistence:
+    enabled: true
+    storageClassName: "ebs-gp3"
+    size: 5Gi
+
+nodeExporter:
+  enabled: true
+
+kubeStateMetrics:
+  enabled: true
+
+defaultRules:
+  create: true
+
+additionalPrometheusRules:
+  - name: kits-hub-rules
+    groups:
+      - name: kits-hub-alerts
+        rules:
+          - alert: HighErrorRate
+            expr: rate(kits_errors_total[5m]) > 0.1
+            for: 2m
+            labels:
+              severity: warning
+            annotations:
+              summary: "High error rate detected"
+              description: "Error rate is {{ $value }} errors per second"
+
+          - alert: HighResponseTime
+            expr: histogram_quantile(0.95, rate(kits_api_response_time_seconds[5m])) > 1
+            for: 5m
+            labels:
+              severity: critical
+            annotations:
+              summary: "High API response time"
+              description: "95th percentile response time is {{ $value }} seconds"
+
+          - alert: DatabaseConnectionIssues
+            expr: kits_db_connections_active == 0
+            for: 1m
+            labels:
+              severity: critical
+            annotations:
+              summary: "No active database connections"
+              description: "Database connection pool is exhausted"
+
+          - alert: HighMemoryUsage
+            expr: kits_memory_usage_bytes / (1024 * 1024 * 1024) > 0.8
+            for: 5m
+            labels:
+              severity: warning
+            annotations:
+              summary: "High memory usage"
+              description: "Memory usage is {{ $value | humanizePercentage }}"
+
+          - alert: TenantIsolationBreach
+            expr: increase(kits_security_events_total{type="data_leak"}[5m]) > 0
+            for: 0m
+            labels:
+              severity: critical
+            annotations:
+              summary: "Potential tenant data isolation breach"
+              description: "Security event detected potential data leak between tenants"

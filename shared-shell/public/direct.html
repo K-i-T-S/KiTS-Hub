@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KiTS Hub - Working</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #1e40af;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+        <h1>🎉 KiTS Hub - DIRECT TEST</h1>
+        <p>Loading React...</p>
+    </div>
+    
+    <script>
+        console.log('=== STARTING DIRECT TEST ===');
+        
+        // Test if we can load main.js
+        const script = document.createElement('script');
+        script.src = '/main.js';
+        script.onload = () => {
+            console.log('=== MAIN.JS LOADED ===');
+            document.getElementById('root').innerHTML = '<h1>✅ main.js loaded!</h1>';
+        };
+        script.onerror = (e) => {
+            console.error('=== MAIN.JS FAILED ===', e);
+            document.getElementById('root').innerHTML = '<h1>❌ main.js failed!</h1>';
+        };
+        document.head.appendChild(script);
+    </script>
+</body>
+</html>

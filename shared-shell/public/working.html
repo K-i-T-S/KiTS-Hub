@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KiTS Hub - WORKING</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #1e40af;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+        <h1>🎉 KiTS Hub - WORKING!</h1>
+        <p>React is loading...</p>
+    </div>
+    
+    <script>
+        console.log('=== REACT CDN TEST STARTING ===');
+        
+        const App = () => {
+            console.log('=== APP COMPONENT CALLED ===');
+            return React.createElement('div', {
+                style: {
+                    padding: '20px',
+                    backgroundColor: '#1e40af',
+                    color: 'white',
+                    fontFamily: 'Arial, sans-serif',
+                    minHeight: '100vh'
+                }
+            }, 
+                React.createElement('h1', null, '🎉 KiTS Hub - WORKING!'),
+                React.createElement('p', null, 'React is rendering successfully!'),
+                React.createElement('p', null, `Time: ${new Date().toLocaleString()}`),
+                React.createElement('div', {
+                    style: {
+                        marginTop: '20px',
+                        padding: '10px',
+                        backgroundColor: '#3730a3',
+                        borderRadius: '8px'
+                    }
+                }, [
+                    React.createElement('h2', null, '✅ Status'),
+                    React.createElement('ul', null, [
+                        React.createElement('li', null, 'React Runtime: Working'),
+                        React.createElement('li', null, 'React DOM: Working'),
+                        React.createElement('li', null, 'JavaScript: Executing'),
+                        React.createElement('li', null, 'Server: Running on port 3000')
+                    ])
+                ])
+            ]);
+        };
+        
+        console.log('=== CREATING ROOT ===');
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        console.log('=== RENDERING APP ===');
+        root.render(React.createElement(App));
+        console.log('=== APP RENDERED SUCCESSFULLY ===');
+    </script>
+</body>
+</html>

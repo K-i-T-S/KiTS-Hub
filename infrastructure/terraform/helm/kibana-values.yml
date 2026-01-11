@@ -1,0 +1,38 @@
+# Kibana Helm Values
+replicas: 2
+
+elasticsearchHosts: "http://elasticsearch.logging.svc.cluster.local:9200"
+
+resources:
+  requests:
+    cpu: "500m"
+    memory: "1Gi"
+  limits:
+    cpu: "1000m"
+    memory: "2Gi"
+
+ingress:
+  enabled: true
+  hosts:
+    - kibana.kits-hub.com
+  tls:
+    - secretName: kibana-tls
+      hosts:
+        - kibana.kits-hub.com
+
+# Kibana configuration
+kibanaConfig:
+  xpack:
+    security:
+      enabled: false
+    monitoring:
+      enabled: false
+  server:
+    host: "0.0.0.0"
+    publicBaseUrl: "https://kibana.kits-hub.com"
+
+# Persistence for Kibana
+persistence:
+  enabled: true
+  storageClassName: "ebs-gp3"
+  size: 5Gi

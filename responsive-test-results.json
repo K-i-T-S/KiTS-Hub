@@ -1,0 +1,220 @@
+{
+  "passed": [
+    {
+      "page": "/about",
+      "viewport": "Mobile",
+      "size": "375x667",
+      "screenshot": "/home/casio699/projects/kits-hub/screenshots/_about_Mobile.png",
+      "bodyWidth": 375,
+      "viewportWidth": 375
+    },
+    {
+      "page": "/about",
+      "viewport": "Tablet",
+      "size": "768x1024",
+      "screenshot": "/home/casio699/projects/kits-hub/screenshots/_about_Tablet.png",
+      "bodyWidth": 768,
+      "viewportWidth": 768
+    },
+    {
+      "page": "/about",
+      "viewport": "Desktop",
+      "size": "1920x1080",
+      "screenshot": "/home/casio699/projects/kits-hub/screenshots/_about_Desktop.png",
+      "bodyWidth": 1920,
+      "viewportWidth": 1920
+    },
+    {
+      "page": "/pricing",
+      "viewport": "Mobile",
+      "size": "375x667",
+      "screenshot": "/home/casio699/projects/kits-hub/screenshots/_pricing_Mobile.png",
+      "bodyWidth": 375,
+      "viewportWidth": 375
+    },
+    {
+      "page": "/pricing",
+      "viewport": "Tablet",
+      "size": "768x1024",
+      "screenshot": "/home/casio699/projects/kits-hub/screenshots/_pricing_Tablet.png",
+      "bodyWidth": 768,
+      "viewportWidth": 768
+    },
+    {
+      "page": "/pricing",
+      "viewport": "Desktop",
+      "size": "1920x1080",
+      "screenshot": "/home/casio699/projects/kits-hub/screenshots/_pricing_Desktop.png",
+      "bodyWidth": 1920,
+      "viewportWidth": 1920
+    },
+    {
+      "page": "/contact",
+      "viewport": "Mobile",
+      "size": "375x667",
+      "screenshot": "/home/casio699/projects/kits-hub/screenshots/_contact_Mobile.png",
+      "bodyWidth": 375,
+      "viewportWidth": 375
+    },
+    {
+      "page": "/contact",
+      "viewport": "Tablet",
+      "size": "768x1024",
+      "screenshot": "/home/casio699/projects/kits-hub/screenshots/_contact_Tablet.png",
+      "bodyWidth": 768,
+      "viewportWidth": 768
+    },
+    {
+      "page": "/contact",
+      "viewport": "Desktop",
+      "size": "1920x1080",
+      "screenshot": "/home/casio699/projects/kits-hub/screenshots/_contact_Desktop.png",
+      "bodyWidth": 1920,
+      "viewportWidth": 1920
+    },
+    {
+      "page": "/login",
+      "viewport": "Mobile",
+      "size": "375x667",
+      "screenshot": "/home/casio699/projects/kits-hub/screenshots/_login_Mobile.png",
+      "bodyWidth": 375,
+      "viewportWidth": 375
+    },
+    {
+      "page": "/login",
+      "viewport": "Tablet",
+      "size": "768x1024",
+      "screenshot": "/home/casio699/projects/kits-hub/screenshots/_login_Tablet.png",
+      "bodyWidth": 768,
+      "viewportWidth": 768
+    },
+    {
+      "page": "/login",
+      "viewport": "Desktop",
+      "size": "1920x1080",
+      "screenshot": "/home/casio699/projects/kits-hub/screenshots/_login_Desktop.png",
+      "bodyWidth": 1920,
+      "viewportWidth": 1920
+    },
+    {
+      "page": "/signup",
+      "viewport": "Mobile",
+      "size": "375x667",
+      "screenshot": "/home/casio699/projects/kits-hub/screenshots/_signup_Mobile.png",
+      "bodyWidth": 375,
+      "viewportWidth": 375
+    },
+    {
+      "page": "/signup",
+      "viewport": "Tablet",
+      "size": "768x1024",
+      "screenshot": "/home/casio699/projects/kits-hub/screenshots/_signup_Tablet.png",
+      "bodyWidth": 768,
+      "viewportWidth": 768
+    },
+    {
+      "page": "/signup",
+      "viewport": "Desktop",
+      "size": "1920x1080",
+      "screenshot": "/home/casio699/projects/kits-hub/screenshots/_signup_Desktop.png",
+      "bodyWidth": 1920,
+      "viewportWidth": 1920
+    },
+    {
+      "page": "/analytics",
+      "viewport": "Mobile",
+      "size": "375x667",
+      "screenshot": "/home/casio699/projects/kits-hub/screenshots/_analytics_Mobile.png",
+      "bodyWidth": 375,
+      "viewportWidth": 375
+    },
+    {
+      "page": "/analytics",
+      "viewport": "Tablet",
+      "size": "768x1024",
+      "screenshot": "/home/casio699/projects/kits-hub/screenshots/_analytics_Tablet.png",
+      "bodyWidth": 768,
+      "viewportWidth": 768
+    },
+    {
+      "page": "/analytics",
+      "viewport": "Desktop",
+      "size": "1920x1080",
+      "screenshot": "/home/casio699/projects/kits-hub/screenshots/_analytics_Desktop.png",
+      "bodyWidth": 1920,
+      "viewportWidth": 1920
+    },
+    {
+      "page": "/crm",
+      "viewport": "Mobile",
+      "size": "375x667",
+      "screenshot": "/home/casio699/projects/kits-hub/screenshots/_crm_Mobile.png",
+      "bodyWidth": 375,
+      "viewportWidth": 375
+    },
+    {
+      "page": "/crm",
+      "viewport": "Tablet",
+      "size": "768x1024",
+      "screenshot": "/home/casio699/projects/kits-hub/screenshots/_crm_Tablet.png",
+      "bodyWidth": 768,
+      "viewportWidth": 768
+    },
+    {
+      "page": "/crm",
+      "viewport": "Desktop",
+      "size": "1920x1080",
+      "screenshot": "/home/casio699/projects/kits-hub/screenshots/_crm_Desktop.png",
+      "bodyWidth": 1920,
+      "viewportWidth": 1920
+    },
+    {
+      "page": "/pos",
+      "viewport": "Mobile",
+      "size": "375x667",
+      "screenshot": "/home/casio699/projects/kits-hub/screenshots/_pos_Mobile.png",
+      "bodyWidth": 375,
+      "viewportWidth": 375
+    },
+    {
+      "page": "/pos",
+      "viewport": "Tablet",
+      "size": "768x1024",
+      "screenshot": "/home/casio699/projects/kits-hub/screenshots/_pos_Tablet.png",
+      "bodyWidth": 768,
+      "viewportWidth": 768
+    },
+    {
+      "page": "/pos",
+      "viewport": "Desktop",
+      "size": "1920x1080",
+      "screenshot": "/home/casio699/projects/kits-hub/screenshots/_pos_Desktop.png",
+      "bodyWidth": 1920,
+      "viewportWidth": 1920
+    }
+  ],
+  "failed": [],
+  "warnings": [
+    {
+      "page": "/admin",
+      "viewport": "Mobile",
+      "warning": "Navigation menu not found; Main content not found; Footer not visible",
+      "size": "375x667",
+      "screenshot": "/home/casio699/projects/kits-hub/screenshots/_admin_Mobile.png"
+    },
+    {
+      "page": "/admin",
+      "viewport": "Tablet",
+      "warning": "Navigation menu not found; Main content not found; Footer not visible",
+      "size": "768x1024",
+      "screenshot": "/home/casio699/projects/kits-hub/screenshots/_admin_Tablet.png"
+    },
+    {
+      "page": "/admin",
+      "viewport": "Desktop",
+      "warning": "Navigation menu not found; Main content not found; Footer not visible",
+      "size": "1920x1080",
+      "screenshot": "/home/casio699/projects/kits-hub/screenshots/_admin_Desktop.png"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+# Logstash Helm Values
+replicas: 2
+
+elasticsearch:
+  host: elasticsearch.logging.svc.cluster.local
+  port: 9200
+
+resources:
+  requests:
+    cpu: "500m"
+    memory: "1Gi"
+  limits:
+    cpu: "1000m"
+    memory: "2Gi"
+
+# Logstash configuration
+logstashConfig:
+  http.host: "0.0.0.0"
+  path.config: /usr/share/logstash/pipeline
+  config.reload.automatic: true
+  config.reload.interval: 10s
+
+# Pipeline configuration
+logstashPipeline:
+  pipeline.id: main
+  path.config: "/usr/share/logstash/pipeline/*.conf"
+  pipeline.workers: 2
+  pipeline.batch.size: 125
+  pipeline.batch.delay: 50
+
+# Input configuration
+extraConfig: |
+  http.port: 9600
+
+# Persistence
+persistence:
+  enabled: true
+  storageClassName: "ebs-gp3"
+  size: 5Gi

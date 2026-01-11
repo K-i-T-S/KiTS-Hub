@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>KiTS Hub - Direct Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #1e40af;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎉 KiTS Hub - DIRECT HTML TEST</h1>
+    <p>If you see this, the server is working!</p>
+    <p>Time: <span id="time">Loading...</span></p>
+    
+    <script>
+        console.log('Direct HTML script working!');
+        document.getElementById('time').textContent = new Date().toLocaleString();
+        
+        // Test if main.js loads
+        const script = document.createElement('script');
+        script.src = '/main.js';
+        script.onload = () => {
+            console.log('main.js loaded successfully!');
+            document.body.innerHTML += '<p style="color: #22c55e;">✅ main.js loaded!</p>';
+        };
+        script.onerror = (e) => {
+            console.error('main.js failed to load:', e);
+            document.body.innerHTML += '<p style="color: #ef4444;">❌ main.js failed to load!</p>';
+        };
+        document.head.appendChild(script);
+    </script>
+</body>
+</html>
