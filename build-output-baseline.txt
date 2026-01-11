@@ -1,0 +1,297 @@
+
+> kits-hub@1.0.0 build
+> npm run build:inventory && npm run build:pos && npm run build:crm && npm run build:hr && npm run build:accounting && npm run build:analytics && npm run build:shell
+
+
+> kits-hub@1.0.0 build:inventory
+> cd solutions/inventory-management && npm run build
+
+
+> kits-inventory-management@1.0.0 build
+> webpack --config webpack.config.cjs --mode production
+
+assets by status 1020 KiB [cached] 9 assets
+assets by path . 10.3 KiB
+  asset remoteEntry.js 9.22 KiB [compared for emit] [minimized] (name: inventoryManagement) 1 related asset
+  asset index.html 1.1 KiB [compared for emit]
+Entrypoint main [big] 985 KiB (3.38 MiB) = vendors.97154847c48adfb8a33f.js 977 KiB main.eadab1c953af2656f10e.js 8.1 KiB 2 auxiliary assets
+Entrypoint inventoryManagement 9.22 KiB (42.8 KiB) = remoteEntry.js 1 auxiliary asset
+orphan modules 2 MiB [orphan] 1658 modules
+runtime modules 40.4 KiB 25 modules
+built modules 2.51 MiB (javascript) 336 bytes (share-init) 336 bytes (consume-shared) [built]
+  javascript modules 2.51 MiB
+    modules by path ../../node_modules/ 2.4 MiB 14 modules
+    modules by path ./src/ 109 KiB 10 modules
+    container entry 42 bytes [built] [code generated]
+  provide-module modules 336 bytes
+    provide shared module (default) @supabase/supabase-js@2.90.0 = ../../node_module...(truncated) 42 bytes [built] [code generated]
+    provide shared module (default) @tanstack/react-query@5.90.16 = ../../node_modul...(truncated) 42 bytes [built] [code generated]
+    + 6 modules
+  consume-shared-module modules 336 bytes
+    consume shared module (default) react@^18.3.1 (singleton) (fallback: ../../node_...(truncated) 42 bytes [built] [code generated]
+    consume shared module (default) lucide-react@~0.487.0 (strict) (fallback: ../../...(truncated) 42 bytes [built] [code generated]
+    + 6 modules
+
+WARNING in ./src/index.ts 2:0-56
+export 'default' (reexported as 'Layout') was not found in './components/Layout' (possible exports: Layout)
+
+WARNING in ./src/index.ts 3:0-64
+export 'default' (reexported as 'Navigation') was not found in './components/Navigation' (possible exports: Navigation)
+
+WARNING in ./src/index.ts 12:0-56
+export 'InventoryService' (reexported as 'InventoryService') was not found in './services/inventory' (possible exports: default)
+
+WARNING in asset size limit: The following asset(s) exceed the recommended size limit (244 KiB).
+This can impact web performance.
+Assets: 
+  vendors.97154847c48adfb8a33f.js (977 KiB)
+
+WARNING in entrypoint size limit: The following entrypoint(s) combined asset size exceeds the recommended limit (244 KiB). This can impact web performance.
+Entrypoints:
+  main (985 KiB)
+      vendors.97154847c48adfb8a33f.js
+      main.eadab1c953af2656f10e.js
+
+webpack 5.104.1 compiled with 5 warnings in 6326 ms
+
+> kits-hub@1.0.0 build:pos
+> cd solutions/point-of-sale && npm run build
+
+
+> kits-point-of-sale@1.0.0 build
+> webpack --mode production
+
+assets by status 992 KiB [cached] 8 assets
+assets by path . 9.27 KiB
+  asset remoteEntry.js 8.78 KiB [compared for emit] [minimized] (name: pointOfSale) 1 related asset
+  asset index.html 503 bytes [compared for emit]
+Entrypoint main [big] 985 KiB (3.37 MiB) = vendors.3ede451cb892fca81fd0.js 977 KiB main.502f1333cdc696c0d108.js 8.06 KiB 2 auxiliary assets
+Entrypoint pointOfSale 8.78 KiB (41.2 KiB) = remoteEntry.js 1 auxiliary asset
+orphan modules 2.01 MiB [orphan] 1661 modules
+runtime modules 39.9 KiB 25 modules
+built modules 2.44 MiB (javascript) 336 bytes (share-init) 336 bytes (consume-shared) [built]
+  javascript modules 2.44 MiB
+    modules by path ../../node_modules/ 2.4 MiB 14 modules
+    modules by path ./src/ 37.1 KiB 7 modules
+    container entry 42 bytes [built] [code generated]
+  provide-module modules 336 bytes
+    provide shared module (default) @supabase/supabase-js@2.90.0 = ../../node_module...(truncated) 42 bytes [built] [code generated]
+    provide shared module (default) @tanstack/react-query@5.90.16 = ../../node_modul...(truncated) 42 bytes [built] [code generated]
+    + 6 modules
+  consume-shared-module modules 336 bytes
+    consume shared module (default) react@^18.3.1 (singleton) (fallback: ../../node_...(truncated) 42 bytes [built] [code generated]
+    consume shared module (default) react-router-dom@^6.28.0 (strict) (fallback: ../...(truncated) 42 bytes [built] [code generated]
+    + 6 modules
+
+WARNING in asset size limit: The following asset(s) exceed the recommended size limit (244 KiB).
+This can impact web performance.
+Assets: 
+  vendors.3ede451cb892fca81fd0.js (977 KiB)
+
+WARNING in entrypoint size limit: The following entrypoint(s) combined asset size exceeds the recommended limit (244 KiB). This can impact web performance.
+Entrypoints:
+  main (985 KiB)
+      vendors.3ede451cb892fca81fd0.js
+      main.502f1333cdc696c0d108.js
+
+webpack 5.104.1 compiled with 2 warnings in 6380 ms
+
+> kits-hub@1.0.0 build:crm
+> cd solutions/crm-system && npm run build
+
+
+> kits-crm-system@1.0.0 build
+> webpack --mode production
+
+assets by status 992 KiB [cached] 8 assets
+assets by path . 9.25 KiB
+  asset remoteEntry.js 8.76 KiB [compared for emit] [minimized] (name: crmSystem) 1 related asset
+  asset index.html 500 bytes [compared for emit]
+Entrypoint main [big] 985 KiB (3.36 MiB) = vendors.1d9325d2cf1e801b9376.js 977 KiB main.772f881108c0f20225c4.js 8.04 KiB 2 auxiliary assets
+Entrypoint crmSystem 8.76 KiB (41.2 KiB) = remoteEntry.js 1 auxiliary asset
+orphan modules 2.01 MiB [orphan] 1661 modules
+runtime modules 39.9 KiB 25 modules
+built modules 2.44 MiB (javascript) 336 bytes (share-init) 336 bytes (consume-shared) [built]
+  javascript modules 2.44 MiB
+    modules by path ../../node_modules/ 2.4 MiB 14 modules
+    modules by path ./src/ 37.1 KiB 7 modules
+    container entry 42 bytes [built] [code generated]
+  provide-module modules 336 bytes
+    provide shared module (default) @supabase/supabase-js@2.90.0 = ../../node_module...(truncated) 42 bytes [built] [code generated]
+    provide shared module (default) @tanstack/react-query@5.90.16 = ../../node_modul...(truncated) 42 bytes [built] [code generated]
+    + 6 modules
+  consume-shared-module modules 336 bytes
+    consume shared module (default) react@^18.3.1 (singleton) (fallback: ../../node_...(truncated) 42 bytes [built] [code generated]
+    consume shared module (default) react-router-dom@^6.28.0 (strict) (fallback: ../...(truncated) 42 bytes [built] [code generated]
+    + 6 modules
+
+WARNING in asset size limit: The following asset(s) exceed the recommended size limit (244 KiB).
+This can impact web performance.
+Assets: 
+  vendors.1d9325d2cf1e801b9376.js (977 KiB)
+
+WARNING in entrypoint size limit: The following entrypoint(s) combined asset size exceeds the recommended limit (244 KiB). This can impact web performance.
+Entrypoints:
+  main (985 KiB)
+      vendors.1d9325d2cf1e801b9376.js
+      main.772f881108c0f20225c4.js
+
+webpack 5.104.1 compiled with 2 warnings in 6378 ms
+
+> kits-hub@1.0.0 build:hr
+> cd solutions/hr-management && npm run build
+
+
+> kits-hr-management@1.0.0 build
+> webpack --mode production
+
+assets by status 992 KiB [cached] 8 assets
+assets by path . 9.27 KiB
+  asset remoteEntry.js 8.78 KiB [compared for emit] [minimized] (name: hrManagement) 1 related asset
+  asset index.html 503 bytes [compared for emit]
+Entrypoint main [big] 985 KiB (3.37 MiB) = vendors.a8206662c9170a8f17b1.js 977 KiB main.cec7606ddf32ea91a3f1.js 8.06 KiB 2 auxiliary assets
+Entrypoint hrManagement 8.78 KiB (41.2 KiB) = remoteEntry.js 1 auxiliary asset
+orphan modules 2.01 MiB [orphan] 1661 modules
+runtime modules 39.9 KiB 25 modules
+built modules 2.44 MiB (javascript) 336 bytes (share-init) 336 bytes (consume-shared) [built]
+  javascript modules 2.44 MiB
+    modules by path ../../node_modules/ 2.4 MiB 14 modules
+    modules by path ./src/ 37.1 KiB 7 modules
+    container entry 42 bytes [built] [code generated]
+  provide-module modules 336 bytes
+    provide shared module (default) @supabase/supabase-js@2.90.0 = ../../node_module...(truncated) 42 bytes [built] [code generated]
+    provide shared module (default) @tanstack/react-query@5.90.16 = ../../node_modul...(truncated) 42 bytes [built] [code generated]
+    + 6 modules
+  consume-shared-module modules 336 bytes
+    consume shared module (default) react@^18.3.1 (singleton) (fallback: ../../node_...(truncated) 42 bytes [built] [code generated]
+    consume shared module (default) react-router-dom@^6.28.0 (strict) (fallback: ../...(truncated) 42 bytes [built] [code generated]
+    + 6 modules
+
+WARNING in asset size limit: The following asset(s) exceed the recommended size limit (244 KiB).
+This can impact web performance.
+Assets: 
+  vendors.a8206662c9170a8f17b1.js (977 KiB)
+
+WARNING in entrypoint size limit: The following entrypoint(s) combined asset size exceeds the recommended limit (244 KiB). This can impact web performance.
+Entrypoints:
+  main (985 KiB)
+      vendors.a8206662c9170a8f17b1.js
+      main.cec7606ddf32ea91a3f1.js
+
+webpack 5.104.1 compiled with 2 warnings in 6223 ms
+
+> kits-hub@1.0.0 build:accounting
+> cd solutions/accounting-system && npm run build
+
+
+> kits-accounting-system@1.0.0 build
+> webpack --mode production
+
+assets by status 992 KiB [cached] 8 assets
+assets by path . 9.31 KiB
+  asset remoteEntry.js 8.81 KiB [compared for emit] [minimized] (name: accountingSystem) 1 related asset
+  asset index.html 507 bytes [compared for emit]
+Entrypoint main [big] 985 KiB (3.37 MiB) = vendors.b00e5f0062d05e910340.js 977 KiB main.fea6220a05b690a3560b.js 8.07 KiB 2 auxiliary assets
+Entrypoint accountingSystem 8.81 KiB (41.3 KiB) = remoteEntry.js 1 auxiliary asset
+orphan modules 2.01 MiB [orphan] 1660 modules
+runtime modules 39.9 KiB 25 modules
+built modules 2.43 MiB (javascript) 336 bytes (share-init) 336 bytes (consume-shared) [built]
+  javascript modules 2.43 MiB
+    modules by path ../../node_modules/ 2.4 MiB 14 modules
+    modules by path ./src/ 36.7 KiB 7 modules
+    container entry 42 bytes [built] [code generated]
+  provide-module modules 336 bytes
+    provide shared module (default) @supabase/supabase-js@2.90.0 = ../../node_module...(truncated) 42 bytes [built] [code generated]
+    provide shared module (default) @tanstack/react-query@5.90.16 = ../../node_modul...(truncated) 42 bytes [built] [code generated]
+    + 6 modules
+  consume-shared-module modules 336 bytes
+    consume shared module (default) react@^18.3.1 (singleton) (fallback: ../../node_...(truncated) 42 bytes [built] [code generated]
+    consume shared module (default) react-router-dom@^6.28.0 (strict) (fallback: ../...(truncated) 42 bytes [built] [code generated]
+    + 6 modules
+
+WARNING in asset size limit: The following asset(s) exceed the recommended size limit (244 KiB).
+This can impact web performance.
+Assets: 
+  vendors.b00e5f0062d05e910340.js (977 KiB)
+
+WARNING in entrypoint size limit: The following entrypoint(s) combined asset size exceeds the recommended limit (244 KiB). This can impact web performance.
+Entrypoints:
+  main (985 KiB)
+      vendors.b00e5f0062d05e910340.js
+      main.fea6220a05b690a3560b.js
+
+webpack 5.104.1 compiled with 2 warnings in 6270 ms
+
+> kits-hub@1.0.0 build:analytics
+> cd solutions/analytics-dashboard && npm run build
+
+
+> kits-analytics-dashboard@1.0.0 build
+> webpack --mode production
+
+assets by status 992 KiB [cached] 8 assets
+assets by path . 9.31 KiB
+  asset remoteEntry.js 8.81 KiB [compared for emit] [minimized] (name: analyticsDashboard) 1 related asset
+  asset index.html 509 bytes [compared for emit]
+Entrypoint main [big] 985 KiB (3.37 MiB) = vendors.4fc9acf5613ebee210d6.js 977 KiB main.b3ddc8f5e73348ddf831.js 8.08 KiB 2 auxiliary assets
+Entrypoint analyticsDashboard 8.81 KiB (41.3 KiB) = remoteEntry.js 1 auxiliary asset
+orphan modules 2.01 MiB [orphan] 1660 modules
+runtime modules 40 KiB 25 modules
+built modules 2.43 MiB (javascript) 336 bytes (share-init) 336 bytes (consume-shared) [built]
+  javascript modules 2.43 MiB
+    modules by path ../../node_modules/ 2.4 MiB 14 modules
+    modules by path ./src/ 36.6 KiB 7 modules
+    container entry 42 bytes [built] [code generated]
+  provide-module modules 336 bytes
+    provide shared module (default) @supabase/supabase-js@2.90.0 = ../../node_module...(truncated) 42 bytes [built] [code generated]
+    provide shared module (default) @tanstack/react-query@5.90.16 = ../../node_modul...(truncated) 42 bytes [built] [code generated]
+    + 6 modules
+  consume-shared-module modules 336 bytes
+    consume shared module (default) react@^18.3.1 (singleton) (fallback: ../../node_...(truncated) 42 bytes [built] [code generated]
+    consume shared module (default) react-router-dom@^6.28.0 (strict) (fallback: ../...(truncated) 42 bytes [built] [code generated]
+    + 6 modules
+
+WARNING in asset size limit: The following asset(s) exceed the recommended size limit (244 KiB).
+This can impact web performance.
+Assets: 
+  vendors.4fc9acf5613ebee210d6.js (977 KiB)
+
+WARNING in entrypoint size limit: The following entrypoint(s) combined asset size exceeds the recommended limit (244 KiB). This can impact web performance.
+Entrypoints:
+  main (985 KiB)
+      vendors.4fc9acf5613ebee210d6.js
+      main.b3ddc8f5e73348ddf831.js
+
+webpack 5.104.1 compiled with 2 warnings in 6250 ms
+
+> kits-hub@1.0.0 build:shell
+> cd shared-shell && npm run build
+
+
+> kits-shared-shell@1.0.0 build
+> webpack --mode production
+
+asset 961.js 361 KiB [compared for emit] [minimized] [big] (id hint: vendors)
+asset main.js 70.7 KiB [emitted] [minimized] (name: main)
+asset 540.js 19.6 KiB [compared for emit] [minimized]
+asset index.html 673 bytes [compared for emit]
+runtime modules 17.6 KiB 12 modules
+orphan modules 4.27 KiB [orphan] 2 modules
+cacheable modules 161 KiB
+  modules by path ./node_modules/ 151 KiB 17 modules
+  modules by path ./src/ 10 KiB
+    ./src/index.tsx + 2 modules 4.96 KiB [built] [code generated]
+    ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js!./src/index.css 5.08 KiB [built] [code generated]
+provide-module modules 84 bytes
+  provide shared module (default) react-dom@18.3.1 = ./node_modules/reac...(truncated) 42 bytes [built] [code generated]
+  provide shared module (default) react@18.3.1 = ./node_modules/react/index.js 42 bytes [built] [code generated]
+consume-shared-module modules 84 bytes
+  consume shared module (default) react@^18.3.1 (singleton) (fallback: ./node_modu...(truncated) 42 bytes [built] [code generated]
+  consume shared module (default) react-dom@^18.3.1 (singleton) (fallback: ./node_...(truncated) 42 bytes [built] [code generated]
+
+WARNING in asset size limit: The following asset(s) exceed the recommended size limit (244 KiB).
+This can impact web performance.
+Assets: 
+  961.js (361 KiB)
+
+webpack 5.104.1 compiled with 1 warning in 832 ms
