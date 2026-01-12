@@ -1,28 +1,73 @@
 {
+  "extends": "../tsconfig.app.json",
   "compilerOptions": {
-    "target": "ES2020",
-    "lib": ["DOM", "DOM.Iterable", "ES6"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx",
-    "declaration": false,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "baseUrl": ".",
+    // Override output directory for shared-shell specific build
+    "outDir": "./dist",
+    
+    // Enable declaration generation for composite project compatibility
+    // Required for TypeScript project references in micro-frontend architecture
+    "declaration": true,
+    
+    // Enable declaration map for better debugging
+    "declarationMap": true,
+    
+    // Disable exactOptionalPropertyTypes for compatibility with existing code
+    // Re-enable after codebase migration to handle undefined properly
+    "exactOptionalPropertyTypes": false,
+    
+    // Shared-shell specific path aliases for clean imports
+    // Extends base paths with shell-specific mappings
     "paths": {
-      "@/*": ["src/*"]
+      // Local shell component imports
+      "@/components/*": ["./src/components/*"],
+      "@/pages/*": ["./src/pages/*"],
+      "@/hooks/*": ["./src/hooks/*"],
+      "@/lib/*": ["./src/lib/*"],
+      "@/utils/*": ["./src/utils/*"],
+      "@/types/*": ["./src/types/*"],
+      "@/assets/*": ["./src/assets/*"],
+      "@/styles/*": ["./src/styles/*"],
+      "@/config/*": ["./src/config/*"],
+      "@/services/*": ["./src/services/*"],
+      "@/store/*": ["./src/store/*"],
+      
+      // Cross-solution imports for micro-frontend architecture
+      "@shared/ui-components/*": ["../shared/ui-components/src/*"],
+      "@shared/integration/*": ["../shared/integration/*"],
+      
+      // Solution-specific imports for remote loading
+      "@inventory/*": ["../solutions/inventory-management/src/*"],
+      "@pos/*": ["../solutions/point-of-sale/src/*"],
+      "@crm/*": ["../solutions/crm-system/src/*"],
+      "@hr/*": ["../solutions/hr-management/src/*"],
+      "@accounting/*": ["../solutions/accounting-system/src/*"],
+      "@analytics/*": ["../solutions/analytics-dashboard/src/*"]
     }
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"]
+
+  // Include shared-shell source files and configuration
+  "include": [
+    "src/**/*",
+    "public/**/*",
+    "*.config.ts",
+    "*.config.js",
+    "*.config.cjs",
+    "package.json"
+  ],
+
+  // Exclude test files and build artifacts
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    "coverage",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "__tests__/**/*"
+  ],
+
+  // Enable composite project for TypeScript project references
+  "composite": true
 }

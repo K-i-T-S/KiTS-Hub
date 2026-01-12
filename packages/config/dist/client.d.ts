@@ -1,0 +1,234 @@
+import { z } from 'zod';
+/**
+ * Client-side configuration utilities
+ * Provides type-safe access to public environment variables in the browser
+ */
+declare const clientEnvironmentSchema: z.ZodObject<Pick<{
+    NODE_ENV: z.ZodDefault<z.ZodEnum<["development", "production", "test"]>>;
+    NEXT_PUBLIC_APP_URL: z.ZodDefault<z.ZodString>;
+    NEXT_PUBLIC_API_URL: z.ZodDefault<z.ZodString>;
+    NEXT_PUBLIC_SUPABASE_URL: z.ZodString;
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: z.ZodString;
+    NEXT_PUBLIC_ENABLE_ANALYTICS: z.ZodDefault<z.ZodEffects<z.ZodString, boolean, string>>;
+    NEXT_PUBLIC_ENABLE_ERROR_REPORTING: z.ZodDefault<z.ZodEffects<z.ZodString, boolean, string>>;
+    NEXT_PUBLIC_ENABLE_PERFORMANCE_MONITORING: z.ZodDefault<z.ZodEffects<z.ZodString, boolean, string>>;
+    NEXT_PUBLIC_ENABLE_FEATURE_X: z.ZodDefault<z.ZodEffects<z.ZodString, boolean, string>>;
+    NEXT_PUBLIC_ENABLE_BETA_FEATURES: z.ZodDefault<z.ZodEffects<z.ZodString, boolean, string>>;
+    NEXT_PUBLIC_GA_TRACKING_ID: z.ZodOptional<z.ZodString>;
+    NEXT_PUBLIC_HOTJAR_ID: z.ZodOptional<z.ZodString>;
+    NEXT_PUBLIC_SENTRY_DSN: z.ZodOptional<z.ZodString>;
+    NEXT_PUBLIC_CLARITY_ID: z.ZodOptional<z.ZodString>;
+    NEXT_PUBLIC_INVENTORY_URL: z.ZodDefault<z.ZodString>;
+    NEXT_PUBLIC_POS_URL: z.ZodDefault<z.ZodString>;
+    NEXT_PUBLIC_CRM_URL: z.ZodDefault<z.ZodString>;
+    NEXT_PUBLIC_HR_URL: z.ZodDefault<z.ZodString>;
+    NEXT_PUBLIC_ACCOUNTING_URL: z.ZodDefault<z.ZodString>;
+    NEXT_PUBLIC_ANALYTICS_URL: z.ZodDefault<z.ZodString>;
+    NEXT_PUBLIC_APP_NAME: z.ZodDefault<z.ZodString>;
+    NEXT_PUBLIC_APP_VERSION: z.ZodDefault<z.ZodString>;
+    NEXT_PUBLIC_APP_DESCRIPTION: z.ZodDefault<z.ZodString>;
+    NEXT_PUBLIC_THEME: z.ZodDefault<z.ZodEnum<["light", "dark", "auto"]>>;
+    NEXT_PUBLIC_PRIMARY_COLOR: z.ZodDefault<z.ZodString>;
+    NEXT_PUBLIC_LOCALE: z.ZodDefault<z.ZodString>;
+    NEXT_PUBLIC_DEV_TOOLS: z.ZodDefault<z.ZodEffects<z.ZodString, boolean, string>>;
+    NEXT_PUBLIC_LOG_LEVEL: z.ZodDefault<z.ZodEnum<["error", "warn", "info", "debug"]>>;
+    NEXT_PUBLIC_CACHE_TTL: z.ZodDefault<z.ZodEffects<z.ZodString, number, string>>;
+    NEXT_PUBLIC_ENABLE_CACHE: z.ZodDefault<z.ZodEffects<z.ZodString, boolean, string>>;
+}, "NODE_ENV" | "NEXT_PUBLIC_APP_URL" | "NEXT_PUBLIC_API_URL" | "NEXT_PUBLIC_SUPABASE_URL" | "NEXT_PUBLIC_SUPABASE_ANON_KEY" | "NEXT_PUBLIC_ENABLE_ANALYTICS" | "NEXT_PUBLIC_ENABLE_ERROR_REPORTING" | "NEXT_PUBLIC_ENABLE_PERFORMANCE_MONITORING" | "NEXT_PUBLIC_ENABLE_FEATURE_X" | "NEXT_PUBLIC_ENABLE_BETA_FEATURES" | "NEXT_PUBLIC_GA_TRACKING_ID" | "NEXT_PUBLIC_HOTJAR_ID" | "NEXT_PUBLIC_SENTRY_DSN" | "NEXT_PUBLIC_CLARITY_ID" | "NEXT_PUBLIC_INVENTORY_URL" | "NEXT_PUBLIC_POS_URL" | "NEXT_PUBLIC_CRM_URL" | "NEXT_PUBLIC_HR_URL" | "NEXT_PUBLIC_ACCOUNTING_URL" | "NEXT_PUBLIC_ANALYTICS_URL" | "NEXT_PUBLIC_APP_NAME" | "NEXT_PUBLIC_APP_VERSION" | "NEXT_PUBLIC_APP_DESCRIPTION" | "NEXT_PUBLIC_THEME" | "NEXT_PUBLIC_PRIMARY_COLOR" | "NEXT_PUBLIC_LOCALE" | "NEXT_PUBLIC_DEV_TOOLS" | "NEXT_PUBLIC_LOG_LEVEL" | "NEXT_PUBLIC_CACHE_TTL" | "NEXT_PUBLIC_ENABLE_CACHE">, "strip", z.ZodTypeAny, {
+    NODE_ENV: "development" | "production" | "test";
+    NEXT_PUBLIC_APP_URL: string;
+    NEXT_PUBLIC_API_URL: string;
+    NEXT_PUBLIC_SUPABASE_URL: string;
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: string;
+    NEXT_PUBLIC_ENABLE_ANALYTICS: boolean;
+    NEXT_PUBLIC_ENABLE_ERROR_REPORTING: boolean;
+    NEXT_PUBLIC_ENABLE_PERFORMANCE_MONITORING: boolean;
+    NEXT_PUBLIC_ENABLE_FEATURE_X: boolean;
+    NEXT_PUBLIC_ENABLE_BETA_FEATURES: boolean;
+    NEXT_PUBLIC_INVENTORY_URL: string;
+    NEXT_PUBLIC_POS_URL: string;
+    NEXT_PUBLIC_CRM_URL: string;
+    NEXT_PUBLIC_HR_URL: string;
+    NEXT_PUBLIC_ACCOUNTING_URL: string;
+    NEXT_PUBLIC_ANALYTICS_URL: string;
+    NEXT_PUBLIC_APP_NAME: string;
+    NEXT_PUBLIC_APP_VERSION: string;
+    NEXT_PUBLIC_APP_DESCRIPTION: string;
+    NEXT_PUBLIC_THEME: "light" | "dark" | "auto";
+    NEXT_PUBLIC_PRIMARY_COLOR: string;
+    NEXT_PUBLIC_LOCALE: string;
+    NEXT_PUBLIC_DEV_TOOLS: boolean;
+    NEXT_PUBLIC_LOG_LEVEL: "error" | "warn" | "info" | "debug";
+    NEXT_PUBLIC_CACHE_TTL: number;
+    NEXT_PUBLIC_ENABLE_CACHE: boolean;
+    NEXT_PUBLIC_GA_TRACKING_ID?: string | undefined;
+    NEXT_PUBLIC_HOTJAR_ID?: string | undefined;
+    NEXT_PUBLIC_SENTRY_DSN?: string | undefined;
+    NEXT_PUBLIC_CLARITY_ID?: string | undefined;
+}, {
+    NEXT_PUBLIC_SUPABASE_URL: string;
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: string;
+    NODE_ENV?: "development" | "production" | "test" | undefined;
+    NEXT_PUBLIC_APP_URL?: string | undefined;
+    NEXT_PUBLIC_API_URL?: string | undefined;
+    NEXT_PUBLIC_ENABLE_ANALYTICS?: string | undefined;
+    NEXT_PUBLIC_ENABLE_ERROR_REPORTING?: string | undefined;
+    NEXT_PUBLIC_ENABLE_PERFORMANCE_MONITORING?: string | undefined;
+    NEXT_PUBLIC_ENABLE_FEATURE_X?: string | undefined;
+    NEXT_PUBLIC_ENABLE_BETA_FEATURES?: string | undefined;
+    NEXT_PUBLIC_GA_TRACKING_ID?: string | undefined;
+    NEXT_PUBLIC_HOTJAR_ID?: string | undefined;
+    NEXT_PUBLIC_SENTRY_DSN?: string | undefined;
+    NEXT_PUBLIC_CLARITY_ID?: string | undefined;
+    NEXT_PUBLIC_INVENTORY_URL?: string | undefined;
+    NEXT_PUBLIC_POS_URL?: string | undefined;
+    NEXT_PUBLIC_CRM_URL?: string | undefined;
+    NEXT_PUBLIC_HR_URL?: string | undefined;
+    NEXT_PUBLIC_ACCOUNTING_URL?: string | undefined;
+    NEXT_PUBLIC_ANALYTICS_URL?: string | undefined;
+    NEXT_PUBLIC_APP_NAME?: string | undefined;
+    NEXT_PUBLIC_APP_VERSION?: string | undefined;
+    NEXT_PUBLIC_APP_DESCRIPTION?: string | undefined;
+    NEXT_PUBLIC_THEME?: "light" | "dark" | "auto" | undefined;
+    NEXT_PUBLIC_PRIMARY_COLOR?: string | undefined;
+    NEXT_PUBLIC_LOCALE?: string | undefined;
+    NEXT_PUBLIC_DEV_TOOLS?: string | undefined;
+    NEXT_PUBLIC_LOG_LEVEL?: "error" | "warn" | "info" | "debug" | undefined;
+    NEXT_PUBLIC_CACHE_TTL?: string | undefined;
+    NEXT_PUBLIC_ENABLE_CACHE?: string | undefined;
+}>;
+export type ClientEnvironment = z.infer<typeof clientEnvironmentSchema>;
+/**
+ * Validates and returns client-side environment configuration
+ * This function should be called once at application startup
+ */
+export declare function validateClientEnvironment(env?: Record<string, string | undefined>): ClientEnvironment;
+/**
+ * Client configuration class with type-safe accessors
+ */
+export declare class ClientConfig {
+    private static instance;
+    private config;
+    private constructor();
+    /**
+     * Initialize the client configuration
+     * This should be called once at application startup
+     */
+    static initialize(env?: Record<string, string | undefined>): ClientConfig;
+    /**
+     * Get the singleton instance
+     */
+    static getInstance(): ClientConfig;
+    /**
+     * Get the entire configuration object
+     */
+    getAll(): ClientEnvironment;
+    get nodeEnv(): string;
+    get isDevelopment(): boolean;
+    get isProduction(): boolean;
+    get isTest(): boolean;
+    get appUrl(): string;
+    get apiUrl(): string;
+    get supabaseUrl(): string;
+    get supabaseAnonKey(): string;
+    get analyticsEnabled(): boolean;
+    get errorReportingEnabled(): boolean;
+    get performanceMonitoringEnabled(): boolean;
+    get featureXEnabled(): boolean;
+    get betaFeaturesEnabled(): boolean;
+    get gaTrackingId(): string | undefined;
+    get hotjarId(): string | undefined;
+    get sentryDsn(): string | undefined;
+    get clarityId(): string | undefined;
+    get inventoryUrl(): string;
+    get posUrl(): string;
+    get crmUrl(): string;
+    get hrUrl(): string;
+    get accountingUrl(): string;
+    get analyticsUrl(): string;
+    get appName(): string;
+    get appVersion(): string;
+    get appDescription(): string;
+    get theme(): 'light' | 'dark' | 'auto';
+    get primaryColor(): string;
+    get locale(): string;
+    get devToolsEnabled(): boolean;
+    get logLevel(): 'error' | 'warn' | 'info' | 'debug';
+    get cacheTtl(): number;
+    get cacheEnabled(): boolean;
+    /**
+     * Check if a specific feature is enabled
+     */
+    isFeatureEnabled(feature: keyof Pick<ClientEnvironment, 'NEXT_PUBLIC_ENABLE_ANALYTICS' | 'NEXT_PUBLIC_ENABLE_ERROR_REPORTING' | 'NEXT_PUBLIC_ENABLE_PERFORMANCE_MONITORING' | 'NEXT_PUBLIC_ENABLE_FEATURE_X' | 'NEXT_PUBLIC_ENABLE_BETA_FEATURES'>): boolean;
+    /**
+     * Get micro-frontend URL by name
+     */
+    getMicroFrontendUrl(name: 'inventory' | 'pos' | 'crm' | 'hr' | 'accounting' | 'analytics'): string;
+    /**
+     * Get analytics configuration
+     */
+    getAnalyticsConfig(): {
+        enabled: boolean;
+        gaTrackingId: string | undefined;
+        hotjarId: string | undefined;
+        sentryDsn: string | undefined;
+        clarityId: string | undefined;
+    };
+    /**
+     * Get UI configuration
+     */
+    getUiConfig(): {
+        theme: "light" | "dark" | "auto";
+        primaryColor: string;
+        locale: string;
+        appName: string;
+        appVersion: string;
+        appDescription: string;
+    };
+}
+/**
+ * Get the client configuration instance
+ * Initializes if not already done
+ */
+export declare function getClientConfig(): ClientConfig;
+/**
+ * Initialize client configuration with custom environment
+ */
+export declare function initClientConfig(env: Record<string, string | undefined>): ClientConfig;
+export declare const clientConfigGetters: {
+    readonly nodeEnv: string;
+    readonly isDevelopment: boolean;
+    readonly isProduction: boolean;
+    readonly isTest: boolean;
+    readonly appUrl: string;
+    readonly apiUrl: string;
+    readonly supabaseUrl: string;
+    readonly supabaseAnonKey: string;
+    readonly analyticsEnabled: boolean;
+    readonly errorReportingEnabled: boolean;
+    readonly performanceMonitoringEnabled: boolean;
+    readonly featureXEnabled: boolean;
+    readonly betaFeaturesEnabled: boolean;
+    readonly gaTrackingId: string | undefined;
+    readonly hotjarId: string | undefined;
+    readonly sentryDsn: string | undefined;
+    readonly clarityId: string | undefined;
+    readonly inventoryUrl: string;
+    readonly posUrl: string;
+    readonly crmUrl: string;
+    readonly hrUrl: string;
+    readonly accountingUrl: string;
+    readonly analyticsUrl: string;
+    readonly appName: string;
+    readonly appVersion: string;
+    readonly appDescription: string;
+    readonly theme: "light" | "dark" | "auto";
+    readonly primaryColor: string;
+    readonly locale: string;
+    readonly devToolsEnabled: boolean;
+    readonly logLevel: "error" | "warn" | "info" | "debug";
+    readonly cacheTtl: number;
+    readonly cacheEnabled: boolean;
+};
+export {};
+//# sourceMappingURL=client.d.ts.map

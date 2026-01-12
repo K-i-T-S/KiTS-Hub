@@ -1,6 +1,4 @@
-import React from 'react';
-
-const App: React.FC = () => {
+const App = () => {
   return (
     <div style={{ padding: '20px', background: 'white', color: 'black', minHeight: '100vh' }}>
       <h1 style={{ color: '#1e40af', fontSize: '2rem', marginBottom: '1rem' }}>

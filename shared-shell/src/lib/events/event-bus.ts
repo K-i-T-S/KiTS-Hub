@@ -115,7 +115,7 @@ export class EventBus {
     const subscription: EventSubscription = {
       eventType,
       handler,
-      source: options.source,
+      source: options.source || 'unknown',
       tenantId: options.tenantId,
       once: options.once || false,
     };

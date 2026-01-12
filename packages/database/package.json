@@ -1,0 +1,44 @@
+{
+  "name": "@kits-hub/database",
+  "version": "1.0.0",
+  "description": "Database client abstraction layer for KiTS Hub multi-tenant SaaS platform",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc && rollup -c",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "database",
+    "supabase",
+    "typescript",
+    "multi-tenant",
+    "saas"
+  ],
+  "author": "KiTS Hub Team",
+  "license": "MIT",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "rollup": "^4.9.0",
+    "rollup-plugin-typescript2": "^0.36.0",
+    "typescript": "^5.3.0"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kits-hub/database"
+  },
+  "bugs": {
+    "url": "https://github.com/kits-hub/database/issues"
+  },
+  "homepage": "https://github.com/kits-hub/database#readme"
+}

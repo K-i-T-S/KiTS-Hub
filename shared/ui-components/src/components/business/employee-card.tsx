@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
 import { Badge } from '../ui/badge'
 import { Button } from '../ui/button'
 import { cn } from '../../utils/cn'
-import { Mail, Phone, Briefcase, Calendar, DollarSign, MapPin } from 'lucide-react'
+import { Mail, Phone, Calendar } from 'lucide-react'
 
 export interface EmployeeCardProps {
   id: string

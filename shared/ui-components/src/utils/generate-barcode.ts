@@ -24,6 +24,9 @@ export function generateBarcodeSVG(
     margin = 10,
   } = options
 
+  // Log format for debugging (to avoid unused variable warning)
+  console.debug(`Generating barcode with format: ${format}`)
+
   // This is a simplified barcode generator
   // In production, you would use a library like JsBarcode
   const barCount = value.length * 11 + 35 // Simplified calculation

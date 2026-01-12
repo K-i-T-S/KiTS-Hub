@@ -1,6 +1,5 @@
-import React from 'react';
 import { Settings as SettingsIcon, User, Bell, Shield, Database, Globe } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 
 const Settings: React.FC = () => {
   const settingsSections = [

@@ -1,0 +1,62 @@
+{
+  "files": [],
+  "references": [
+    {
+      // Shared Shell - Main micro-frontend host application
+      "path": "./shared-shell"
+    },
+    {
+      // Shared UI Components Library - Reusable components across solutions
+      "path": "./shared/ui-components",
+      "tsBuildInfoFile": "./shared/ui-components/.tsbuildinfo"
+    },
+    {
+      // Shared Integration Core - Cross-solution integration logic
+      "path": "./shared/integration/core",
+      "tsBuildInfoFile": "./shared/integration/core/.tsbuildinfo"
+    },
+    {
+      // Solution Applications
+      "path": "./solutions/inventory-management",
+      "tsBuildInfoFile": "./solutions/inventory-management/.tsbuildinfo"
+    },
+    {
+      "path": "./solutions/point-of-sale",
+      "tsBuildInfoFile": "./solutions/point-of-sale/.tsbuildinfo"
+    },
+    {
+      "path": "./solutions/crm-system",
+      "tsBuildInfoFile": "./solutions/crm-system/.tsbuildinfo"
+    },
+    {
+      "path": "./solutions/hr-management",
+      "tsBuildInfoFile": "./solutions/hr-management/.tsbuildinfo"
+    },
+    {
+      "path": "./solutions/accounting-system",
+      "tsBuildInfoFile": "./solutions/accounting-system/.tsbuildinfo"
+    },
+    {
+      "path": "./solutions/analytics-dashboard",
+      "tsBuildInfoFile": "./solutions/analytics-dashboard/.tsbuildinfo"
+    },
+    {
+      // Testing Infrastructure
+      "path": "./tests",
+      "tsBuildInfoFile": "./tests/.tsbuildinfo"
+    }
+  ],
+  "compilerOptions": {
+    // Enable incremental compilation for faster builds across all projects
+    // Essential for development performance in micro-frontend architecture
+    "incremental": true,
+    
+    // Enable composite project mode for project references
+    // Required for TypeScript project references to work properly
+    "composite": true,
+    
+    // Disable verbose output for cleaner build logs
+    // Reduces noise in build output while maintaining error reporting
+    "verbose": false
+  }
+}

@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
 import { Badge } from '../ui/badge'
 import { Button } from '../ui/button'
 import { cn } from '../../utils/cn'
-import { Mail, Phone, MapPin, Calendar } from 'lucide-react'
+import { Mail, Phone, Calendar, MapPin } from 'lucide-react'
 
 export interface CustomerCardProps {
   id: string
@@ -24,23 +24,7 @@ export interface CustomerCardProps {
 }
 
 const CustomerCard = React.forwardRef<HTMLDivElement, CustomerCardProps>(
-  ({
-    id,
-    name,
-    email,
-    phone,
-    address,
-    joinedDate,
-    totalOrders,
-    totalSpent,
-    loyaltyPoints,
-    status = 'active',
-    avatar,
-    onClick,
-    onContact,
-    className,
-    variant = 'default'
-  }, ref) => {
+  ({ id, name, email, phone, address, joinedDate, totalOrders, totalSpent, loyaltyPoints, status = 'active', avatar, onClick, onContact, className, variant = 'default' }, ref) => {
     const getStatusColor = (status: string) => {
       switch (status) {
         case 'vip': return 'luxury'

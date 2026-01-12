@@ -1,0 +1,163 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    // Disable declaration generation for test files
+    // Test files don't need type definitions for distribution
+    "declaration": false,
+
+    // Disable declaration map generation for test files
+    // Not needed when declaration generation is disabled
+    "declarationMap": false,
+
+    // Specify output directory for compiled test files
+    // Separate from application build to avoid conflicts
+    "outDir": "./test-dist",
+
+    // Use ESNext modules for modern testing frameworks
+    // Vitest and modern testing tools support ES modules
+    "module": "ESNext",
+
+    // Use bundler resolution for test dependencies
+    // Allows testing frameworks to handle module resolution
+    "moduleResolution": "bundler",
+
+    // Enable source maps for test debugging
+    // Essential for debugging test failures and stack traces
+    "sourceMap": true,
+
+    // Disable isolated modules for test files
+    // Allows some testing patterns that require cross-file knowledge
+    "isolatedModules": false,
+
+    // Enable all strict type-checking options for test type safety
+    // Ensures tests catch type-related bugs before runtime
+    "strict": true,
+
+    // Enable strict null checks for test type safety
+    // Prevents null/undefined errors in test assertions
+    "strictNullChecks": true,
+
+    // Enable strict function types for better test type inference
+    // Ensures test functions have proper type signatures
+    "strictFunctionTypes": true,
+
+    // Enable strict bind call apply for better test method binding
+    // Prevents context loss issues in test helpers
+    "strictBindCallApply": true,
+
+    // Disable strict property initialization for test files
+    // Test setup often uses properties that are initialized in beforeEach
+    "strictPropertyInitialization": false,
+
+    // Disable exactOptionalPropertyTypes for test flexibility
+    // Test mocks often need flexible property types
+    "exactOptionalPropertyTypes": false,
+
+    // Disable noImplicitAny for test flexibility
+    // Test mocks and fixtures sometimes use any types
+    "noImplicitAny": false,
+
+    // Disable noUnusedLocals for test files
+    // Test files often have variables used only in specific test cases
+    "noUnusedLocals": false,
+
+    // Disable noUnusedParameters for test files
+    // Test functions often have unused parameters for interface compliance
+    "noUnusedParameters": false,
+
+    // Disable noImplicitReturns for test flexibility
+    // Test functions sometimes don't return values explicitly
+    "noImplicitReturns": false,
+
+    // Test-specific path aliases for clean test imports
+    // Extends base paths with test-specific mappings
+    "paths": {
+      // Test utility imports
+      "@/test-utils/*": ["./src/test-utils/*"],
+      "@/mocks/*": ["./src/mocks/*"],
+      "@/fixtures/*": ["./src/fixtures/*"],
+      "@/helpers/*": ["./src/helpers/*"],
+      
+      // Source code imports for testing
+      "@/components/*": ["./src/components/*"],
+      "@/pages/*": ["./src/pages/*"],
+      "@/hooks/*": ["./src/hooks/*"],
+      "@/lib/*": ["./src/lib/*"],
+      "@/utils/*": ["./src/utils/*"],
+      "@/types/*": ["./src/types/*"],
+      "@/assets/*": ["./src/assets/*"],
+      "@/styles/*": ["./src/styles/*"],
+      "@/config/*": ["./src/config/*"],
+      "@/services/*": ["./src/services/*"],
+      "@/store/*": ["./src/store/*"],
+      
+      // Cross-solution imports for integration testing
+      "@shared-shell/*": ["../shared-shell/src/*"],
+      "@shared/ui-components/*": ["../shared/ui-components/src/*"],
+      "@shared/integration/*": ["../shared/integration/*"],
+      
+      // Solution-specific imports for cross-solution testing
+      "@inventory/*": ["../solutions/inventory-management/src/*"],
+      "@pos/*": ["../solutions/point-of-sale/src/*"],
+      "@crm/*": ["../solutions/crm-system/src/*"],
+      "@hr/*": ["../solutions/hr-management/src/*"],
+      "@accounting/*": ["../solutions/accounting-system/src/*"],
+      "@analytics/*": ["../solutions/analytics-dashboard/src/*"],
+      
+      // Testing framework imports
+      "@vitest/*": ["./node_modules/vitest/*"],
+      "@testing-library/*": ["./node_modules/@testing-library/*"],
+      "@playwright/*": ["./node_modules/@playwright/*"]
+    }
+  },
+
+  // Include test files, source files, and test configuration
+  // Ensures comprehensive type checking for tests and source code
+  "include": [
+    "src/**/*",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "__tests__/**/*",
+    "test/**/*",
+    "tests/**/*",
+    "*.test.ts",
+    "*.test.tsx",
+    "*.spec.ts",
+    "*.spec.tsx",
+    "test-setup.ts",
+    "test-setup.js",
+    "vitest.config.ts",
+    "playwright.config.ts",
+    "*.config.ts",
+    "*.config.js",
+    "*.config.cjs"
+  ],
+
+  // Exclude build artifacts and node_modules from test compilation
+  // Prevents type checking of generated files and third-party code
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    "coverage",
+    "test-dist",
+    "examples/**/*",
+    "docs/**/*"
+  ],
+
+  // References to all projects for comprehensive testing
+  // Enables testing across all micro-frontend solutions
+  "references": [
+    { "path": "../shared-shell" },
+    { "path": "../shared/ui-components" },
+    { "path": "../shared/integration/core" },
+    { "path": "../solutions/inventory-management" },
+    { "path": "../solutions/point-of-sale" },
+    { "path": "../solutions/crm-system" },
+    { "path": "../solutions/hr-management" },
+    { "path": "../solutions/accounting-system" },
+    { "path": "../solutions/analytics-dashboard" }
+  ]
+}

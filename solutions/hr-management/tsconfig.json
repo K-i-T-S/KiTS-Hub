@@ -1,1 +1,74 @@
-{"compilerOptions": {"target": "ES2020", "lib": ["ES2020", "DOM", "DOM.Iterable"], "module": "ESNext", "skipLibCheck": true, "moduleResolution": "bundler", "allowImportingTsExtensions": true, "resolveJsonModule": true, "isolatedModules": true, "noEmit": true, "jsx": "react-jsx", "strict": true, "noUnusedLocals": true, "noUnusedParameters": true, "noFallthroughCasesInSwitch": true, "baseUrl": ".", "paths": {"@/*": ["./src/*"]}}, "include": ["src"], "references": [{"path": "./tsconfig.node.json"}]}
+{
+  "extends": "../../tsconfig.app.json",
+  "compilerOptions": {
+    // Override output directory for hr-management specific build
+    "outDir": "./dist",
+    
+    // Enable declaration generation for composite project compatibility
+    // Required for TypeScript project references in micro-frontend architecture
+    "declaration": true,
+    
+    // Enable declaration map for better debugging
+    "declarationMap": true,
+    
+    // HR-management specific path aliases for clean imports
+    // Extends base paths with solution-specific mappings
+    "paths": {
+      // Local solution component imports
+      "@/components/*": ["./src/components/*"],
+      "@/pages/*": ["./src/pages/*"],
+      "@/hooks/*": ["./src/hooks/*"],
+      "@/lib/*": ["./src/lib/*"],
+      "@/utils/*": ["./src/utils/*"],
+      "@/types/*": ["./src/types/*"],
+      "@/assets/*": ["./src/assets/*"],
+      "@/styles/*": ["./src/styles/*"],
+      "@/config/*": ["./src/config/*"],
+      "@/services/*": ["./src/services/*"],
+      "@/store/*": ["./src/store/*"],
+      
+      // Cross-solution imports for micro-frontend architecture
+      "@shared-shell/*": ["../../shared-shell/src/*"],
+      "@shared/ui-components/*": ["../../shared/ui-components/src/*"],
+      "@shared/integration/*": ["../../shared/integration/*"],
+      
+      // Solution-specific imports for cross-solution communication
+      "@inventory/*": ["../inventory-management/src/*"],
+      "@pos/*": ["../point-of-sale/src/*"],
+      "@crm/*": ["../crm-system/src/*"],
+      "@accounting/*": ["../accounting-system/src/*"],
+      "@analytics/*": ["../analytics-dashboard/src/*"]
+    }
+  },
+
+  // Include hr-management source files and configuration
+  "include": [
+    "src/**/*",
+    "public/**/*",
+    "*.config.ts",
+    "*.config.js",
+    "*.config.cjs"
+  ],
+
+  // Exclude test files and build artifacts
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    "coverage",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "__tests__/**/*"
+  ],
+
+  // Enable composite project for TypeScript project references
+  "composite": true,
+
+  // References to shared libraries for project references
+  "references": [
+    { "path": "../../shared/ui-components" },
+    { "path": "../../shared/integration/core" }
+  ]
+}

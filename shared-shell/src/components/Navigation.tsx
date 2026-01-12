@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   Package, 
@@ -15,14 +15,14 @@ import {
   LogOut,
   Bell
 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Button } from '../components/ui/button';
 import { 
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Badge } from '@/components/ui/badge';
+} from '../components/ui/dropdown-menu';
+import { Badge } from '../components/ui/badge';
 import { useAuth } from '../contexts/AuthContext';
 
 const Navigation: React.FC = () => {

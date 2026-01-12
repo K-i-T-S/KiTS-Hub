@@ -1,1 +1,60 @@
-{"compilerOptions": {"target": "ES2020", "module": "commonjs", "lib": ["ES2020"], "outDir": "./dist", "rootDir": "./", "strict": true, "esModuleInterop": true, "skipLibCheck": true, "forceConsistentCasingInFileNames": true, "declaration": true, "declarationMap": true, "sourceMap": true, "moduleResolution": "node", "allowSyntheticDefaultImports": true, "experimentalDecorators": true, "emitDecoratorMetadata": true, "resolveJsonModule": true, "typeRoots": ["./node_modules/@types", "../node_modules/@types"]}, "include": ["**/*.ts"], "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.spec.ts"]}
+{
+  "extends": "../../../tsconfig.lib.json",
+  "compilerOptions": {
+    // Override output directory for integration core specific build
+    "outDir": "./dist",
+    
+    // Enable declaration generation for composite project compatibility
+    "declaration": true,
+    
+    // Enable declaration map for better debugging
+    "declarationMap": true,
+    
+    // Integration core specific path aliases for clean imports
+    "paths": {
+      // Local integration core component imports
+      "@/components/*": ["./src/components/*"],
+      "@/utils/*": ["./src/utils/*"],
+      "@/types/*": ["./src/types/*"],
+      "@/config/*": ["./src/config/*"],
+      "@/services/*": ["./src/services/*"],
+      
+      // Cross-solution imports for micro-frontend architecture
+      "@shared/ui-components/*": ["../../../shared/ui-components/src/*"],
+      "@shared/integration/*": ["../core/src/*"],
+      
+      // Solution-specific imports for remote loading
+      "@inventory/*": ["../../../solutions/inventory-management/src/*"],
+      "@pos/*": ["../../../solutions/point-of-sale/src/*"],
+      "@crm/*": ["../../../solutions/crm-system/src/*"],
+      "@hr/*": ["../../../solutions/hr-management/src/*"],
+      "@accounting/*": ["../../../solutions/accounting-system/src/*"],
+      "@analytics/*": ["../../../solutions/analytics-dashboard/src/*"]
+    }
+  },
+
+  // Include integration core source files and configuration
+  "include": [
+    "src/**/*",
+    "*.config.ts",
+    "*.config.js",
+    "*.config.cjs",
+    "package.json"
+  ],
+
+  // Exclude test files and build artifacts
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    "coverage",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "__tests__/**/*"
+  ],
+
+  // Enable composite project for TypeScript project references
+  "composite": true
+}

@@ -1,8 +1,8 @@
 {
-  "name": "kits-hr-management",
+  "name": "@kits-hub/hr-management",
   "version": "1.0.0",
   "private": true,
-  "type": "commonjs",
+  "type": "module",
   "description": "KiTS HR Management - Standalone SaaS solution for human resource management",
   "scripts": {
     "dev": "webpack serve --mode development",
@@ -49,17 +49,16 @@
     "i18next-browser-languagedetector": "^8.2.0",
     "i18next-http-backend": "^3.0.2",
     "input-otp": "^1.4.2",
-    "jspdf": "^3.0.4",
+    "jspdf": "4.0.0",
     "lucide-react": "^0.487.0",
     "next-themes": "^0.4.6",
-    "react": "^18.3.1",
-    "react-day-picker": "^8.10.1",
-    "react-dom": "^18.3.1",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
     "react-hook-form": "^7.55.0",
     "react-hot-toast": "^2.6.0",
     "react-i18next": "^16.5.0",
     "react-resizable-panels": "^2.1.7",
-    "react-router-dom": "^6.28.0",
+    "react-router-dom": "6.30.2",
     "recharts": "^2.15.2",
     "sonner": "^2.0.3",
     "tailwind-merge": "^2.5.4",
@@ -69,13 +68,15 @@
   "devDependencies": {
     "@eslint/js": "^9.15.0",
     "@playwright/test": "^1.57.0",
+    "@rollup/rollup-linux-x64-gnu": "4.55.1",
+    "@swc/core-linux-x64-gnu": "1.15.8",
     "@tailwindcss/vite": "^4.1.18",
     "@testing-library/jest-dom": "^6.5.0",
     "@testing-library/react": "^16.1.0",
     "@testing-library/user-event": "^14.5.2",
     "@types/node": "^20.10.0",
-    "@types/react": "^18.3.11",
-    "@types/react-dom": "^18.3.0",
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.1",
     "@typescript-eslint/eslint-plugin": "^8.15.0",
     "@typescript-eslint/parser": "^8.15.0",
     "@vitejs/plugin-react-swc": "^3.10.2",
@@ -94,7 +95,7 @@
     "style-loader": "^4.0.0",
     "tailwindcss": "^4.1.18",
     "terser": "^5.44.1",
-    "ts-loader": "^9.5.2",
+    "ts-loader": "9.5.4",
     "typescript": "^5.9.3",
     "vite": "^6.4.1",
     "vitest": "^4.0.16",
@@ -103,6 +104,6 @@
     "webpack-dev-server": "^5.2.0"
   },
   "engines": {
-    "node": "20.x"
+    "node": "24.x"
   }
 }

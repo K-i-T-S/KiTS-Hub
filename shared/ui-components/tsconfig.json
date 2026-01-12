@@ -1,28 +1,58 @@
 {
+  "extends": "../../tsconfig.lib.json",
   "compilerOptions": {
-    "target": "ES2020",
-    "lib": ["DOM", "DOM.Iterable", "ES6"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx",
-    "declaration": true,
-    "declarationMap": true,
-    "outDir": "dist",
-    "baseUrl": ".",
+    // Override output directory for ui-components specific build
+    "outDir": "./dist",
+    
+    // UI-components specific path aliases for clean imports
+    // Extends base paths with library-specific mappings
     "paths": {
-      "@/*": ["src/*"]
+      // Local library component imports
+      "@/components/*": ["./src/components/*"],
+      "@/hooks/*": ["./src/hooks/*"],
+      "@/lib/*": ["./src/lib/*"],
+      "@/utils/*": ["./src/utils/*"],
+      "@/types/*": ["./src/types/*"],
+      "@/assets/*": ["./src/assets/*"],
+      "@/styles/*": ["./src/styles/*"],
+      "@/config/*": ["./src/config/*"],
+      "@/services/*": ["./src/services/*"],
+      
+      // Cross-library imports for shared dependencies
+      "@shared/integration/*": ["../integration/*"],
+      
+      // Solution-specific imports for cross-solution compatibility
+      "@inventory/*": ["../../solutions/inventory-management/src/*"],
+      "@pos/*": ["../../solutions/point-of-sale/src/*"],
+      "@crm/*": ["../../solutions/crm-system/src/*"],
+      "@hr/*": ["../../solutions/hr-management/src/*"],
+      "@accounting/*": ["../../solutions/accounting-system/src/*"],
+      "@analytics/*": ["../../solutions/analytics-dashboard/src/*"]
     }
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "storybook-static"]
+
+  // Include ui-components source files and configuration
+  "include": [
+    "src/**/*",
+    "*.config.ts",
+    "*.config.js",
+    "*.config.cjs"
+  ],
+
+  // Exclude test files and build artifacts
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    "coverage",
+    "storybook-static",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "__tests__/**/*"
+  ],
+
+  // Enable composite project for TypeScript project references
+  "composite": true
 }

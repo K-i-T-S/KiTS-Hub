@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Card, CardContent } from '../ui/card'
 import { Badge } from '../ui/badge'
 import { cn } from '../../utils/cn'
-import { ShoppingCart, Package, DollarSign, Clock } from 'lucide-react'
+import { ShoppingCart, Calendar, DollarSign } from 'lucide-react'
 
 export interface SaleItemProps {
   id: string

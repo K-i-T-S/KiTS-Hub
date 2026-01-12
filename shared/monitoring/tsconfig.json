@@ -1,0 +1,60 @@
+{
+  "extends": "../../tsconfig.lib.json",
+  "compilerOptions": {
+    // Override output directory for monitoring specific build
+    "outDir": "./dist",
+    
+    // Enable declaration generation for composite project compatibility
+    "declaration": true,
+    
+    // Enable declaration map for better debugging
+    "declarationMap": true,
+    
+    // Monitoring specific path aliases for clean imports
+    "paths": {
+      // Local monitoring component imports
+      "@/components/*": ["./src/components/*"],
+      "@/utils/*": ["./src/utils/*"],
+      "@/types/*": ["./src/types/*"],
+      "@/config/*": ["./src/config/*"],
+      "@/services/*": ["./src/services/*"],
+      
+      // Cross-solution imports for micro-frontend architecture
+      "@shared/ui-components/*": ["../ui-components/src/*"],
+      "@shared/integration/*": ["../integration/core/src/*"],
+      
+      // Solution-specific imports for remote loading
+      "@inventory/*": ["../../solutions/inventory-management/src/*"],
+      "@pos/*": ["../../solutions/point-of-sale/src/*"],
+      "@crm/*": ["../../solutions/crm-system/src/*"],
+      "@hr/*": ["../../solutions/hr-management/src/*"],
+      "@accounting/*": ["../../solutions/accounting-system/src/*"],
+      "@analytics/*": ["../../solutions/analytics-dashboard/src/*"]
+    }
+  },
+
+  // Include monitoring source files and configuration
+  "include": [
+    "src/**/*",
+    "*.config.ts",
+    "*.config.js",
+    "*.config.cjs",
+    "package.json"
+  ],
+
+  // Exclude test files and build artifacts
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    "coverage",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "__tests__/**/*"
+  ],
+
+  // Enable composite project for TypeScript project references
+  "composite": true
+}

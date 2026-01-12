@@ -1,13 +1,13 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
 import { AlertTriangle, RefreshCw } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Button } from '../components/ui/button';
+import { Alert, AlertDescription, AlertTitle } from '../components/ui/alert';
 
-interface Props {
+export interface Props {
   children: ReactNode;
 }
 
-interface State {
+export interface State {
   hasError: boolean;
   error?: Error;
   errorInfo?: ErrorInfo;
@@ -23,7 +23,7 @@ class ErrorBoundary extends Component<Props, State> {
     return { hasError: true, error };
   }
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+  override componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('ErrorBoundary caught an error:', error, errorInfo);
     this.setState({ error, errorInfo });
   }
@@ -32,52 +32,23 @@ class ErrorBoundary extends Component<Props, State> {
     this.setState({ hasError: false, error: undefined, errorInfo: undefined });
   };
 
-  render() {
+  override render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen flex items-center justify-center p-4">
-          <div className="max-w-md w-full space-y-4">
-            <Alert className="error-boundary">
-              <AlertTriangle className="h-4 w-4" />
-              <AlertTitle>Application Error</AlertTitle>
+        <div className="min-h-screen flex items-center justify-center bg-gray-50">
+          <div className="text-center p-8">
+            <AlertTriangle className="h-12 w-12 text-red-500 mx-auto mb-4" />
+            <Alert className="max-w-md mx-auto">
+              <AlertTitle>Something went wrong</AlertTitle>
               <AlertDescription>
-                Something went wrong while loading this application. This could be due to:
-                <ul className="list-disc list-inside mt-2 text-sm">
-                  <li>Network connectivity issues</li>
-                  <li>Remote application unavailable</li>
-                  <li>Temporary service disruption</li>
-                </ul>
+                {this.state.error?.message || 'An unexpected error occurred'}
               </AlertDescription>
             </Alert>
-
-            {this.state.error && (
-              <details className="bg-muted/50 rounded-lg p-4">
-                <summary className="cursor-pointer font-medium text-sm">
-                  Technical Details
-                </summary>
-                <pre className="mt-2 text-xs text-muted-foreground whitespace-pre-wrap">
-                  {this.state.error.toString()}
-                  {this.state.errorInfo && this.state.errorInfo.componentStack}
-                </pre>
-              </details>
-            )}
-
-            <div className="flex space-x-2">
-              <Button onClick={this.handleRetry} className="flex-1">
-                <RefreshCw className="w-4 h-4 mr-2" />
-                Retry
+            <div className="mt-6">
+              <Button onClick={this.handleRetry} className="flex items-center gap-2">
+                <RefreshCw className="h-4 w-4" />
+                Try again
               </Button>
-              <Button 
-                variant="outline" 
-                onClick={() => window.location.href = '/'}
-                className="flex-1"
-              >
-                Go Home
-              </Button>
-            </div>
-
-            <div className="text-center text-sm text-muted-foreground">
-              <p>If this problem persists, please contact support.</p>
             </div>
           </div>
         </div>

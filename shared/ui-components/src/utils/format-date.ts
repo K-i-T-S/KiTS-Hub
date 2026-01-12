@@ -10,7 +10,7 @@ export function formatDate(
   options: DateFormatOptions = {}
 ): string {
   const {
-    locale = 'en-US',
+    locale = 'en-US', // Note: locale parameter available for future i18n implementation
     dateStyle = 'medium',
     timeStyle,
     timeZone,
@@ -37,8 +37,9 @@ export function formatDate(
 
 export function formatRelativeTime(
   date: Date | string | number,
-  locale = 'en-US'
+  _locale: string = 'en-US'
 ): string {
+  // Note: locale parameter available for future i18n implementation
   try {
     const dateObj = typeof date === 'string' || typeof date === 'number' 
       ? new Date(date) 

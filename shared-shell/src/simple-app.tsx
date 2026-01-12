@@ -1,10 +1,10 @@
-import React from 'react';
+import { createElement } from 'react';
 import { createRoot } from 'react-dom/client';
 
 console.log('=== SCRIPT STARTING ===');
 
 // Create a simple element using createElement
-const element = React.createElement('div', {
+const element = createElement('div', {
   style: {
     padding: '20px',
     backgroundColor: '#1e40af',
@@ -12,9 +12,9 @@ const element = React.createElement('div', {
     fontFamily: 'Arial, sans-serif',
     minHeight: '100vh'
   }
-}, React.createElement('h1', null, 'KiTS Hub - Working Shell'),
-  React.createElement('p', null, 'React is rendering successfully!'),
-  React.createElement('p', null, `Time: ${new Date().toLocaleString()}`));
+}, createElement('h1', null, 'Simple App Working!'),
+  createElement('p', null, 'This is a minimal test component.'),
+  createElement('p', null, `Time: ${new Date().toLocaleString()}`));
 
 console.log('=== ELEMENT CREATED ===');
 

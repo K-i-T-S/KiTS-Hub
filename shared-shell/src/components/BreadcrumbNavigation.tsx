@@ -1,4 +1,4 @@
-import React from 'react';
+import { Fragment } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ChevronRight, Home } from 'lucide-react';
 
@@ -69,7 +69,7 @@ const BreadcrumbNavigation: React.FC = () => {
         const isFirst = index === 0;
 
         return (
-          <React.Fragment key={item.path || index}>
+          <Fragment key={item.path || index}>
             {index > 0 && (
               <ChevronRight className="w-4 h-4 text-muted-foreground/50" />
             )}
@@ -92,7 +92,7 @@ const BreadcrumbNavigation: React.FC = () => {
                 {item.label}
               </Link>
             )}
-          </React.Fragment>
+          </Fragment>
         );
       })}
     </nav>

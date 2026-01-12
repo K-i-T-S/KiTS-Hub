@@ -1,0 +1,349 @@
+import { DevelopmentEnvironment, ProductionEnvironment, TestEnvironment } from './schema';
+/**
+ * Server-side configuration utilities
+ * Provides type-safe access to all environment variables (including server-only secrets)
+ */
+type ServerConfigUnion = (DevelopmentEnvironment & {
+    NODE_ENV: 'development';
+}) | (ProductionEnvironment & {
+    NODE_ENV: 'production';
+}) | (TestEnvironment & {
+    NODE_ENV: 'test';
+});
+type FullServerConfig = ServerConfigUnion & {
+    SUPABASE_SERVICE_ROLE_KEY?: string;
+    DATABASE_URL?: string;
+    DATABASE_POOL_SIZE?: number;
+    DATABASE_TIMEOUT?: number;
+    REDIS_URL?: string;
+    REDIS_PASSWORD?: string;
+    REDIS_TTL?: number;
+    API_PORT?: number;
+    API_HOST?: string;
+    API_TIMEOUT?: number;
+    JWT_SECRET?: string;
+    JWT_EXPIRES_IN?: string;
+    API_KEY_SECRET?: string;
+    SMTP_HOST?: string;
+    SMTP_PORT?: number;
+    SMTP_USER?: string;
+    SMTP_PASS?: string;
+    SMTP_FROM?: string;
+    AWS_ACCESS_KEY_ID?: string;
+    AWS_SECRET_ACCESS_KEY?: string;
+    AWS_REGION?: string;
+    AWS_S3_BUCKET?: string;
+    STRIPE_SECRET_KEY?: string;
+    STRIPE_WEBHOOK_SECRET?: string;
+    PAYPAL_CLIENT_SECRET?: string;
+    LOG_LEVEL?: 'error' | 'warn' | 'info' | 'debug';
+    LOG_FORMAT?: 'json' | 'text';
+    ENABLE_METRICS?: boolean;
+    RATE_LIMIT_WINDOW?: number;
+    RATE_LIMIT_MAX_REQUESTS?: number;
+    SESSION_SECRET?: string;
+    SESSION_TTL?: number;
+    CORS_ORIGIN?: string;
+    CORS_METHODS?: string;
+    CORS_HEADERS?: string;
+    WEBHOOK_SECRET?: string;
+    WEBHOOK_TIMEOUT?: number;
+    BACKUP_SCHEDULE?: string;
+    BACKUP_RETENTION_DAYS?: number;
+    DEV_SERVER_PORT?: number;
+    DEV_SERVER_HOST?: string;
+    HOT_RELOAD?: boolean;
+};
+export type ServerConfigType = FullServerConfig;
+/**
+ * Validates and returns server-side environment configuration
+ * This function should be called once at application startup
+ */
+export declare function validateServerEnvironment(env?: Record<string, string | undefined>): ServerConfigType;
+/**
+ * Server configuration class with type-safe accessors
+ */
+export declare class ServerConfig {
+    private static instance;
+    private config;
+    private constructor();
+    /**
+     * Initialize the server configuration
+     * This should be called once at application startup
+     */
+    static initialize(env?: Record<string, string | undefined>): ServerConfig;
+    /**
+     * Get the singleton instance
+     */
+    static getInstance(): ServerConfig;
+    /**
+     * Get the entire configuration object
+     */
+    getAll(): ServerConfigType;
+    get nodeEnv(): string;
+    get isDevelopment(): boolean;
+    get isProduction(): boolean;
+    get isTest(): boolean;
+    get appUrl(): string;
+    get apiUrl(): string;
+    get supabaseUrl(): string;
+    get supabaseAnonKey(): string;
+    get supabaseServiceRoleKey(): string;
+    get databaseUrl(): string;
+    get databasePoolSize(): number;
+    get databaseTimeout(): number;
+    get redisUrl(): string | undefined;
+    get redisPassword(): string | undefined;
+    get redisTtl(): number;
+    get apiPort(): number;
+    get apiHost(): string;
+    get apiTimeout(): number;
+    get jwtSecret(): string;
+    get jwtExpiresIn(): string;
+    get apiKeySecret(): string;
+    get smtpHost(): string | undefined;
+    get smtpPort(): number;
+    get smtpUser(): string | undefined;
+    get smtpPass(): string | undefined;
+    get smtpFrom(): string | undefined;
+    get awsAccessKeyId(): string | undefined;
+    get awsSecretAccessKey(): string | undefined;
+    get awsRegion(): string;
+    get awsS3Bucket(): string | undefined;
+    get stripeSecretKey(): string | undefined;
+    get stripeWebhookSecret(): string | undefined;
+    get paypalClientSecret(): string | undefined;
+    get logLevel(): 'error' | 'warn' | 'info' | 'debug';
+    get logFormat(): 'json' | 'text';
+    get metricsEnabled(): boolean;
+    get rateLimitWindow(): number;
+    get rateLimitMaxRequests(): number;
+    get sessionSecret(): string;
+    get sessionTtl(): number;
+    get corsOrigin(): string;
+    get corsMethods(): string;
+    get corsHeaders(): string;
+    get webhookSecret(): string;
+    get webhookTimeout(): number;
+    get backupSchedule(): string;
+    get backupRetentionDays(): number;
+    get devServerPort(): number;
+    get devServerHost(): string;
+    get hotReload(): boolean;
+    get analyticsEnabled(): boolean;
+    get errorReportingEnabled(): boolean;
+    get performanceMonitoringEnabled(): boolean;
+    get featureXEnabled(): boolean;
+    get betaFeaturesEnabled(): boolean;
+    get gaTrackingId(): string | undefined;
+    get hotjarId(): string | undefined;
+    get sentryDsn(): string | undefined;
+    get clarityId(): string | undefined;
+    get inventoryUrl(): string;
+    get posUrl(): string;
+    get crmUrl(): string;
+    get hrUrl(): string;
+    get accountingUrl(): string;
+    get analyticsUrl(): string;
+    get appName(): string;
+    get appVersion(): string;
+    get appDescription(): string;
+    get theme(): 'light' | 'dark' | 'auto';
+    get primaryColor(): string;
+    get locale(): string;
+    get devToolsEnabled(): boolean;
+    get publicLogLevel(): 'error' | 'warn' | 'info' | 'debug';
+    get cacheTtl(): number;
+    get cacheEnabled(): boolean;
+    /**
+     * Get database configuration object
+     */
+    getDatabaseConfig(): {
+        url: string;
+        poolSize: number;
+        timeout: number;
+    };
+    /**
+     * Get Redis configuration object
+     */
+    getRedisConfig(): {
+        url: string | undefined;
+        password: string | undefined;
+        ttl: number;
+    };
+    /**
+     * Get Supabase configuration object
+     */
+    getSupabaseConfig(): {
+        url: string;
+        anonKey: string;
+        serviceRoleKey: string;
+    };
+    /**
+     * Get email configuration object
+     */
+    getEmailConfig(): {
+        host: string | undefined;
+        port: number;
+        user: string | undefined;
+        pass: string | undefined;
+        from: string | undefined;
+    };
+    /**
+     * Get AWS configuration object
+     */
+    getAwsConfig(): {
+        accessKeyId: string | undefined;
+        secretAccessKey: string | undefined;
+        region: string;
+        s3Bucket: string | undefined;
+    };
+    /**
+     * Get payment configuration object
+     */
+    getPaymentConfig(): {
+        stripe: {
+            secretKey: string | undefined;
+            webhookSecret: string | undefined;
+        };
+        paypal: {
+            clientSecret: string | undefined;
+        };
+    };
+    /**
+     * Get security configuration object
+     */
+    getSecurityConfig(): {
+        jwt: {
+            secret: string;
+            expiresIn: string;
+        };
+        apiKey: {
+            secret: string;
+        };
+        session: {
+            secret: string;
+            ttl: number;
+        };
+        webhook: {
+            secret: string;
+            timeout: number;
+        };
+    };
+    /**
+     * Get CORS configuration object
+     */
+    getCorsConfig(): {
+        origin: string;
+        methods: string;
+        headers: string;
+    };
+    /**
+     * Check if all required secrets are present
+     */
+    validateRequiredSecrets(): {
+        valid: boolean;
+        missing: string[];
+    };
+    /**
+     * Check if optional services are configured
+     */
+    getOptionalServicesStatus(): {
+        redis: boolean;
+        email: boolean;
+        aws: boolean;
+        stripe: boolean;
+        paypal: boolean;
+        analytics: boolean;
+        sentry: boolean;
+        hotjar: boolean;
+    };
+}
+/**
+ * Get the server configuration instance
+ * Initializes if not already done
+ */
+export declare function getServerConfig(): ServerConfig;
+/**
+ * Initialize server configuration with custom environment
+ */
+export declare function initServerConfig(env: Record<string, string | undefined>): ServerConfig;
+export declare const serverConfigGetters: {
+    readonly nodeEnv: string;
+    readonly isDevelopment: boolean;
+    readonly isProduction: boolean;
+    readonly isTest: boolean;
+    readonly appUrl: string;
+    readonly apiUrl: string;
+    readonly supabaseUrl: string;
+    readonly supabaseAnonKey: string;
+    readonly supabaseServiceRoleKey: string;
+    readonly databaseUrl: string;
+    readonly databasePoolSize: number;
+    readonly databaseTimeout: number;
+    readonly redisUrl: string | undefined;
+    readonly redisPassword: string | undefined;
+    readonly redisTtl: number;
+    readonly apiPort: number;
+    readonly apiHost: string;
+    readonly apiTimeout: number;
+    readonly jwtSecret: string;
+    readonly jwtExpiresIn: string;
+    readonly apiKeySecret: string;
+    readonly smtpHost: string | undefined;
+    readonly smtpPort: number;
+    readonly smtpUser: string | undefined;
+    readonly smtpPass: string | undefined;
+    readonly smtpFrom: string | undefined;
+    readonly awsAccessKeyId: string | undefined;
+    readonly awsSecretAccessKey: string | undefined;
+    readonly awsRegion: string;
+    readonly awsS3Bucket: string | undefined;
+    readonly stripeSecretKey: string | undefined;
+    readonly stripeWebhookSecret: string | undefined;
+    readonly paypalClientSecret: string | undefined;
+    readonly logLevel: "error" | "warn" | "info" | "debug";
+    readonly logFormat: "json" | "text";
+    readonly metricsEnabled: boolean;
+    readonly rateLimitWindow: number;
+    readonly rateLimitMaxRequests: number;
+    readonly sessionSecret: string;
+    readonly sessionTtl: number;
+    readonly corsOrigin: string;
+    readonly corsMethods: string;
+    readonly corsHeaders: string;
+    readonly webhookSecret: string;
+    readonly webhookTimeout: number;
+    readonly backupSchedule: string;
+    readonly backupRetentionDays: number;
+    readonly devServerPort: number;
+    readonly devServerHost: string;
+    readonly hotReload: boolean;
+    readonly analyticsEnabled: boolean;
+    readonly errorReportingEnabled: boolean;
+    readonly performanceMonitoringEnabled: boolean;
+    readonly featureXEnabled: boolean;
+    readonly betaFeaturesEnabled: boolean;
+    readonly gaTrackingId: string | undefined;
+    readonly hotjarId: string | undefined;
+    readonly sentryDsn: string | undefined;
+    readonly clarityId: string | undefined;
+    readonly inventoryUrl: string;
+    readonly posUrl: string;
+    readonly crmUrl: string;
+    readonly hrUrl: string;
+    readonly accountingUrl: string;
+    readonly analyticsUrl: string;
+    readonly appName: string;
+    readonly appVersion: string;
+    readonly appDescription: string;
+    readonly theme: "light" | "dark" | "auto";
+    readonly primaryColor: string;
+    readonly locale: string;
+    readonly devToolsEnabled: boolean;
+    readonly publicLogLevel: "error" | "warn" | "info" | "debug";
+    readonly cacheTtl: number;
+    readonly cacheEnabled: boolean;
+};
+export {};
+//# sourceMappingURL=server.d.ts.map

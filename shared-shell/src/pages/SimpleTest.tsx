@@ -1,6 +1,4 @@
-import React from 'react';
-
-const SimpleTest: React.FC = () => {
+const SimpleTest = () => {
   return (
     <div style={{ padding: '20px', backgroundColor: 'red', color: 'white' }}>
       <h1>TEST PAGE - If you see this, React is working</h1>

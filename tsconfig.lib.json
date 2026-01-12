@@ -1,0 +1,127 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    // Enable declaration file generation for library distribution
+    // Essential for type sharing across micro-frontend solutions
+    "declaration": true,
+
+    // Enable declaration map generation for better debugging
+    // Provides accurate type information jump-to-definition in IDEs
+    "declarationMap": true,
+
+    // Specify output directory for compiled library files
+    // Standard distribution directory for npm packages
+    "outDir": "./dist",
+
+    // Set module format for library distribution
+    // CommonJS ensures compatibility with most bundlers and Node.js
+    "module": "CommonJS",
+
+    // Generate both CommonJS and ES modules for maximum compatibility
+    // Allows bundlers to tree-shake more effectively with ES modules
+    "moduleResolution": "node",
+
+    // Enable source maps for library debugging
+    // Essential for developers using the library in their projects
+    "sourceMap": true,
+
+    // Enable strict null checks for library type safety
+    // Prevents null/undefined runtime errors in consuming applications
+    "strictNullChecks": true,
+
+    // Enable strict function types for better type inference
+    // Ensures function compatibility across different TypeScript versions
+    "strictFunctionTypes": true,
+
+    // Enable strict bind call apply for better method binding
+    // Prevents context loss issues in library methods
+    "strictBindCallApply": true,
+
+    // Enable strict property initialization for class properties
+    // Ensures all exported class properties are properly initialized
+    "strictPropertyInitialization": true,
+
+    // Enable exactOptionalPropertyTypes for stricter API contracts
+    // Prevents undefined values where explicit null is expected in library APIs
+    "exactOptionalPropertyTypes": true,
+
+    // Enable noImplicitAny for maximum type safety in library APIs
+    // Prevents runtime errors from untyped library usage
+    "noImplicitAny": true,
+
+    // Enable noImplicitReturns for consistent library function behavior
+    // Ensures all library functions return appropriate values
+    "noImplicitReturns": true,
+
+    // Enable noImplicitThis for better context handling in library methods
+    // Prevents 'this' context issues in library callbacks
+    "noImplicitThis": true,
+
+    // Enable noUnusedLocals for cleaner library code
+    // Reduces library bundle size by eliminating unused variables
+    "noUnusedLocals": true,
+
+    // Enable noUnusedParameters for cleaner library function signatures
+    // Ensures library function parameters are actually used
+    "noUnusedParameters": true,
+
+    // Library-specific path aliases for clean internal imports
+    // Enables consistent import patterns within the library
+    "paths": {
+      // Internal library component imports
+      "@/components/*": ["./src/components/*"],
+      "@/hooks/*": ["./src/hooks/*"],
+      "@/lib/*": ["./src/lib/*"],
+      "@/utils/*": ["./src/utils/*"],
+      "@/types/*": ["./src/types/*"],
+      "@/assets/*": ["./src/assets/*"],
+      "@/styles/*": ["./src/styles/*"],
+      "@/config/*": ["./src/config/*"],
+      "@/services/*": ["./src/services/*"],
+      
+      // Cross-library imports for shared dependencies
+      "@shared/integration/*": ["../integration/*"],
+      
+      // Solution-specific imports for cross-solution compatibility
+      "@inventory/*": ["../../solutions/inventory-management/src/*"],
+      "@pos/*": ["../../solutions/point-of-sale/src/*"],
+      "@crm/*": ["../../solutions/crm-system/src/*"],
+      "@hr/*": ["../../solutions/hr-management/src/*"],
+      "@accounting/*": ["../../solutions/accounting-system/src/*"],
+      "@analytics/*": ["../../solutions/analytics-dashboard/src/*"]
+    }
+  },
+
+  // Include library source files and type definitions
+  // Ensures comprehensive type checking for the entire library
+  "include": [
+    "src/**/*",
+    "*.config.ts",
+    "*.config.js",
+    "*.config.cjs"
+  ],
+
+  // Exclude test files and build artifacts from library compilation
+  // Tests use separate TypeScript configuration
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    "coverage",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "__tests__/**/*",
+    "test/**/*",
+    "tests/**/*",
+    "examples/**/*",
+    "docs/**/*"
+  ],
+
+  // References to other shared libraries for project references
+  // Enables incremental builds and dependency management
+  "references": [
+    { "path": "../integration/core" }
+  ]
+}

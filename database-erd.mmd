@@ -1,0 +1,413 @@
+erDiagram
+    %% Multi-Tenant Foundation
+    tenants ||--o{ tenant_users : has
+    tenants ||--o{ locations : contains
+    tenants ||--o{ api_keys : owns
+    tenants ||--o{ webhooks : configures
+    tenants ||--o{ workflows : automates
+    
+    %% User Management
+    auth.users ||--o{ user_profiles : extends
+    auth.users ||--o{ tenant_users : belongs_to
+    auth.users ||--o{ user_sessions : creates
+    auth.users ||--o{ audit_logs : performs
+    auth.users ||--o{ invitations : receives
+    
+    %% Role-Based Access Control
+    roles ||--o{ role_permissions : grants
+    roles ||--o{ user_roles : assigned_to
+    permissions ||--o{ role_permissions : mapped_to
+    
+    %% User-Role-Tenant Relationships
+    tenant_users }o--|| roles : has
+    user_roles }o--|| roles : assigns
+    user_roles }o--|| auth.users : for
+    user_roles }o--|| tenants : within
+    
+    %% Inventory Management
+    tenants ||--o{ products : owns
+    products ||--o{ product_batches : tracked_in
+    products ||--o{ sale_items : sold_as
+    products ||--o{ inventory_by_location : stored_at
+    products ||--o{ purchase_order_items : ordered
+    products ||--o{ stock_transfer_items : transferred
+    
+    suppliers ||--o{ products : supplies
+    suppliers ||--o{ purchase_orders : creates
+    locations ||--o{ product_batches : stores
+    locations ||--o{ inventory_by_location : tracks
+    locations ||--o{ purchase_orders : receives
+    locations ||--o{ stock_transfers : from_to
+    locations ||--o{ employees : works_at
+    locations ||--o{ sales : occurs_at
+    
+    purchase_orders ||--o{ purchase_order_items : contains
+    stock_transfers ||--o{ stock_transfer_items : moves
+    
+    %% Point of Sale
+    tenants ||--o{ sales : processes
+    sales ||--o{ sale_items : contains
+    sales ||--o{ split_payments : paid_with
+    sales ||--o{ tips : includes
+    sales ||--o{ inventory_movements : affects
+    
+    customers ||--o{ sales : makes
+    employees ||--o{ sales : processes
+    discount_coupons ||--o{ sales : applied_to
+    loyalty_programs ||--o{ customer_loyalty_memberships : enrolls
+    customer_loyalty_memberships ||--o{ loyalty_transactions : earns
+    
+    %% CRM System
+    tenants ||--o{ customers : serves
+    customers ||--o{ customer_communications : communicates_with
+    customers ||--o{ customer_interactions : interacts_with
+    customers ||--o{ customer_preferences : has
+    customers ||--o{ customer_segment_memberships : belongs_to
+    customers ||--o{ customer_loyalty_memberships : joins
+    
+    marketing_campaigns ||--o{ campaign_deliveries : delivers
+    marketing_campaigns ||--o{ customer_segments : targets
+    customer_segments ||--o{ customer_segment_memberships : contains
+    loyalty_programs ||--o{ loyalty_rewards : offers
+    
+    %% HR Management
+    tenants ||--o{ employees : employs
+    employees ||--o{ attendance : tracks
+    employees ||--o{ payroll : pays
+    employees ||--o{ user_profiles : has_profile
+    
+    %% Accounting System
+    tenants ||--o{ chart_of_accounts : maintains
+    tenants ||--o{ financial_transactions : records
+    tenants ||--o{ invoices : issues
+    
+    chart_of_accounts ||--o{ financial_transactions : categorizes
+    customers ||--o{ invoices : billed_to
+    sales ||--o{ financial_transactions : generates
+    
+    %% Workflow Automation
+    tenants ||--o{ workflows : owns
+    workflows ||--o{ workflow_executions : executes
+    workflows ||--o{ workflow_schedules : scheduled_by
+    workflow_templates ||--o{ workflows : templates_for
+    
+    %% Advanced Features
+    tenants ||--o{ onboarding_steps : configures
+    auth.users ||--o{ user_onboarding_progress : progresses_through
+    
+    %% Security & Audit
+    user_sessions ||--o{ audit_logs : logs
+    tenants ||--o{ audit_logs : audited_in
+    
+    %% API & Integration
+    api_keys ||--o{ api_usage_logs : tracks
+    webhooks ||--o{ webhook_deliveries : delivers
+    
+    %% Relationships with cardinality
+    tenants {
+        uuid id PK
+        string name
+        string slug UK
+        string subscription_plan
+        jsonb settings
+        boolean is_active
+        string business_type
+        string size
+        string currency
+        string timezone
+        timestamp created_at
+        timestamp updated_at
+    }
+    
+    auth.users {
+        uuid id PK
+        string email UK
+        timestamp created_at
+    }
+    
+    user_profiles {
+        uuid id PK
+        uuid user_id FK
+        string first_name
+        string last_name
+        string phone
+        string avatar_url
+        string timezone
+        string language
+        boolean mfa_enabled
+        timestamp onboarding_completed_at
+        integer onboarding_step
+        boolean is_active
+        timestamp created_at
+        timestamp updated_at
+    }
+    
+    tenant_users {
+        uuid id PK
+        uuid tenant_id FK
+        uuid user_id FK
+        string role
+        boolean is_active
+        timestamp created_at
+        timestamp updated_at
+    }
+    
+    roles {
+        uuid id PK
+        string name UK
+        string description
+        boolean is_system_role
+        uuid tenant_id FK
+        timestamp created_at
+        timestamp updated_at
+    }
+    
+    permissions {
+        uuid id PK
+        string name UK
+        string description
+        string resource
+        string action
+        timestamp created_at
+    }
+    
+    role_permissions {
+        uuid id PK
+        uuid role_id FK
+        uuid permission_id FK
+        timestamp created_at
+    }
+    
+    user_roles {
+        uuid id PK
+        uuid user_id FK
+        uuid tenant_id FK
+        uuid role_id FK
+        timestamp assigned_at
+        timestamp expires_at
+        boolean is_active
+    }
+    
+    products {
+        uuid id PK
+        uuid tenant_id FK
+        string name
+        text description
+        decimal price
+        decimal cost
+        string sku
+        string barcode
+        string category
+        integer stock_quantity
+        integer min_stock_level
+        boolean track_batches
+        boolean track_expiration
+        jsonb variants
+        string supplier
+        timestamp validity_date
+        boolean is_active
+        timestamp created_at
+        timestamp updated_at
+    }
+    
+    customers {
+        uuid id PK
+        uuid tenant_id FK
+        string name
+        string email
+        string phone
+        text address
+        decimal total_purchases
+        integer visit_count
+        timestamp last_visit
+        uuid preferred_location_id FK
+        timestamp created_at
+        timestamp updated_at
+    }
+    
+    employees {
+        uuid id PK
+        uuid tenant_id FK
+        string name
+        string email
+        string phone
+        string role
+        decimal commission
+        decimal total_sales
+        jsonb shifts
+        uuid location_id FK
+        boolean is_active
+        timestamp hire_date
+        timestamp created_at
+        timestamp updated_at
+    }
+    
+    sales {
+        uuid id PK
+        uuid tenant_id FK
+        uuid customer_id FK
+        uuid employee_id FK
+        uuid location_id FK
+        timestamp sale_date
+        decimal subtotal
+        decimal tax_amount
+        decimal total_amount
+        string payment_method
+        string payment_status
+        jsonb tip_info
+        uuid applied_coupon_id FK
+        integer loyalty_points_earned
+        text notes
+        timestamp created_at
+    }
+    
+    locations {
+        uuid id PK
+        uuid tenant_id FK
+        string name
+        string code UK
+        string type
+        jsonb address
+        jsonb operating_hours
+        string timezone
+        boolean is_active
+        boolean is_primary
+        timestamp created_at
+        timestamp updated_at
+    }
+    
+    suppliers {
+        uuid id PK
+        uuid tenant_id FK
+        string name
+        string contact_person
+        string email
+        string phone
+        text address
+        string tax_id
+        string payment_terms
+        integer lead_time_days
+        boolean is_active
+        timestamp created_at
+        timestamp updated_at
+    }
+    
+    product_batches {
+        uuid id PK
+        uuid tenant_id FK
+        uuid product_id FK
+        uuid location_id FK
+        string batch_number
+        uuid supplier_id FK
+        integer quantity
+        integer quantity_reserved
+        decimal unit_cost
+        date manufacture_date
+        date expiration_date
+        timestamp received_date
+        boolean is_active
+        timestamp created_at
+        timestamp updated_at
+    }
+    
+    purchase_orders {
+        uuid id PK
+        uuid tenant_id FK
+        uuid supplier_id FK
+        uuid location_id FK
+        string order_number UK
+        string status
+        timestamp order_date
+        date expected_date
+        timestamp received_date
+        decimal subtotal
+        decimal tax_amount
+        decimal total_amount
+        text notes
+        timestamp created_at
+        timestamp updated_at
+    }
+    
+    sale_items {
+        uuid id PK
+        uuid sale_id FK
+        uuid product_id FK
+        integer quantity
+        decimal unit_price
+        decimal total_price
+        timestamp created_at
+    }
+    
+    workflows {
+        uuid id PK
+        uuid tenant_id FK
+        string name
+        text description
+        string trigger_type
+        jsonb trigger_config
+        jsonb actions
+        boolean is_active
+        timestamp created_at
+        timestamp updated_at
+        timestamp last_run_at
+        integer run_count
+        integer error_count
+    }
+    
+    api_keys {
+        uuid id PK
+        uuid tenant_id FK
+        string name
+        string key_hash UK
+        string key_prefix
+        jsonb permissions
+        integer rate_limit
+        boolean is_active
+        timestamp expires_at
+        timestamp last_used_at
+        timestamp created_at
+        timestamp updated_at
+    }
+    
+    webhooks {
+        uuid id PK
+        uuid tenant_id FK
+        string name
+        string url
+        jsonb events
+        string secret
+        boolean active
+        jsonb retry_config
+        timestamp created_at
+        timestamp updated_at
+        timestamp last_triggered_at
+    }
+    
+    user_sessions {
+        uuid id PK
+        uuid user_id FK
+        uuid tenant_id FK
+        string session_token UK
+        jsonb device_info
+        inet ip_address
+        text user_agent
+        boolean is_active
+        timestamp last_activity_at
+        timestamp expires_at
+        timestamp created_at
+    }
+    
+    audit_logs {
+        uuid id PK
+        uuid user_id FK
+        uuid tenant_id FK
+        uuid session_id FK
+        string action
+        string resource_type
+        uuid resource_id
+        jsonb old_values
+        jsonb new_values
+        inet ip_address
+        text user_agent
+        timestamp created_at
+    }

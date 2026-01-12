@@ -79,6 +79,14 @@ module.exports = (env, argv) => {
             singleton: false,
             requiredVersion: dependencies['lucide-react'],
           },
+          '@kits-hub/ui': {
+            singleton: true,
+            requiredVersion: '^1.0.0',
+            eager: false,
+            import: '@kits-hub/ui',
+            shareKey: '@kits-hub/ui',
+            shareScope: 'default',
+          },
         },
       }),
       new HtmlWebpackPlugin({

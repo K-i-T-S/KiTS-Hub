@@ -76,6 +76,14 @@ module.exports = (env, argv) => {
             requiredVersion: dependencies['@supabase/supabase-js'],
           },
           'lucide-react': {
+          '@kits-hub/ui': {
+            singleton: true,
+            requiredVersion: '^1.0.0',
+            eager: false,
+            import: '@kits-hub/ui',
+            shareKey: '@kits-hub/ui',
+            shareScope: 'default',
+          },
             singleton: false,
             requiredVersion: dependencies['lucide-react'],
           },

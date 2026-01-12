@@ -23,7 +23,33 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.jsx'],
     alias: {
+      // Local shell component imports
       '@': path.resolve(__dirname, 'src'),
+      '@/components': path.resolve(__dirname, 'src/components'),
+      '@/pages': path.resolve(__dirname, 'src/pages'),
+      '@/hooks': path.resolve(__dirname, 'src/hooks'),
+      '@/lib': path.resolve(__dirname, 'src/lib'),
+      '@/utils': path.resolve(__dirname, 'src/utils'),
+      '@/types': path.resolve(__dirname, 'src/types'),
+      '@/assets': path.resolve(__dirname, 'src/assets'),
+      '@/styles': path.resolve(__dirname, 'src/styles'),
+      '@/config': path.resolve(__dirname, 'src/config'),
+      '@/services': path.resolve(__dirname, 'src/services'),
+      '@/store': path.resolve(__dirname, 'src/store'),
+      
+      // Cross-solution imports for micro-frontend architecture
+      '@shared-shell': path.resolve(__dirname, '../shared-shell/src'),
+      '@shared/ui-components': path.resolve(__dirname, '../shared/ui-components/src'),
+      '@shared/integration': path.resolve(__dirname, '../shared/integration/core/src'),
+      '@kits-hub/ui': path.resolve(__dirname, '../packages/ui/src'),
+      
+      // Solution-specific imports for remote loading
+      '@inventory': path.resolve(__dirname, '../solutions/inventory-management/src'),
+      '@pos': path.resolve(__dirname, '../solutions/point-of-sale/src'),
+      '@crm': path.resolve(__dirname, '../solutions/crm-system/src'),
+      '@hr': path.resolve(__dirname, '../solutions/hr-management/src'),
+      '@accounting': path.resolve(__dirname, '../solutions/accounting-system/src'),
+      '@analytics': path.resolve(__dirname, '../solutions/analytics-dashboard/src'),
     },
   },
   module: {
@@ -99,6 +125,14 @@ module.exports = {
           eager: false,
           import: 'react-router-dom',
           shareKey: 'react-router-dom',
+          shareScope: 'default',
+        },
+        '@kits-hub/ui': {
+          singleton: true,
+          requiredVersion: '^1.0.0',
+          eager: false,
+          import: '@kits-hub/ui',
+          shareKey: '@kits-hub/ui',
           shareScope: 'default',
         },
       },

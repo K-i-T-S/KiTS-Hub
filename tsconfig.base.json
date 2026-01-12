@@ -1,0 +1,203 @@
+{
+  "compilerOptions": {
+    // Modern JavaScript target for optimal performance and bundle size
+    // ESNext provides access to the latest JavaScript features while allowing bundlers to polyfill as needed
+    "target": "ESNext",
+
+    // Include modern DOM and JavaScript library features for comprehensive browser support
+    // DOM.Iterable enables iteration over DOM collections, ESNext provides latest JS APIs
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+
+    // Allow JavaScript files to be imported alongside TypeScript files
+    // Essential for mixed JS/TS codebases and third-party libraries without type definitions
+    "allowJs": true,
+
+    // Skip type checking of declaration files (*.d.ts) for faster compilation
+    // Improves build performance, especially with large node_modules directories
+    "skipLibCheck": true,
+
+    // Enable CommonJS/ES Module interoperability for seamless imports
+    // Allows default imports from CommonJS modules that don't have explicit default exports
+    "esModuleInterop": true,
+
+    // Allow synthetic default imports when no default export is explicitly declared
+    // Provides cleaner import syntax for CommonJS modules
+    "allowSyntheticDefaultImports": true,
+
+    // Enable all strict type-checking options for maximum type safety
+    // Critical for catching bugs at compile-time in micro-frontend architecture
+    "strict": true,
+
+    // Ensure consistent casing in file imports for cross-platform compatibility
+    // Prevents module resolution issues between Windows and Unix-like systems
+    "forceConsistentCasingInFileNames": true,
+
+    // Report errors for fallthrough cases in switch statements
+    // Prevents unintended code execution paths in complex business logic
+    "noFallthroughCasesInSwitch": true,
+
+    // Modern ESNext module syntax for optimal tree-shaking and bundling
+    // Enables bundlers to perform dead code elimination more effectively
+    "module": "ESNext",
+
+    // Use bundler-aware module resolution for micro-frontend architecture
+    // Allows bundlers (Webpack, Vite) to handle module resolution with custom aliases
+    "moduleResolution": "bundler",
+
+    // Enable importing JSON files as modules for configuration and data files
+    // Essential for importing package.json, configuration files, and static data
+    "resolveJsonModule": true,
+
+    // Ensure each file can be safely transpiled without relying on other files
+    // Critical for Module Federation and micro-frontend isolation
+    "isolatedModules": true,
+
+    // Generate declaration files for type definitions in libraries
+    // Essential for shared components and cross-solution type sharing
+    "declaration": true,
+
+    // Generate source maps for declaration files for better debugging
+    // Provides accurate type information jump-to-definition in IDEs
+    "declarationMap": true,
+
+    // Generate source maps for debugging compiled JavaScript
+    // Essential for production debugging and error tracking
+    "sourceMap": true,
+
+    // Preserve comments in output for better code documentation
+    // Helpful for debugging and understanding compiled code
+    "removeComments": false,
+
+    // Enable implicit any type checking for strict type safety
+    // Prevents runtime errors from untyped variables in micro-frontend communication
+    "noImplicitAny": true,
+
+    // Report error when not all code paths in function return a value
+    // Ensures consistent return behavior across solution boundaries
+    "noImplicitReturns": true,
+
+    // Raise error on 'this' expressions with implicit 'any' type
+    // Prevents context loss in event handlers and cross-solution callbacks
+    "noImplicitThis": true,
+
+    // Report errors on unused local variables for cleaner code
+    // Reduces bundle size and improves maintainability
+    "noUnusedLocals": true,
+
+    // Report errors on unused parameters for cleaner function signatures
+    // Ensures APIs remain focused and maintainable
+    "noUnusedParameters": true,
+
+    // Enforce exact optional property types for stricter type checking
+    // Temporarily disabled for compatibility with existing codebase
+    // Re-enable after codebase migration
+    "exactOptionalPropertyTypes": false,
+
+    // Require explicit override annotation for overridden methods
+    // Ensures intentional method overriding in shared component extensions
+    "noImplicitOverride": true,
+
+    // Allow property access via index signature for flexible data structures
+    // Enables dynamic property access in API responses and configuration objects
+    "noPropertyAccessFromIndexSignature": false,
+
+    // Disable strict unchecked indexed access for easier array/object access
+    // Balances type safety with developer ergonomics for data processing
+    "noUncheckedIndexedAccess": false,
+
+    // Disallow unused labels for cleaner control flow
+    // Prevents confusion from unused loop labels in complex business logic
+    "allowUnusedLabels": false,
+
+    // Disallow unreachable code for better error detection
+    // Ensures all code paths are intentional and testable
+    "allowUnreachableCode": false,
+
+    // Base directory for resolving non-relative module imports
+    // Essential for configuring path aliases across micro-frontend architecture
+    "baseUrl": ".",
+
+    // Path aliases for clean imports across workspaces
+    // Enables consistent import patterns regardless of file location
+    "paths": {
+      // Solution-specific aliases for micro-frontend imports
+      "@kits-hub/shared-shell": ["./shared-shell/src"],
+      "@kits-hub/inventory-management": ["./solutions/inventory-management/src"],
+      "@kits-hub/point-of-sale": ["./solutions/point-of-sale/src"],
+      "@kits-hub/crm-system": ["./solutions/crm-system/src"],
+      "@kits-hub/hr-management": ["./solutions/hr-management/src"],
+      "@kits-hub/accounting-system": ["./solutions/accounting-system/src"],
+      "@kits-hub/analytics-dashboard": ["./solutions/analytics-dashboard/src"],
+      
+      // Shared library aliases for cross-solution component sharing
+      "@kits-hub/ui-components": ["./shared/ui-components/src"],
+      "@kits-hub/integration-core": ["./shared/integration/core/src"],
+      
+      // Generic aliases for flexible workspace access
+      "@shared/*": ["./shared/*/src"],
+      "@solutions/*": ["./solutions/*/src"],
+      
+      // Local development aliases for each workspace
+      "@/components": ["./src/components"],
+      "@/lib": ["./src/lib"],
+      "@/hooks": ["./src/hooks"],
+      "@/utils": ["./src/utils"],
+      "@/types": ["./src/types"],
+      "@/assets": ["./src/assets"],
+      "@/styles": ["./src/styles"]
+    },
+
+    // React JSX transform for modern React applications
+    // Enables automatic JSX runtime import for better bundle optimization
+    "jsx": "react-jsx",
+
+    // Enable incremental compilation for faster rebuilds
+    // Essential for development performance in large micro-frontend codebases
+    "incremental": true,
+
+    // Specify file for storing incremental compilation information
+    // Enables consistent incremental builds across development sessions
+    "tsBuildInfoFile": ".tsbuildinfo",
+
+    // Enable composite project for project references
+    // Required for TypeScript project references in micro-frontend architecture
+    "composite": true
+  },
+
+  // Include all source files from workspaces for type checking
+  // Ensures comprehensive type coverage across the entire platform
+  "include": [
+    "shared-shell/**/*",
+    "shared/**/*", 
+    "solutions/**/*",
+    "tests/**/*"
+  ],
+
+  // Exclude build artifacts and dependencies for faster compilation
+  // Prevents type checking of generated files and third-party code
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    "coverage",
+    "*.config.js",
+    "*.config.cjs", 
+    "*.config.ts",
+    ".tsbuildinfo"
+  ],
+
+  // TypeScript project references for incremental builds
+  // Enables parallel compilation and dependency management across solutions
+  "references": [
+    { "path": "./shared-shell" },
+    { "path": "./shared/ui-components" },
+    { "path": "./shared/integration/core" },
+    { "path": "./solutions/inventory-management" },
+    { "path": "./solutions/point-of-sale" },
+    { "path": "./solutions/crm-system" },
+    { "path": "./solutions/hr-management" },
+    { "path": "./solutions/accounting-system" },
+    { "path": "./solutions/analytics-dashboard" },
+    { "path": "./tests" }
+  ]
+}

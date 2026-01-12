@@ -1,4 +1,3 @@
-import React from 'react';
 import BreadcrumbNavigation from './BreadcrumbNavigation';
 import { useAuth } from '../contexts/AuthContext';
 

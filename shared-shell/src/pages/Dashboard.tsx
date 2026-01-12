@@ -1,4 +1,3 @@
-import React from 'react';
 import { 
   Package, 
   ShoppingCart, 
@@ -10,7 +9,7 @@ import {
   Activity,
   DollarSign
 } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 
 const Dashboard: React.FC = () => {
   const stats = [
