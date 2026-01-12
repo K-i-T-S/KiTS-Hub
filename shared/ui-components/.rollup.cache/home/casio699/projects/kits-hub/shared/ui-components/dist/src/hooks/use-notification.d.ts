@@ -1,5 +1,4 @@
 import { ReactNode } from 'react';
-import React from 'react';
 export interface Notification {
     id: string;
     type: 'success' | 'error' | 'warning' | 'info';
@@ -20,7 +19,7 @@ export interface NotificationContextType {
 }
 export declare function NotificationProvider({ children }: {
     children: ReactNode;
-}): React.FunctionComponentElement<React.ProviderProps<NotificationContextType | undefined>>;
+}): boolean;
 export declare function useNotification(): NotificationContextType;
 export declare function useNotify(): {
     success: (title: string, message?: string, options?: Partial<Omit<Notification, "id" | "timestamp" | "type" | "title" | "message">>) => string;

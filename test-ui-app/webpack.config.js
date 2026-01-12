@@ -6,7 +6,7 @@ module.exports = {
   entry: './src/index.tsx',
   devtool: 'eval-source-map',
   devServer: {
-    port: 3001,
+    port: 3002,
     historyApiFallback: true,
     hot: true,
     liveReload: true,

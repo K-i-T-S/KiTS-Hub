@@ -1,26 +1,58 @@
 {
+  // TypeScript configuration for UI components library
+  // Extends base library configuration with UI-specific settings
+  "extends": "../../tsconfig.lib.json",
+  
   "compilerOptions": {
-    "target": "ES2020",
-    "lib": ["DOM", "DOM.Iterable", "ES6"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx",
-    "declaration": true,
-    "declarationMap": true,
-    "outDir": "dist",
-    "baseUrl": ".",
+    // UI library-specific path aliases for clean imports
+    // Extends base paths with UI library specific mappings
     "paths": {
-      "@/*": ["./src/*"]
+      // Internal UI component imports
+      "@/components/*": ["./src/components/*"],
+      "@/hooks/*": ["./src/hooks/*"],
+      "@/lib/*": ["./src/lib/*"],
+      "@/utils/*": ["./src/utils/*"],
+      "@/types/*": ["./src/types/*"],
+      "@/assets/*": ["./src/assets/*"],
+      "@/styles/*": ["./src/styles/*"],
+      "@/config/*": ["./src/config/*"],
+      "@/stories/*": ["./src/stories/*"],
+      
+      // Cross-library imports for shared dependencies
+      "@shared/integration/*": ["../../shared/integration/*"],
+      
+      // Solution-specific imports for cross-solution compatibility
+      "@shell/*": ["../../shared-shell/src/*"],
+      "@inventory/*": ["../../solutions/inventory-management/src/*"],
+      "@pos/*": ["../../solutions/point-of-sale/src/*"],
+      "@crm/*": ["../../solutions/crm-system/src/*"],
+      "@hr/*": ["../../solutions/hr-management/src/*"],
+      "@accounting/*": ["../../solutions/accounting-system/src/*"],
+      "@analytics/*": ["../../solutions/analytics-dashboard/src/*"]
     }
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "storybook-static"]
+  
+  // Include UI library source files and configuration
+  "include": [
+    "src/**/*",
+    "*.config.*",
+    "**/*.config.*",
+    "package.json"
+  ],
+  
+  // Exclude test files and build artifacts
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build",
+    "coverage",
+    "**/*.test.*",
+    "**/*.spec.*",
+    "__tests__/**/*",
+    "test/**/*",
+    "storybook-static/**/*"
+  ],
+  
+  // Enable composite project for project references
+  "composite": true
 }

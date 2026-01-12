@@ -1,8 +1,4 @@
 import { DevelopmentEnvironment, ProductionEnvironment, TestEnvironment } from './schema';
-/**
- * Server-side configuration utilities
- * Provides type-safe access to all environment variables (including server-only secrets)
- */
 type ServerConfigUnion = (DevelopmentEnvironment & {
     NODE_ENV: 'development';
 }) | (ProductionEnvironment & {
@@ -55,30 +51,13 @@ type FullServerConfig = ServerConfigUnion & {
     HOT_RELOAD?: boolean;
 };
 export type ServerConfigType = FullServerConfig;
-/**
- * Validates and returns server-side environment configuration
- * This function should be called once at application startup
- */
 export declare function validateServerEnvironment(env?: Record<string, string | undefined>): ServerConfigType;
-/**
- * Server configuration class with type-safe accessors
- */
 export declare class ServerConfig {
     private static instance;
     private config;
     private constructor();
-    /**
-     * Initialize the server configuration
-     * This should be called once at application startup
-     */
     static initialize(env?: Record<string, string | undefined>): ServerConfig;
-    /**
-     * Get the singleton instance
-     */
     static getInstance(): ServerConfig;
-    /**
-     * Get the entire configuration object
-     */
     getAll(): ServerConfigType;
     get nodeEnv(): string;
     get isDevelopment(): boolean;
@@ -155,33 +134,21 @@ export declare class ServerConfig {
     get publicLogLevel(): 'error' | 'warn' | 'info' | 'debug';
     get cacheTtl(): number;
     get cacheEnabled(): boolean;
-    /**
-     * Get database configuration object
-     */
     getDatabaseConfig(): {
         url: string;
         poolSize: number;
         timeout: number;
     };
-    /**
-     * Get Redis configuration object
-     */
     getRedisConfig(): {
         url: string | undefined;
         password: string | undefined;
         ttl: number;
     };
-    /**
-     * Get Supabase configuration object
-     */
     getSupabaseConfig(): {
         url: string;
         anonKey: string;
         serviceRoleKey: string;
     };
-    /**
-     * Get email configuration object
-     */
     getEmailConfig(): {
         host: string | undefined;
         port: number;
@@ -189,18 +156,12 @@ export declare class ServerConfig {
         pass: string | undefined;
         from: string | undefined;
     };
-    /**
-     * Get AWS configuration object
-     */
     getAwsConfig(): {
         accessKeyId: string | undefined;
         secretAccessKey: string | undefined;
         region: string;
         s3Bucket: string | undefined;
     };
-    /**
-     * Get payment configuration object
-     */
     getPaymentConfig(): {
         stripe: {
             secretKey: string | undefined;
@@ -210,9 +171,6 @@ export declare class ServerConfig {
             clientSecret: string | undefined;
         };
     };
-    /**
-     * Get security configuration object
-     */
     getSecurityConfig(): {
         jwt: {
             secret: string;
@@ -230,24 +188,15 @@ export declare class ServerConfig {
             timeout: number;
         };
     };
-    /**
-     * Get CORS configuration object
-     */
     getCorsConfig(): {
         origin: string;
         methods: string;
         headers: string;
     };
-    /**
-     * Check if all required secrets are present
-     */
     validateRequiredSecrets(): {
         valid: boolean;
         missing: string[];
     };
-    /**
-     * Check if optional services are configured
-     */
     getOptionalServicesStatus(): {
         redis: boolean;
         email: boolean;
@@ -259,14 +208,7 @@ export declare class ServerConfig {
         hotjar: boolean;
     };
 }
-/**
- * Get the server configuration instance
- * Initializes if not already done
- */
 export declare function getServerConfig(): ServerConfig;
-/**
- * Initialize server configuration with custom environment
- */
 export declare function initServerConfig(env: Record<string, string | undefined>): ServerConfig;
 export declare const serverConfigGetters: {
     readonly nodeEnv: string;

@@ -23,8 +23,8 @@ const queryClient = new QueryClient({
 });
 
 // Check if running in remote context (Module Federation)
-const isRemoteContext = !window.location.pathname.includes('localhost:3000') && 
-                       !window.location.pathname.includes('127.0.0.1:3000');
+// More reliable detection by checking for Module Federation container
+const isRemoteContext = !!(window.__webpack_share_scopes__?.default);
 
 function App() {
   // If running in remote context, don't wrap with Router and Layout

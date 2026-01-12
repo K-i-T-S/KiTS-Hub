@@ -9,7 +9,7 @@ import {
   Activity,
   DollarSign
 } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
+import StateNotificationTest from '../components/StateNotificationTest';
 
 const Dashboard: React.FC = () => {
   const stats = [
@@ -78,12 +78,12 @@ const Dashboard: React.FC = () => {
         {stats.map((stat, index) => {
           const Icon = stat.icon;
           return (
-            <Card key={index}>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
-                <Icon className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
+            <div key={index} className="shell-card">
+              <div className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <h3 className="text-sm font-medium text-gray-600">{stat.title}</h3>
+                <Icon className="h-4 w-4 text-gray-400" />
+              </div>
+              <div>
                 <div className="text-2xl font-bold">{stat.value}</div>
                 <p className={`text-xs ${
                   stat.changeType === 'positive' ? 'text-green-600' : 
@@ -92,84 +92,79 @@ const Dashboard: React.FC = () => {
                 }`}>
                   {stat.change} from last month
                 </p>
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           );
         })}
       </div>
 
       {/* Recent Activity */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center space-x-2">
-            <Activity className="w-5 h-5" />
-            <span>Recent Activity</span>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {recentActivities.map((activity) => {
-              const Icon = activity.icon;
-              return (
-                <div key={activity.id} className="flex items-center space-x-3">
-                  <Icon className="w-4 h-4 text-muted-foreground" />
-                  <div className="flex-1">
-                    <p className="text-sm font-medium">{activity.action}</p>
-                    <p className="text-xs text-muted-foreground">{activity.time}</p>
-                  </div>
+      <div className="shell-card">
+        <div className="flex items-center space-x-2 mb-4">
+          <Activity className="w-5 h-5" />
+          <h2 className="text-lg font-semibold">Recent Activity</h2>
+        </div>
+        <div className="space-y-4">
+          {recentActivities.map((activity) => {
+            const Icon = activity.icon;
+            return (
+              <div key={activity.id} className="flex items-center space-x-3">
+                <Icon className="w-4 h-4 text-gray-400" />
+                <div className="flex-1">
+                  <p className="text-sm font-medium">{activity.action}</p>
+                  <p className="text-xs text-gray-500">{activity.time}</p>
                 </div>
-              );
-            })}
-          </div>
-        </CardContent>
-      </Card>
+              </div>
+            );
+          })}
+        </div>
+      </div>
 
       {/* Quick Actions */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Quick Actions</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            <div className="text-center">
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-2">
-                <Package className="w-6 h-6 text-primary" />
-              </div>
-              <p className="text-sm">Add Product</p>
+      <div className="shell-card">
+        <h2 className="text-lg font-semibold mb-4">Quick Actions</h2>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="text-center">
+            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+              <Package className="w-6 h-6 text-blue-600" />
             </div>
-            <div className="text-center">
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-2">
-                <ShoppingCart className="w-6 h-6 text-primary" />
-              </div>
-              <p className="text-sm">New Sale</p>
-            </div>
-            <div className="text-center">
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-2">
-                <Users className="w-6 h-6 text-primary" />
-              </div>
-              <p className="text-sm">Add Customer</p>
-            </div>
-            <div className="text-center">
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-2">
-                <UserCheck className="w-6 h-6 text-primary" />
-              </div>
-              <p className="text-sm">Manage Staff</p>
-            </div>
-            <div className="text-center">
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-2">
-                <Calculator className="w-6 h-6 text-primary" />
-              </div>
-              <p className="text-sm">Generate Invoice</p>
-            </div>
-            <div className="text-center">
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-2">
-                <BarChart3 className="w-6 h-6 text-primary" />
-              </div>
-              <p className="text-sm">View Reports</p>
-            </div>
+            <p className="text-sm">Add Product</p>
           </div>
-        </CardContent>
-      </Card>
+          <div className="text-center">
+            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+              <ShoppingCart className="w-6 h-6 text-blue-600" />
+            </div>
+            <p className="text-sm">New Sale</p>
+          </div>
+          <div className="text-center">
+            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+              <Users className="w-6 h-6 text-blue-600" />
+            </div>
+            <p className="text-sm">Add Customer</p>
+          </div>
+          <div className="text-center">
+            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+              <UserCheck className="w-6 h-6 text-blue-600" />
+            </div>
+            <p className="text-sm">Manage Staff</p>
+          </div>
+          <div className="text-center">
+            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+              <Calculator className="w-6 h-6 text-blue-600" />
+            </div>
+            <p className="text-sm">Generate Invoice</p>
+          </div>
+          <div className="text-center">
+            <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+              <BarChart3 className="w-6 h-6 text-blue-600" />
+            </div>
+            <p className="text-sm">View Reports</p>
+          </div>
+        </div>
+      </div>
+
+      {/* State & Notification Validation */}
+      <StateNotificationTest />
     </div>
   );
 };

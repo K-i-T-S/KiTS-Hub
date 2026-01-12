@@ -1,203 +1,362 @@
 {
   "compilerOptions": {
-    // Modern JavaScript target for optimal performance and bundle size
-    // ESNext provides access to the latest JavaScript features while allowing bundlers to polyfill as needed
+    // === LANGUAGE & ECMAScript TARGET ===
+    
+    // Set JavaScript language version for emitted JavaScript and include compatible library declarations.
+    // ESNext provides access to the latest JavaScript features for modern browsers.
+    // Impact: Enables modern syntax (optional chaining, nullish coalescing, etc.) across all micro-frontends.
     "target": "ESNext",
-
-    // Include modern DOM and JavaScript library features for comprehensive browser support
-    // DOM.Iterable enables iteration over DOM collections, ESNext provides latest JS APIs
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
-
-    // Allow JavaScript files to be imported alongside TypeScript files
-    // Essential for mixed JS/TS codebases and third-party libraries without type definitions
-    "allowJs": true,
-
-    // Skip type checking of declaration files (*.d.ts) for faster compilation
-    // Improves build performance, especially with large node_modules directories
-    "skipLibCheck": true,
-
-    // Enable CommonJS/ES Module interoperability for seamless imports
-    // Allows default imports from CommonJS modules that don't have explicit default exports
-    "esModuleInterop": true,
-
-    // Allow synthetic default imports when no default export is explicitly declared
-    // Provides cleaner import syntax for CommonJS modules
-    "allowSyntheticDefaultImports": true,
-
-    // Enable all strict type-checking options for maximum type safety
-    // Critical for catching bugs at compile-time in micro-frontend architecture
-    "strict": true,
-
-    // Ensure consistent casing in file imports for cross-platform compatibility
-    // Prevents module resolution issues between Windows and Unix-like systems
-    "forceConsistentCasingInFileNames": true,
-
-    // Report errors for fallthrough cases in switch statements
-    // Prevents unintended code execution paths in complex business logic
-    "noFallthroughCasesInSwitch": true,
-
-    // Modern ESNext module syntax for optimal tree-shaking and bundling
-    // Enables bundlers to perform dead code elimination more effectively
+    
+    // Specify what module code is generated.
+    // ESNext modules provide tree-shaking support and modern import/export syntax.
+    // Impact: Optimizes bundle sizes for micro-frontend deployments.
     "module": "ESNext",
-
-    // Use bundler-aware module resolution for micro-frontend architecture
-    // Allows bundlers (Webpack, Vite) to handle module resolution with custom aliases
+    
+    // Specify how TypeScript looks up a file from a given module specifier.
+    // 'bundler' works best with modern bundlers like Webpack and Vite.
+    // Impact: Resolves imports correctly in micro-frontend architecture with Module Federation.
     "moduleResolution": "bundler",
-
-    // Enable importing JSON files as modules for configuration and data files
-    // Essential for importing package.json, configuration files, and static data
-    "resolveJsonModule": true,
-
-    // Ensure each file can be safely transpiled without relying on other files
-    // Critical for Module Federation and micro-frontend isolation
-    "isolatedModules": true,
-
-    // Generate declaration files for type definitions in libraries
-    // Essential for shared components and cross-solution type sharing
-    "declaration": true,
-
-    // Generate source maps for declaration files for better debugging
-    // Provides accurate type information jump-to-definition in IDEs
-    "declarationMap": true,
-
-    // Generate source maps for debugging compiled JavaScript
-    // Essential for production debugging and error tracking
-    "sourceMap": true,
-
-    // Preserve comments in output for better code documentation
-    // Helpful for debugging and understanding compiled code
-    "removeComments": false,
-
-    // Enable implicit any type checking for strict type safety
-    // Prevents runtime errors from untyped variables in micro-frontend communication
-    "noImplicitAny": true,
-
-    // Report error when not all code paths in function return a value
-    // Ensures consistent return behavior across solution boundaries
-    "noImplicitReturns": true,
-
-    // Raise error on 'this' expressions with implicit 'any' type
-    // Prevents context loss in event handlers and cross-solution callbacks
-    "noImplicitThis": true,
-
-    // Report errors on unused local variables for cleaner code
-    // Reduces bundle size and improves maintainability
-    "noUnusedLocals": true,
-
-    // Report errors on unused parameters for cleaner function signatures
-    // Ensures APIs remain focused and maintainable
-    "noUnusedParameters": true,
-
-    // Enforce exact optional property types for stricter type checking
-    // Temporarily disabled for compatibility with existing codebase
-    // Re-enable after codebase migration
-    "exactOptionalPropertyTypes": false,
-
-    // Require explicit override annotation for overridden methods
-    // Ensures intentional method overriding in shared component extensions
-    "noImplicitOverride": true,
-
-    // Allow property access via index signature for flexible data structures
-    // Enables dynamic property access in API responses and configuration objects
-    "noPropertyAccessFromIndexSignature": false,
-
-    // Disable strict unchecked indexed access for easier array/object access
-    // Balances type safety with developer ergonomics for data processing
-    "noUncheckedIndexedAccess": false,
-
-    // Disallow unused labels for cleaner control flow
-    // Prevents confusion from unused loop labels in complex business logic
-    "allowUnusedLabels": false,
-
-    // Disallow unreachable code for better error detection
-    // Ensures all code paths are intentional and testable
-    "allowUnreachableCode": false,
-
-    // Base directory for resolving non-relative module imports
-    // Essential for configuring path aliases across micro-frontend architecture
-    "baseUrl": ".",
-
-    // Path aliases for clean imports across workspaces
-    // Enables consistent import patterns regardless of file location
-    "paths": {
-      // Solution-specific aliases for micro-frontend imports
-      "@kits-hub/shared-shell": ["./shared-shell/src"],
-      "@kits-hub/inventory-management": ["./solutions/inventory-management/src"],
-      "@kits-hub/point-of-sale": ["./solutions/point-of-sale/src"],
-      "@kits-hub/crm-system": ["./solutions/crm-system/src"],
-      "@kits-hub/hr-management": ["./solutions/hr-management/src"],
-      "@kits-hub/accounting-system": ["./solutions/accounting-system/src"],
-      "@kits-hub/analytics-dashboard": ["./solutions/analytics-dashboard/src"],
-      
-      // Shared library aliases for cross-solution component sharing
-      "@kits-hub/ui-components": ["./shared/ui-components/src"],
-      "@kits-hub/integration-core": ["./shared/integration/core/src"],
-      
-      // Generic aliases for flexible workspace access
-      "@shared/*": ["./shared/*/src"],
-      "@solutions/*": ["./solutions/*/src"],
-      
-      // Local development aliases for each workspace
-      "@/components": ["./src/components"],
-      "@/lib": ["./src/lib"],
-      "@/hooks": ["./src/hooks"],
-      "@/utils": ["./src/utils"],
-      "@/types": ["./src/types"],
-      "@/assets": ["./src/assets"],
-      "@/styles": ["./src/styles"]
-    },
-
-    // React JSX transform for modern React applications
-    // Enables automatic JSX runtime import for better bundle optimization
+    
+    // === LIBRARIES & TYPES ===
+    
+    // Specify a set of built-in library declarations.
+    // ESNext + DOM provides complete type support for modern browser APIs.
+    // Impact: Full TypeScript support for browser features used across all solutions.
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    
+    // Type declaration files to be included in compilation.
+    // Ensures proper type checking for all dependencies.
+    // Impact: Type safety across the entire micro-frontend ecosystem.
+    "types": ["vite/client", "node"],
+    
+    // === JSX CONFIGURATION ===
+    
+    // Specify what JSX code is generated.
+    // 'react-jsx' enables the new JSX transform without importing React.
+    // Impact: Reduces bundle size and improves performance across React applications.
     "jsx": "react-jsx",
-
-    // Enable incremental compilation for faster rebuilds
-    // Essential for development performance in large micro-frontend codebases
+    
+    // === INTEROPERABILITY CONSTRAINTS ===
+    
+    // Emit additional JavaScript to ease support for importing CommonJS modules.
+    // Enables ES modules to import CommonJS modules with default export behavior.
+    // Impact: Ensures compatibility with npm packages using CommonJS.
+    "allowSyntheticDefaultImports": true,
+    
+    // Emit ECMAScript-standard-compliant class fields.
+    // Ensures consistent class field behavior across browsers.
+    // Impact: Predictable class behavior in micro-frontend components.
+    "esModuleInterop": true,
+    
+    // Allow JavaScript files to be compiled.
+    // Enables gradual migration of JavaScript files to TypeScript.
+    // Impact: Supports mixed JavaScript/TypeScript codebases during migration.
+    "allowJs": true,
+    
+    // === PATH MAPPING ===
+    
+    // Record path mappings for module resolution.
+    // Enables clean, absolute imports across the entire monorepo.
+    // Impact: Simplifies imports and improves developer experience.
+    "baseUrl": ".",
+    "paths": {
+      // Shared packages - accessible across all workspaces
+      "@shared/*": ["shared/*"],
+      "@shared-ui/*": ["packages/ui/src/*"],
+      "@shared-config/*": ["packages/config/src/*"],
+      "@shared-auth/*": ["packages/auth/src/*"],
+      "@shared-database/*": ["packages/database/src/*"],
+      
+      // Solution-specific paths for clean imports
+      "@shell/*": ["shared-shell/src/*"],
+      "@inventory/*": ["solutions/inventory-management/src/*"],
+      "@pos/*": ["solutions/point-of-sale/src/*"],
+      "@crm/*": ["solutions/crm-system/src/*"],
+      "@hr/*": ["solutions/hr-management/src/*"],
+      "@accounting/*": ["solutions/accounting-system/src/*"],
+      "@analytics/*": ["solutions/analytics-dashboard/src/*"],
+      
+      // Common utility paths for all workspaces
+      "@/*": ["src/*"],
+      "@/components/*": ["src/components/*"],
+      "@/lib/*": ["src/lib/*"],
+      "@/hooks/*": ["src/hooks/*"],
+      "@/types/*": ["src/types/*"],
+      "@/utils/*": ["src/utils/*"],
+      "@/assets/*": ["src/assets/*"],
+      "@/styles/*": ["src/styles/*"],
+      "@/pages/*": ["src/pages/*"],
+      "@/contexts/*": ["src/contexts/*"],
+      "@/services/*": ["src/services/*"]
+    },
+    
+    // === TYPE CHECKING ===
+    
+    // Enable all strict type-checking options.
+    // Provides the strongest type safety possible.
+    // Impact: Catches potential runtime errors at compile time across all micro-frontends.
+    "strict": true,
+    
+    // Enable error reporting for expressions and declarations with an implied 'any' type.
+    // Prevents implicit any types that could lead to runtime errors.
+    // Impact: Ensures explicit typing across the entire codebase.
+    "noImplicitAny": true,
+    
+    // Enable error reporting when 'this' is given the type 'any'.
+    // Prevents 'this' context issues in object methods.
+    // Impact: Improves type safety in class and object methods.
+    "noImplicitThis": true,
+    
+    // When assigning functions, check to ensure parameters and the return values are subtype-compatible.
+    // Ensures function signatures match when used as types.
+    // Impact: Prevents function signature mismatches in cross-solution integrations.
+    "strictFunctionTypes": true,
+    
+    // Enable error reporting for codepaths that do not explicitly return in a function.
+    // Ensures all code paths in functions return a value.
+    // Impact: Prevents undefined returns in critical business logic.
+    "noImplicitReturns": true,
+    
+    // Raise error on 'this' expressions with an implied any type.
+    // Additional strictness for 'this' context.
+    // Impact: Better type safety in object-oriented code.
+    "strictBindCallApply": true,
+    
+    // Enable strict checking of generic function signatures.
+    // Ensures generic functions maintain type safety.
+    // Impact: Critical for reusable components in shared libraries.
+    "strictNullChecks": true,
+    
+    // Enable strict checking of property initialization in classes.
+    // Ensures all class properties are properly initialized.
+    // Impact: Prevents undefined property access in React components.
+    "strictPropertyInitialization": true,
+    
+    // When index signatures are present, check if accessing undefined properties is allowed.
+    // Improves type safety for object property access.
+    // Impact: Better type checking for configuration objects and API responses.
+    "noUncheckedIndexedAccess": true,
+    
+    // === MODULE RESOLUTION & OUTPUT ===
+    
+    // Specify an output folder for all emitted files.
+    // Standard output directory for TypeScript compilation.
+    "outDir": "./dist",
+    
+    // Emit a UTF-8 Byte Order Mark (BOM) in the beginning of output files.
+    // Ensures proper UTF-8 encoding for internationalization support.
+    "emitBOM": false,
+    
+    // Generate '.d.ts' files for TypeScript compilation.
+    // Creates type declaration files for library publishing.
+    // Impact: Enables type checking for consumers of shared libraries.
+    "declaration": true,
+    
+    // Generate '.d.ts.map' sourcemap files for type declarations.
+    // Enables debugging of type definitions.
+    "declarationMap": true,
+    
+    // Create sourcemap files for emitted JavaScript files.
+    // Essential for debugging in development and production.
+    // Impact: Improves developer experience across all micro-frontends.
+    "sourceMap": true,
+    
+    // Specify the root directory of input files.
+    // Helps with resolving absolute paths in the monorepo.
+    "rootDir": ".",
+    
+    // Only output d.ts files and not JavaScript files.
+    // Set to false for applications, true for type-only packages.
+    "emitDeclarationOnly": false,
+    
+    // === CODE GENERATION ===
+    
+    // Enable incremental compilation.
+    // Saves compilation information to speed up subsequent builds.
+    // Impact: Dramatically improves build performance in development.
     "incremental": true,
-
-    // Specify file for storing incremental compilation information
-    // Enables consistent incremental builds across development sessions
-    "tsBuildInfoFile": ".tsbuildinfo",
-
-    // Enable composite project for project references
-    // Required for TypeScript project references in micro-frontend architecture
-    "composite": true
+    
+    // Specify a folder for incremental compilation information.
+    // Central location for build cache across the monorepo.
+    "tsBuildInfoFile": "./.tsbuildinfo",
+    
+    // Remove all comments except copy-headed comments starting with //!.
+    // Reduces bundle size by removing unnecessary comments.
+    "removeComments": true,
+    
+    // Disable generating custom helper functions like '__extends' in compiled output.
+    // Uses external helpers for better code sharing.
+    // Impact: Reduces bundle size in micro-frontend architecture.
+    "importHelpers": true,
+    
+    // === ADVANCED OPTIONS ===
+    
+    // Skip type checking all .d.ts files.
+    // Set to false to ensure type checking of declaration files.
+    "skipLibCheck": true,
+    
+    // Skip type checking .js and .jsx files.
+    // Set to false for comprehensive type checking.
+    "checkJs": false,
+    
+    // Force TypeScript to assume that every file is ESM.
+    // Ensures consistent module handling across the monorepo.
+    "forceConsistentCasingInFileNames": true,
+    
+    // Parse in strict mode and emit 'use strict' for each source file.
+    // Ensures consistent strict mode behavior.
+    "alwaysStrict": true,
+    
+    // Disable resolving symlinks to their realpath.
+    // Can improve performance in large monorepos with many symlinks.
+    "preserveSymlinks": false,
+    
+    // Allow unused locals.
+    // Set to false to catch unused variables and improve code quality.
+    "noUnusedLocals": true,
+    
+    // Allow unused parameters.
+    // Set to false to catch unused function parameters.
+    "noUnusedParameters": true,
+    
+    // Report errors on unused locals and parameters.
+    // Helps maintain clean, efficient code across solutions.
+    "exactOptionalPropertyTypes": true,
+    
+    // === EXPERIMENTAL OPTIONS ===
+    
+    // Emit decorators with metadata.
+    // Required for frameworks that use decorators (like some validation libraries).
+    "experimentalDecorators": true,
+    
+    // Emit design-type metadata for decorated declarations in source.
+    // Enables advanced reflection and dependency injection.
+    "emitDecoratorMetadata": true,
+    
+    // Include modules imported with '.json' extension.
+    // Allows importing JSON configuration files.
+    "resolveJsonModule": true,
+    
+    // Ensure each file can be safely transpiled without relying on other files.
+    // Critical for Module Federation and micro-frontend isolation.
+    "isolatedModules": true,
+    
+    // Report errors for fallthrough cases in switch statements.
+    // Prevents unintended code execution paths in complex business logic.
+    "noFallthroughCasesInSwitch": true,
+    
+    // Require explicit override annotation for overridden methods.
+    // Ensures intentional method overriding in shared component extensions.
+    "noImplicitOverride": true,
+    
+    // Disallow unused labels for cleaner control flow.
+    // Prevents confusion from unused loop labels in complex business logic.
+    "allowUnusedLabels": false,
+    
+    // Disallow unreachable code for better error detection.
+    // Ensures all code paths are intentional and testable.
+    "allowUnreachableCode": false
   },
 
-  // Include all source files from workspaces for type checking
-  // Ensures comprehensive type coverage across the entire platform
+  // === FILE INCLUSIONS/EXCLUSIONS ===
+  
+  // Specify an array of filenames or patterns to include in the program.
+  // Includes all TypeScript and JavaScript files in the project.
   "include": [
-    "shared-shell/**/*",
-    "shared/**/*", 
-    "solutions/**/*",
-    "tests/**/*"
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.js",
+    "**/*.jsx"
   ],
-
-  // Exclude build artifacts and dependencies for faster compilation
-  // Prevents type checking of generated files and third-party code
+  
+  // Specify an array of filenames or patterns to exclude from compilation.
+  // Excludes build artifacts, dependencies, and generated files.
   "exclude": [
-    "node_modules",
-    "dist",
-    "build",
-    "coverage",
-    "*.config.js",
-    "*.config.cjs", 
-    "*.config.ts",
-    ".tsbuildinfo"
+    // Node modules and dependency directories
+    "node_modules/**",
+    "**/node_modules/**",
+    
+    // Build output directories
+    "dist/**",
+    "**/dist/**",
+    "build/**",
+    "**/build/**",
+    
+    // Coverage and test output directories
+    "coverage/**",
+    "**/coverage/**",
+    "test-results/**",
+    "**/test-results/**",
+    
+    // Temporary and cache directories
+    ".cache/**",
+    "**/.cache/**",
+    ".tmp/**",
+    "**/.tmp/**",
+    ".temp/**",
+    "**/.temp/**",
+    
+    // Log directories
+    "logs/**",
+    "**/logs/**",
+    
+    // Environment and configuration files
+    ".env*",
+    "**/.env*",
+    
+    // Documentation directories
+    "docs/**",
+    "**/docs/**",
+    
+    // Storybook build outputs
+    ".storybook-static/**",
+    "**/.storybook-static/**",
+    
+    // IDE and editor files
+    ".vscode/**",
+    "**/.vscode/**",
+    ".idea/**",
+    "**/.idea/**",
+    
+    // Git and version control
+    ".git/**",
+    "**/.git/**",
+    
+    // Package manager lock files
+    "*.lock",
+    "**/*.lock",
+    "package-lock.json",
+    "**/package-lock.json",
+    "yarn.lock",
+    "**/yarn.lock",
+    "pnpm-lock.yaml",
+    "**/pnpm-lock.yaml",
+    
+    // Generated and compiled files
+    "*.min.js",
+    "**/*.min.js",
+    "*.bundle.js",
+    "**/*.bundle.js",
+    
+    // Specific to micro-frontend architecture
+    "remoteEntry.js",
+    "**/remoteEntry.js",
+    "remoteEntry.*.js",
+    "**/remoteEntry.*.js"
   ],
-
-  // TypeScript project references for incremental builds
-  // Enables parallel compilation and dependency management across solutions
-  "references": [
-    { "path": "./shared-shell" },
-    { "path": "./shared/ui-components" },
-    { "path": "./shared/integration/core" },
-    { "path": "./solutions/inventory-management" },
-    { "path": "./solutions/point-of-sale" },
-    { "path": "./solutions/crm-system" },
-    { "path": "./solutions/hr-management" },
-    { "path": "./solutions/accounting-system" },
-    { "path": "./solutions/analytics-dashboard" },
-    { "path": "./tests" }
-  ]
+  
+  // === PROJECT REFERENCES ===
+  
+  // Enable composite project mode.
+  // Required for TypeScript project references to work properly.
+  // Impact: Enables incremental builds across the monorepo.
+  "composite": false,
+  
+  // === TYPE DEFINITIONS FOR MICRO-FRONTEND ARCHITECTURE ===
+  
+  // Additional type definitions specific to KiTS Hub architecture
+  "typeAcquisition": {
+    "enable": false,
+    "include": ["dom", "dom.iterable", "esnext"]
+  }
 }

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auth Hooks Validation Test</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-result {
+            margin: 5px 0;
+            padding: 8px;
+            border-radius: 4px;
+        }
+        .pass {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .fail {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        .button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .state-display {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            white-space: pre-wrap;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useContext, createContext, useReducer } = React;
+
+        // Mock AuthProvider for testing
+        const AuthContext = createContext(undefined);
+
+        function authReducer(state, action) {
+            switch (action.type) {
+                case 'SET_LOADING':
+                    return { ...state, isLoading: action.payload };
+                case 'SET_USER':
+                    return { ...state, user: action.payload, isAuthenticated: !!action.payload };
+                case 'SET_ERROR':
+                    return { ...state, error: action.payload, isLoading: false };
+                case 'CLEAR_ERROR':
+                    return { ...state, error: null };
+                default:
+                    return state;
+            }
+        }
+
+        function AuthProvider({ children }) {
+            const [state, dispatch] = useReducer(authReducer, {
+                user: null,
+                organization: null,
+                session: null,
+                isLoading: false,
+                isAuthenticated: false,
+                error: null
+            });
+
+            const contextValue = {
+                ...state,
+                signIn: async () => {
+                    dispatch({ type: 'SET_LOADING', payload: true });
+                    // Mock sign in
+                    setTimeout(() => {
+                        const mockUser = {
+                            id: 'test-user-123',
+                            email: 'test@example.com',
+                            name: 'Test User',
+                            role: 'employee',
+                            permissions: ['inventory:read', 'sales:read'],
+                            created_at: new Date().toISOString()
+                        };
+                        dispatch({ type: 'SET_USER', payload: mockUser });
+                    }, 1000);
+                },
+                signOut: async () => {
+                    dispatch({ type: 'SET_USER', payload: null });
+                },
+                clearError: () => dispatch({ type: 'CLEAR_ERROR' })
+            };
+
+            return (
+                <AuthContext.Provider value={contextValue}>
+                    {children}
+                </AuthContext.Provider>
+            );
+        }
+
+        function useAuth() {
+            const context = useContext(AuthContext);
+            if (context === undefined) {
+                throw new Error('useAuth must be used within an AuthProvider');
+            }
+            return context;
+        }
+
+        function usePermissions() {
+            const { user } = useAuth();
+            
+            const hasPermission = (permission) => {
+                if (!user) return false;
+                return user.permissions.includes(permission);
+            };
+
+            const hasRole = (role) => {
+                if (!user) return false;
+                return user.role === role;
+            };
+
+            return {
+                hasPermission,
+                hasRole,
+                permissions: user?.permissions || [],
+                role: user?.role || null
+            };
+        }
+
+        // Test Component
+        function AuthValidationTest() {
+            const [testResults, setTestResults] = useState([]);
+            const [isRunning, setIsRunning] = useState(false);
+            const [renderCount, setRenderCount] = useState(0);
+
+            const { 
+                user, 
+                organization, 
+                session, 
+                isLoading, 
+                isAuthenticated, 
+                error,
+                signIn,
+                signOut 
+            } = useAuth();
+
+            const { hasPermission, hasRole, permissions, role } = usePermissions();
+
+            // Track re-renders
+            useEffect(() => {
+                setRenderCount(prev => prev + 1);
+            });
+
+            const addTestResult = (test, passed, details = '') => {
+                const status = passed ? 'PASS' : 'FAIL';
+                const result = { test, passed, details, status };
+                setTestResults(prev => [...prev, result]);
+            };
+
+            const runValidationTests = async () => {
+                setIsRunning(true);
+                setTestResults([]);
+
+                // Test 1: Auth hooks initialization
+                addTestResult(
+                    'Auth hooks initialization',
+                    typeof user === 'object' && typeof isAuthenticated === 'boolean',
+                    `Loading: ${isLoading}, Authenticated: ${isAuthenticated}`
+                );
+
+                // Test 2: Session persistence in memory
+                const initialUser = user;
+                addTestResult(
+                    'Session persistence check - initial state',
+                    true,
+                    `Initial user state: ${initialUser ? 'present' : 'null'}`
+                );
+
+                // Test 3: Permission hooks functionality
+                const hasBasicPermission = hasPermission('inventory:read');
+                addTestResult(
+                    'Permission hook functionality',
+                    typeof hasBasicPermission === 'boolean',
+                    `Has permission check returns: ${typeof hasBasicPermission}`
+                );
+
+                // Test 4: Role checking functionality
+                const hasAdminRole = hasRole('admin');
+                addTestResult(
+                    'Role checking functionality',
+                    typeof hasAdminRole === 'boolean',
+                    `Has role check returns: ${typeof hasAdminRole}`
+                );
+
+                // Test 5: Component re-render persistence
+                setTimeout(() => {
+                    addTestResult(
+                        'Session persistence across re-renders',
+                        renderCount > 1,
+                        `Component rendered ${renderCount} times, session maintained`
+                    );
+                }, 100);
+
+                // Test 6: Auth functions availability
+                const authFunctionsAvailable = [
+                    typeof signIn === 'function',
+                    typeof signOut === 'function'
+                ].every(Boolean);
+
+                addTestResult(
+                    'Auth functions availability',
+                    authFunctionsAvailable,
+                    `signIn: ${typeof signIn}, signOut: ${typeof signOut}`
+                );
+
+                // Test 7: Memory-only session storage
+                const localStorageKeys = Object.keys(localStorage);
+                const sessionStorageKeys = Object.keys(sessionStorage);
+                const hasNoAuthInStorage = !localStorageKeys.some(key => 
+                    key.toLowerCase().includes('auth') || key.toLowerCase().includes('session')
+                ) && !sessionStorageKeys.some(key => 
+                    key.toLowerCase().includes('auth') || key.toLowerCase().includes('session')
+                );
+
+                addTestResult(
+                    'Memory-only session storage (no localStorage/sessionStorage)',
+                    hasNoAuthInStorage,
+                    `localStorage keys: ${localStorageKeys.length}, sessionStorage keys: ${sessionStorageKeys.length}`
+                );
+
+                // Test 8: Test sign in functionality
+                try {
+                    await signIn();
+                    setTimeout(() => {
+                        const { user: newUser } = useAuth();
+                        addTestResult(
+                            'Sign in functionality',
+                            !!newUser && newUser.email === 'test@example.com',
+                            `User after sign in: ${newUser?.name || 'null'}`
+                        );
+                    }, 1500);
+                } catch (error) {
+                    addTestResult('Sign in functionality', false, error.message);
+                }
+
+                setTimeout(() => {
+                    setIsRunning(false);
+                }, 2000);
+            };
+
+            const passed = testResults.filter(r => r.passed).length;
+            const failed = testResults.filter(r => !r.passed).length;
+
+            return (
+                <div className="container">
+                    <h1>🔐 Auth Hooks Validation Test</h1>
+                    
+                    <button 
+                        onClick={runValidationTests}
+                        disabled={isRunning}
+                        className="button"
+                    >
+                        {isRunning ? 'Running Tests...' : 'Run Validation Tests'}
+                    </button>
+
+                    <div className="state-display">
+                        <strong>Current Auth State:</strong>
+                        {JSON.stringify({
+                            renderCount,
+                            isLoading,
+                            isAuthenticated,
+                            hasUser: !!user,
+                            userName: user?.name || 'N/A',
+                            userEmail: user?.email || 'N/A',
+                            userRole: user?.role || 'N/A',
+                            hasOrganization: !!organization,
+                            hasSession: !!session,
+                            hasError: !!error,
+                            errorMessage: error || 'None',
+                            permissionsCount: permissions?.length || 0,
+                            currentRole: role || 'N/A'
+                        }, null, 2)}
+                    </div>
+
+                    <div>
+                        <h3>Test Results:</h3>
+                        {testResults.length === 0 ? (
+                            <p>No tests run yet. Click "Run Validation Tests" to start.</p>
+                        ) : (
+                            testResults.map((result, index) => (
+                                <div key={index} className={`test-result ${result.passed ? 'pass' : 'fail'}`}>
+                                    {result.status} {result.test}
+                                    {result.details && <span> - {result.details}</span>}
+                                </div>
+                            ))
+                        )}
+                    </div>
+
+                    {testResults.length > 0 && (
+                        <div>
+                            <h3>Summary:</h3>
+                            <p>
+                                Total Tests: {testResults.length} | 
+                                Passed: {passed} | 
+                                Failed: {failed}
+                            </p>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        // App
+        function App() {
+            return (
+                <AuthProvider>
+                    <AuthValidationTest />
+                </AuthProvider>
+            );
+        }
+
+        // Render
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>

@@ -1,5 +1,4 @@
 import { useState, createContext, useContext } from 'react';
-import React from 'react';
 const NotificationContext = createContext(undefined);
 export function NotificationProvider({ children }) {
     const [notifications, setNotifications] = useState([]);
@@ -32,7 +31,9 @@ export function NotificationProvider({ children }) {
         removeNotification,
         clearNotifications,
     };
-    return React.createElement(NotificationContext.Provider, { value: contextValue }, children);
+    return value = { contextValue } >
+        { children }
+        < /NotificationContext.Provider>;
 }
 export function useNotification() {
     const context = useContext(NotificationContext);

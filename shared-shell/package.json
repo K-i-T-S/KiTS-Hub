@@ -7,8 +7,10 @@
   "scripts": {
     "dev": "webpack serve --config webpack.simple.cjs --mode development",
     "dev:original": "webpack serve --config webpack.config.cjs --mode development",
+    "dev:mf": "webpack serve --config webpack.mf.cjs --mode development",
     "build": "webpack --mode production",
     "build:working": "webpack --config webpack.working.cjs --mode production",
+    "build:mf": "webpack --config webpack.mf.cjs --mode production",
     "typecheck": "tsc --noEmit",
     "lint": "eslint 'src/**/*.{ts,tsx}' --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint 'src/**/*.{ts,tsx}' --fix",
@@ -20,18 +22,30 @@
     "mf": "webpack serve --config webpack.mf-fixed.cjs --mode development --port 3000"
   },
   "dependencies": {
+    "@kits-hub/ui-components": "workspace:*",
+    "@next/bundle-analyzer": "16.1.1",
+    "@supabase/supabase-js": "^2.38.0",
+    "@testing-library/dom": "10.4.1",
+    "@testing-library/jest-dom": "6.9.1",
+    "@types/node": "25.0.6",
+    "@types/stripe": "8.0.416",
+    "date-fns": "3.6.0",
     "jspdf": "4.0.0",
+    "lucide-react": "^0.263.1",
+    "next": "16.1.1",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "react-router-dom": "6.30.2",
-    "zustand": "^5.0.9"
+    "react-router-dom": "7.1.3",
+    "recharts": "3.6.0",
+    "stripe": "20.1.2",
+    "zustand": "5.0.9"
   },
   "devDependencies": {
     "@rollup/rollup-linux-x64-gnu": "4.55.1",
     "@swc/core-linux-x64-gnu": "1.15.8",
     "@types/react": "^18.3.1",
     "@types/react-dom": "^18.3.1",
-    "terser-webpack-plugin": "^5.3.11",
+    "terser-webpack-plugin": "5.3.11",
     "ts-loader": "9.5.4",
     "webpack-dev-server": "5.2.2"
   },

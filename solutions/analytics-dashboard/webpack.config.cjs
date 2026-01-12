@@ -9,7 +9,7 @@ module.exports = (env, argv) => {
   return {
     mode: isDevelopment ? 'development' : 'production',
     devtool: isDevelopment ? 'eval-source-map' : 'source-map',
-    entry: './src/index.ts',
+    entry: './src/bootstrap.tsx',
     output: {
       path: path.resolve(__dirname, 'dist'),
       filename: isDevelopment ? '[name].js' : '[name].[contenthash].js',
@@ -54,40 +54,16 @@ module.exports = (env, argv) => {
         name: 'analyticsDashboard',
         filename: 'remoteEntry.js',
         exposes: {
+          './App': './src/App.tsx',
           './AnalyticsApp': './src/App.tsx',
           './AnalyticsDashboard': './src/pages/AnalyticsDashboard.tsx',
           './ReportsPage': './src/pages/ReportsPage.tsx',
-          './KpiPage': './src/pages/KpiPage.tsx',
+          './KPIPage': './src/pages/KPIPage.tsx',
           './TrendsPage': './src/pages/TrendsPage.tsx',
           './SettingsPage': './src/pages/SettingsPage.tsx',
+          './bootstrap': './src/bootstrap.tsx',
         },
-        shared: {
-          ...dependencies,
-          react: {
-            singleton: true,
-            requiredVersion: dependencies.react,
-          },
-          'react-dom': {
-            singleton: true,
-            requiredVersion: dependencies['react-dom'],
-          },
-          '@supabase/supabase-js': {
-            singleton: true,
-            requiredVersion: dependencies['@supabase/supabase-js'],
-          },
-          'lucide-react': {
-          '@kits-hub/ui': {
-            singleton: true,
-            requiredVersion: '^1.0.0',
-            eager: false,
-            import: '@kits-hub/ui',
-            shareKey: '@kits-hub/ui',
-            shareScope: 'default',
-          },
-            singleton: false,
-            requiredVersion: dependencies['lucide-react'],
-          },
-        },
+        shared: {},
       }),
       new HtmlWebpackPlugin({
         template: './public/index.html',

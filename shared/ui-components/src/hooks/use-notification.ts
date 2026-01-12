@@ -1,5 +1,4 @@
 import { useState, createContext, useContext, ReactNode } from 'react'
-import React from 'react'
 
 export interface Notification {
   id: string
@@ -62,10 +61,10 @@ export function NotificationProvider({ children }: { children: ReactNode }) {
     clearNotifications,
   }
 
-  return React.createElement(
-    NotificationContext.Provider,
-    { value: contextValue },
-    children
+  return (
+    <NotificationContext.Provider value={contextValue}>
+      {children}
+    </NotificationContext.Provider>
   )
 }
 

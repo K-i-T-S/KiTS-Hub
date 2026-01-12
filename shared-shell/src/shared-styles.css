@@ -1,0 +1,399 @@
+/* Shared Design System Integration - KiTS Hub Platform */
+
+/* CSS Custom Properties for Theme Variables (from @shared/ui-components) */
+:root {
+  --background: oklch(0.09 0 0);
+  --foreground: oklch(0.95 0 0);
+  --card: oklch(0.12 0 0);
+  --card-foreground: oklch(0.95 0 0);
+  --popover: oklch(0.12 0 0);
+  --popover-foreground: oklch(0.95 0 0);
+  --primary: oklch(0.95 0 0);
+  --primary-foreground: oklch(0.09 0 0);
+  --secondary: oklch(0.18 0 0);
+  --secondary-foreground: oklch(0.95 0 0);
+  --muted: oklch(0.18 0 0);
+  --muted-foreground: oklch(0.55 0 0);
+  --accent: oklch(0.18 0 0);
+  --accent-foreground: oklch(0.95 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.95 0 0);
+  --border: oklch(0.22 0 0);
+  --input: oklch(0.22 0 0);
+  --ring: oklch(0.45 0 0);
+  --radius: 0.625rem;
+
+  /* Advanced Purple Color System */
+  --purple-50: #faf5ff;
+  --purple-100: #f3e8ff;
+  --purple-200: #e9d5ff;
+  --purple-300: #d8b4fe;
+  --purple-400: #c084fc;
+  --purple-500: #a855f7;
+  --purple-600: #9333ea;
+  --purple-700: #7c3aed;
+  --purple-800: #6b21a8;
+  --purple-900: #581c87;
+  --purple-950: #3b0764;
+}
+
+.dark {
+  --background: oklch(0.09 0 0);
+  --foreground: oklch(0.95 0 0);
+  --card: oklch(0.12 0 0);
+  --card-foreground: oklch(0.95 0 0);
+  --popover: oklch(0.12 0 0);
+  --popover-foreground: oklch(0.95 0 0);
+  --primary: oklch(0.95 0 0);
+  --primary-foreground: oklch(0.09 0 0);
+  --secondary: oklch(0.18 0 0);
+  --secondary-foreground: oklch(0.95 0 0);
+  --muted: oklch(0.18 0 0);
+  --muted-foreground: oklch(0.55 0 0);
+  --accent: oklch(0.18 0 0);
+  --accent-foreground: oklch(0.95 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.95 0 0);
+  --border: oklch(0.22 0 0);
+  --input: oklch(0.22 0 0);
+  --ring: oklch(0.45 0 0);
+}
+
+/* Base styles */
+* {
+  border-color: oklch(var(--border));
+}
+
+body {
+  background-color: oklch(var(--background));
+  color: oklch(var(--foreground));
+}
+
+/* Shell-specific layout styles */
+.shell-layout {
+  min-height: 100vh;
+  background-color: oklch(var(--background));
+  color: oklch(var(--foreground));
+}
+
+.shell-sidebar {
+  background-color: oklch(var(--card));
+  border-right: 1px solid oklch(var(--border));
+}
+
+.shell-topbar {
+  background-color: oklch(var(--card));
+  border-bottom: 1px solid oklch(var(--border));
+  backdrop-filter: blur(10px);
+}
+
+.shell-content {
+  background-color: oklch(var(--background));
+  min-height: calc(100vh - 4rem);
+}
+
+/* Navigation enhancements */
+.nav-link {
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color 0.2s;
+  color: oklch(var(--muted-foreground));
+  border-radius: calc(var(--radius) - 2px);
+  padding: 0.5rem 0.75rem;
+  margin: 0.125rem 0;
+}
+
+.nav-link:hover {
+  color: oklch(var(--foreground));
+  background-color: oklch(var(--accent));
+}
+
+.nav-link.active {
+  color: oklch(var(--primary));
+  background-color: oklch(var(--primary) / 0.1);
+}
+
+/* Shell-specific card styles */
+.shell-card {
+  background-color: oklch(var(--card));
+  border: 1px solid oklch(var(--border));
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.shell-card.luxury {
+  box-shadow: 0 10px 40px rgba(139, 92, 246, 0.2);
+  background: linear-gradient(135deg, oklch(var(--card)) 0%, oklch(var(--popover)) 100%);
+  border: 1px solid oklch(var(--border) / 0.2);
+}
+
+/* Search input styling */
+.shell-search {
+  background-color: oklch(var(--input));
+  border: 1px solid oklch(var(--border));
+  border-radius: calc(var(--radius) - 2px);
+  color: oklch(var(--foreground));
+  padding-left: 2.5rem;
+  padding-right: 0.75rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.shell-search:focus {
+  outline: none;
+  border-color: oklch(var(--ring));
+  box-shadow: 0 0 0 2px oklch(var(--ring) / 0.2);
+}
+
+.shell-search::placeholder {
+  color: oklch(var(--muted-foreground));
+}
+
+/* Button styling that matches shared design system */
+.shell-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: calc(var(--radius) - 2px);
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color 0.2s;
+  padding: 0.5rem 1rem;
+  border-radius: calc(var(--radius) - 2px);
+  background-color: oklch(var(--primary));
+  color: oklch(var(--primary-foreground));
+}
+
+.shell-button:hover {
+  background-color: oklch(var(--primary) / 0.9);
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+}
+
+.shell-button.secondary {
+  background-color: oklch(var(--secondary));
+  color: oklch(var(--secondary-foreground));
+}
+
+.shell-button.secondary:hover {
+  background-color: oklch(var(--secondary) / 0.8);
+}
+
+/* Loading states */
+.shell-loading {
+  animation: spin 1s linear infinite;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid oklch(var(--muted));
+  border-top-color: oklch(var(--primary));
+  border-radius: 50%;
+}
+
+/* Status indicators */
+.shell-status-online {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: #10b981;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+}
+
+.shell-status-offline {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: #ef4444;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .shell-sidebar {
+    position: fixed;
+    left: -16rem;
+    top: 0;
+    height: 100vh;
+    width: 16rem;
+    z-index: 50;
+    transition: left 0.3s ease;
+  }
+  
+  .shell-sidebar.open {
+    left: 0;
+  }
+  
+  .shell-content {
+    margin-left: 0;
+  }
+}
+
+/* Dark mode enhancements */
+.dark .shell-card.luxury {
+  background: linear-gradient(135deg, oklch(var(--card)) 0%, oklch(0.15 0 0) 100%);
+  border: 1px solid oklch(var(--border) / 0.3);
+}
+
+.dark .shell-topbar {
+  background-color: oklch(var(--card) / 0.8);
+  backdrop-filter: blur(20px);
+}
+
+/* Animation utilities for shell */
+.shell-fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.shell-slide-in {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-1rem);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error boundary styling */
+.shell-error-boundary {
+  background-color: oklch(var(--destructive) / 0.1);
+  border: 1px solid oklch(var(--destructive) / 0.2);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  margin: 1rem;
+}
+
+.shell-error-boundary h3 {
+  color: oklch(var(--destructive));
+  margin-bottom: 0.5rem;
+}
+
+/* Toast notification styling */
+.shell-toast {
+  background-color: oklch(var(--card));
+  border: 1px solid oklch(var(--border));
+  border-radius: var(--radius);
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  animation: slideInRight 0.3s ease-out;
+}
+
+.shell-toast.success {
+  border-left: 4px solid #10b981;
+}
+
+.shell-toast.error {
+  border-left: 4px solid #ef4444;
+}
+
+.shell-toast.warning {
+  border-left: 4px solid #f59e0b;
+}
+
+.shell-toast.info {
+  border-left: 4px solid #3b82f6;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Placeholder content styling */
+.shell-placeholder {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  color: oklch(var(--muted-foreground));
+}
+
+.shell-placeholder-icon {
+  width: 3rem;
+  height: 3rem;
+  margin: 0 auto 1rem;
+  color: oklch(var(--muted-foreground));
+  opacity: 0.5;
+}
+
+.shell-placeholder h3 {
+  color: oklch(var(--foreground));
+  margin-bottom: 0.5rem;
+}
+
+.shell-placeholder p {
+  color: oklch(var(--muted-foreground));
+  margin-bottom: 1rem;
+}
+
+/* Stats card styling */
+.shell-stats-card {
+  background-color: oklch(var(--card));
+  border: 1px solid oklch(var(--border));
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  transition: all 0.2s ease;
+}
+
+.shell-stats-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.shell-stats-card .icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: calc(var(--radius) - 4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+}
+
+.shell-stats-card.primary .icon {
+  background-color: oklch(var(--primary) / 0.1);
+  color: oklch(var(--primary));
+}
+
+.shell-stats-card.success .icon {
+  background-color: #10b981 / 0.1;
+  color: #10b981;
+}
+
+.shell-stats-card.warning .icon {
+  background-color: #f59e0b / 0.1;
+  color: #f59e0b;
+}
+
+.shell-stats-card.error .icon {
+  background-color: #ef4444 / 0.1;
+  color: #ef4444;
+}

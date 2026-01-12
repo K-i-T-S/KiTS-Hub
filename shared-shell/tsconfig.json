@@ -69,5 +69,8 @@
   ],
 
   // Enable composite project for TypeScript project references
-  "composite": true
+  "composite": true,
+  
+  // Specify unique build info file to avoid conflicts
+  "tsBuildInfoFile": "./shared-shell/.tsbuildinfo"
 }

@@ -1,9 +1,5 @@
 import { z } from 'zod';
 import { getEnvironmentSchemaForCurrentEnv } from './schema';
-/**
- * Validates and returns server-side environment configuration
- * This function should be called once at application startup
- */
 export function validateServerEnvironment(env = process.env) {
     try {
         const schema = getEnvironmentSchemaForCurrentEnv();
@@ -40,41 +36,27 @@ export function validateServerEnvironment(env = process.env) {
         throw new Error(`❌ Unexpected error validating server environment: ${error}`);
     }
 }
-/**
- * Server configuration class with type-safe accessors
- */
 export class ServerConfig {
     static instance;
     config;
     constructor(env) {
         this.config = validateServerEnvironment(env);
     }
-    /**
-     * Initialize the server configuration
-     * This should be called once at application startup
-     */
     static initialize(env = process.env) {
         if (!ServerConfig.instance) {
             ServerConfig.instance = new ServerConfig(env);
         }
         return ServerConfig.instance;
     }
-    /**
-     * Get the singleton instance
-     */
     static getInstance() {
         if (!ServerConfig.instance) {
             throw new Error('ServerConfig not initialized. Call ServerConfig.initialize() first.');
         }
         return ServerConfig.instance;
     }
-    /**
-     * Get the entire configuration object
-     */
     getAll() {
         return { ...this.config };
     }
-    // Environment identification
     get nodeEnv() {
         return this.config.NODE_ENV;
     }
@@ -87,14 +69,12 @@ export class ServerConfig {
     get isTest() {
         return this.config.NODE_ENV === 'test';
     }
-    // Application URLs and endpoints
     get appUrl() {
         return this.config.NEXT_PUBLIC_APP_URL;
     }
     get apiUrl() {
         return this.config.NEXT_PUBLIC_API_URL;
     }
-    // Supabase Configuration
     get supabaseUrl() {
         return this.config.NEXT_PUBLIC_SUPABASE_URL;
     }
@@ -107,7 +87,6 @@ export class ServerConfig {
         }
         return this.config.SUPABASE_SERVICE_ROLE_KEY;
     }
-    // Database Configuration
     get databaseUrl() {
         if (!this.config.DATABASE_URL) {
             throw new Error('DATABASE_URL is required but not set');
@@ -120,7 +99,6 @@ export class ServerConfig {
     get databaseTimeout() {
         return this.config.DATABASE_TIMEOUT ?? 30000;
     }
-    // Redis Configuration
     get redisUrl() {
         return this.config.REDIS_URL;
     }
@@ -130,7 +108,6 @@ export class ServerConfig {
     get redisTtl() {
         return this.config.REDIS_TTL ?? 3600;
     }
-    // API Configuration
     get apiPort() {
         return this.config.API_PORT ?? 3000;
     }
@@ -140,7 +117,6 @@ export class ServerConfig {
     get apiTimeout() {
         return this.config.API_TIMEOUT ?? 30000;
     }
-    // Security Configuration
     get jwtSecret() {
         if (!this.config.JWT_SECRET) {
             throw new Error('JWT_SECRET is required but not set');
@@ -156,7 +132,6 @@ export class ServerConfig {
         }
         return this.config.API_KEY_SECRET;
     }
-    // Email Configuration
     get smtpHost() {
         return this.config.SMTP_HOST;
     }
@@ -172,7 +147,6 @@ export class ServerConfig {
     get smtpFrom() {
         return this.config.SMTP_FROM;
     }
-    // File Storage Configuration
     get awsAccessKeyId() {
         return this.config.AWS_ACCESS_KEY_ID;
     }
@@ -185,7 +159,6 @@ export class ServerConfig {
     get awsS3Bucket() {
         return this.config.AWS_S3_BUCKET;
     }
-    // Payment Configuration
     get stripeSecretKey() {
         return this.config.STRIPE_SECRET_KEY;
     }
@@ -195,7 +168,6 @@ export class ServerConfig {
     get paypalClientSecret() {
         return this.config.PAYPAL_CLIENT_SECRET;
     }
-    // Monitoring and Logging
     get logLevel() {
         return this.config.LOG_LEVEL ?? 'info';
     }
@@ -205,14 +177,12 @@ export class ServerConfig {
     get metricsEnabled() {
         return this.config.ENABLE_METRICS ?? true;
     }
-    // Rate Limiting
     get rateLimitWindow() {
         return this.config.RATE_LIMIT_WINDOW ?? 900000;
     }
     get rateLimitMaxRequests() {
         return this.config.RATE_LIMIT_MAX_REQUESTS ?? 100;
     }
-    // Session Configuration
     get sessionSecret() {
         if (!this.config.SESSION_SECRET) {
             throw new Error('SESSION_SECRET is required but not set');
@@ -222,7 +192,6 @@ export class ServerConfig {
     get sessionTtl() {
         return this.config.SESSION_TTL ?? 86400000;
     }
-    // CORS Configuration
     get corsOrigin() {
         return this.config.CORS_ORIGIN ?? '*';
     }
@@ -232,7 +201,6 @@ export class ServerConfig {
     get corsHeaders() {
         return this.config.CORS_HEADERS ?? 'Content-Type,Authorization';
     }
-    // Webhook Configuration
     get webhookSecret() {
         if (!this.config.WEBHOOK_SECRET) {
             throw new Error('WEBHOOK_SECRET is required but not set');
@@ -242,14 +210,12 @@ export class ServerConfig {
     get webhookTimeout() {
         return this.config.WEBHOOK_TIMEOUT ?? 10000;
     }
-    // Backup Configuration
     get backupSchedule() {
         return this.config.BACKUP_SCHEDULE ?? '0 2 * * *';
     }
     get backupRetentionDays() {
         return this.config.BACKUP_RETENTION_DAYS ?? 30;
     }
-    // Development Server Configuration
     get devServerPort() {
         return this.config.DEV_SERVER_PORT ?? 3000;
     }
@@ -259,7 +225,6 @@ export class ServerConfig {
     get hotReload() {
         return this.config.HOT_RELOAD ?? true;
     }
-    // Feature Flags (inherited from client config)
     get analyticsEnabled() {
         return this.config.NEXT_PUBLIC_ENABLE_ANALYTICS;
     }
@@ -275,7 +240,6 @@ export class ServerConfig {
     get betaFeaturesEnabled() {
         return this.config.NEXT_PUBLIC_ENABLE_BETA_FEATURES;
     }
-    // Analytics and Tracking
     get gaTrackingId() {
         return this.config.NEXT_PUBLIC_GA_TRACKING_ID;
     }
@@ -288,7 +252,6 @@ export class ServerConfig {
     get clarityId() {
         return this.config.NEXT_PUBLIC_CLARITY_ID;
     }
-    // Micro-frontend URLs
     get inventoryUrl() {
         return this.config.NEXT_PUBLIC_INVENTORY_URL;
     }
@@ -307,7 +270,6 @@ export class ServerConfig {
     get analyticsUrl() {
         return this.config.NEXT_PUBLIC_ANALYTICS_URL;
     }
-    // Application Configuration
     get appName() {
         return this.config.NEXT_PUBLIC_APP_NAME;
     }
@@ -317,7 +279,6 @@ export class ServerConfig {
     get appDescription() {
         return this.config.NEXT_PUBLIC_APP_DESCRIPTION;
     }
-    // UI Configuration
     get theme() {
         return this.config.NEXT_PUBLIC_THEME;
     }
@@ -327,23 +288,18 @@ export class ServerConfig {
     get locale() {
         return this.config.NEXT_PUBLIC_LOCALE;
     }
-    // Development Configuration
     get devToolsEnabled() {
         return this.config.NEXT_PUBLIC_DEV_TOOLS;
     }
     get publicLogLevel() {
         return this.config.NEXT_PUBLIC_LOG_LEVEL;
     }
-    // Cache Configuration
     get cacheTtl() {
         return this.config.NEXT_PUBLIC_CACHE_TTL;
     }
     get cacheEnabled() {
         return this.config.NEXT_PUBLIC_ENABLE_CACHE;
     }
-    /**
-     * Get database configuration object
-     */
     getDatabaseConfig() {
         return {
             url: this.databaseUrl,
@@ -351,9 +307,6 @@ export class ServerConfig {
             timeout: this.databaseTimeout,
         };
     }
-    /**
-     * Get Redis configuration object
-     */
     getRedisConfig() {
         return {
             url: this.redisUrl,
@@ -361,9 +314,6 @@ export class ServerConfig {
             ttl: this.redisTtl,
         };
     }
-    /**
-     * Get Supabase configuration object
-     */
     getSupabaseConfig() {
         return {
             url: this.supabaseUrl,
@@ -371,9 +321,6 @@ export class ServerConfig {
             serviceRoleKey: this.supabaseServiceRoleKey,
         };
     }
-    /**
-     * Get email configuration object
-     */
     getEmailConfig() {
         return {
             host: this.smtpHost,
@@ -383,9 +330,6 @@ export class ServerConfig {
             from: this.smtpFrom,
         };
     }
-    /**
-     * Get AWS configuration object
-     */
     getAwsConfig() {
         return {
             accessKeyId: this.awsAccessKeyId,
@@ -394,9 +338,6 @@ export class ServerConfig {
             s3Bucket: this.awsS3Bucket,
         };
     }
-    /**
-     * Get payment configuration object
-     */
     getPaymentConfig() {
         return {
             stripe: {
@@ -408,9 +349,6 @@ export class ServerConfig {
             },
         };
     }
-    /**
-     * Get security configuration object
-     */
     getSecurityConfig() {
         return {
             jwt: {
@@ -430,9 +368,6 @@ export class ServerConfig {
             },
         };
     }
-    /**
-     * Get CORS configuration object
-     */
     getCorsConfig() {
         return {
             origin: this.corsOrigin,
@@ -440,9 +375,6 @@ export class ServerConfig {
             headers: this.corsHeaders,
         };
     }
-    /**
-     * Check if all required secrets are present
-     */
     validateRequiredSecrets() {
         const required = [
             'JWT_SECRET',
@@ -457,9 +389,6 @@ export class ServerConfig {
             missing,
         };
     }
-    /**
-     * Check if optional services are configured
-     */
     getOptionalServicesStatus() {
         return {
             redis: !!this.redisUrl,
@@ -473,26 +402,17 @@ export class ServerConfig {
         };
     }
 }
-// Export a singleton instance for convenience
 let serverConfigInstance = null;
-/**
- * Get the server configuration instance
- * Initializes if not already done
- */
 export function getServerConfig() {
     if (!serverConfigInstance) {
         serverConfigInstance = ServerConfig.initialize();
     }
     return serverConfigInstance;
 }
-/**
- * Initialize server configuration with custom environment
- */
 export function initServerConfig(env) {
     serverConfigInstance = ServerConfig.initialize(env);
     return serverConfigInstance;
 }
-// Export individual getters for convenience
 export const serverConfigGetters = {
     get nodeEnv() { return getServerConfig().nodeEnv; },
     get isDevelopment() { return getServerConfig().isDevelopment; },

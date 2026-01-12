@@ -1,8 +1,4 @@
 import { z } from 'zod';
-/**
- * Environment variable schema with comprehensive validation
- * This schema defines all environment variables used across the KiTS Hub platform
- */
 declare const baseEnvironmentSchema: z.ZodObject<{
     NODE_ENV: z.ZodDefault<z.ZodEnum<["development", "production", "test"]>>;
     NEXT_PUBLIC_APP_URL: z.ZodDefault<z.ZodString>;

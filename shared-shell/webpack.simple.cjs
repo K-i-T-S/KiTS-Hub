@@ -6,12 +6,35 @@ module.exports = {
   entry: './src/index.tsx',
   devtool: 'eval-source-map',
   devServer: {
-    port: 3000,
+    port: 3020,
     historyApiFallback: true,
     hot: false,
     open: false,
     headers: {
       'Access-Control-Allow-Origin': '*',
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      'Pragma': 'no-cache',
+    },
+    // Ensure client-side routing works
+    client: {
+      logging: 'info',
+      overlay: {
+        errors: true,
+        warnings: true,
+        runtimeErrors: true,
+      },
+    },
+    // Setup middlewares to handle all requests
+    setupMiddlewares: (middlewares, devServer) => {
+      console.log('🔄 Dev server starting...');
+      
+      devServer.app.get('*', (req, res, next) => {
+        console.log(`📄 Request received: ${req.method} ${req.url}`);
+        // Always serve the React app for all routes
+        return next();
+      });
+      
+      return middlewares;
     },
   },
   output: {
@@ -38,7 +61,7 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader', 'postcss-loader'],
+        use: ['style-loader', 'css-loader'],
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
@@ -48,7 +71,15 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './public/working-index.html',
+      template: './public/index.html',
+      // Inject the React app into the HTML
+      inject: true,
+      templateParameters: {
+        'html': {
+          minify: false,
+          cache: false,
+        },
+      },
     }),
   ],
   optimization: {

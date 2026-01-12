@@ -1,8 +1,4 @@
 import { z } from 'zod';
-/**
- * Client-side configuration utilities
- * Provides type-safe access to public environment variables in the browser
- */
 declare const clientEnvironmentSchema: z.ZodObject<Pick<{
     NODE_ENV: z.ZodDefault<z.ZodEnum<["development", "production", "test"]>>;
     NEXT_PUBLIC_APP_URL: z.ZodDefault<z.ZodString>;
@@ -98,30 +94,13 @@ declare const clientEnvironmentSchema: z.ZodObject<Pick<{
     NEXT_PUBLIC_ENABLE_CACHE?: string | undefined;
 }>;
 export type ClientEnvironment = z.infer<typeof clientEnvironmentSchema>;
-/**
- * Validates and returns client-side environment configuration
- * This function should be called once at application startup
- */
 export declare function validateClientEnvironment(env?: Record<string, string | undefined>): ClientEnvironment;
-/**
- * Client configuration class with type-safe accessors
- */
 export declare class ClientConfig {
     private static instance;
     private config;
     private constructor();
-    /**
-     * Initialize the client configuration
-     * This should be called once at application startup
-     */
     static initialize(env?: Record<string, string | undefined>): ClientConfig;
-    /**
-     * Get the singleton instance
-     */
     static getInstance(): ClientConfig;
-    /**
-     * Get the entire configuration object
-     */
     getAll(): ClientEnvironment;
     get nodeEnv(): string;
     get isDevelopment(): boolean;
@@ -156,17 +135,8 @@ export declare class ClientConfig {
     get logLevel(): 'error' | 'warn' | 'info' | 'debug';
     get cacheTtl(): number;
     get cacheEnabled(): boolean;
-    /**
-     * Check if a specific feature is enabled
-     */
     isFeatureEnabled(feature: keyof Pick<ClientEnvironment, 'NEXT_PUBLIC_ENABLE_ANALYTICS' | 'NEXT_PUBLIC_ENABLE_ERROR_REPORTING' | 'NEXT_PUBLIC_ENABLE_PERFORMANCE_MONITORING' | 'NEXT_PUBLIC_ENABLE_FEATURE_X' | 'NEXT_PUBLIC_ENABLE_BETA_FEATURES'>): boolean;
-    /**
-     * Get micro-frontend URL by name
-     */
     getMicroFrontendUrl(name: 'inventory' | 'pos' | 'crm' | 'hr' | 'accounting' | 'analytics'): string;
-    /**
-     * Get analytics configuration
-     */
     getAnalyticsConfig(): {
         enabled: boolean;
         gaTrackingId: string | undefined;
@@ -174,9 +144,6 @@ export declare class ClientConfig {
         sentryDsn: string | undefined;
         clarityId: string | undefined;
     };
-    /**
-     * Get UI configuration
-     */
     getUiConfig(): {
         theme: "light" | "dark" | "auto";
         primaryColor: string;
@@ -186,14 +153,7 @@ export declare class ClientConfig {
         appDescription: string;
     };
 }
-/**
- * Get the client configuration instance
- * Initializes if not already done
- */
 export declare function getClientConfig(): ClientConfig;
-/**
- * Initialize client configuration with custom environment
- */
 export declare function initClientConfig(env: Record<string, string | undefined>): ClientConfig;
 export declare const clientConfigGetters: {
     readonly nodeEnv: string;

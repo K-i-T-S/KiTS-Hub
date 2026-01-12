@@ -68,8 +68,11 @@
   "composite": true,
 
   // References to shared libraries for project references
+  // Enables incremental builds and dependency management
   "references": [
-    { "path": "../../shared/ui-components" },
-    { "path": "../../shared/integration/core" }
+    { "path": "../../shared-shell" },
+    { "path": "../../packages/ui" },
+    { "path": "../../packages/config" },
+    { "path": "../../packages/auth" }
   ]
 }
