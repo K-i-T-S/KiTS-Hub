@@ -1,0 +1,41 @@
+import { EventEmitter } from 'eventemitter3';
+import { CrossTabMessage, SyncEvent, OptimisticUpdate, ConflictResolution } from './types';
+export declare class CrossTabSyncManager extends EventEmitter {
+    private clientId;
+    private tabId;
+    private channel;
+    private isSupported;
+    private fallbackStorage;
+    private messageQueue;
+    private isConnected;
+    constructor();
+    private getOrCreateClientId;
+    private initializeCommunication;
+    private initializeLocalStorageFallback;
+    private handleMessage;
+    private handleStorageEvent;
+    private validateMessage;
+    private processMessage;
+    private handleVisibilityChange;
+    private processMessageQueue;
+    sendMessage(message: Omit<CrossTabMessage, 'timestamp' | 'clientId' | 'tabId'>): void;
+    private fallbackSend;
+    sendSyncEvent(event: SyncEvent): void;
+    sendOptimisticUpdate(update: OptimisticUpdate): void;
+    sendConflict(conflict: ConflictResolution): void;
+    sendStatusUpdate(status: any): void;
+    isTabVisible(): boolean;
+    getClientId(): string;
+    getTabId(): string;
+    isConnectionSupported(): boolean;
+    isConnectedToOtherTabs(): boolean;
+    getOtherTabs(): Promise<Array<{
+        id: string;
+        lastSeen: number;
+    }>>;
+    pingOtherTabs(): Promise<string[]>;
+    private cleanup;
+    destroy(): void;
+}
+export declare function getCrossTabSyncManager(): CrossTabSyncManager;
+export declare function resetCrossTabSyncManager(): void;

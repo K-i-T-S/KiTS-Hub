@@ -52,6 +52,35 @@ class AccountingService implements AccountingIntegrationAPI {
     return data;
   }
 
+  async updateAccount(accountId: string, account: Partial<CreateAccountForm>): Promise<Account> {
+    const { data, error } = await supabase
+      .from('accounts')
+      .update({
+        ...account,
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', accountId)
+      .eq('tenant_id', this.tenantId)
+      .select()
+      .single();
+
+    if (error) throw error;
+    return data;
+  }
+
+  async deleteAccount(accountId: string): Promise<void> {
+    const { error } = await supabase
+      .from('accounts')
+      .update({ 
+        is_active: false,
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', accountId)
+      .eq('tenant_id', this.tenantId);
+
+    if (error) throw error;
+  }
+
   async getTransactions(filters?: AccountingFilters): Promise<Transaction[]> {
     let query = supabase
       .from('transactions')
@@ -100,7 +129,7 @@ class AccountingService implements AccountingIntegrationAPI {
         tenant_id: this.tenantId,
         transaction_number: transactionNumber,
         status: 'posted',
-        total_amount: transaction.lines.reduce((sum, line) => sum + line.debit_amount + line.credit_amount, 0)
+        total_amount: transaction.lines.reduce((sum: number, line: any) => sum + line.debit_amount + line.credit_amount, 0)
       })
       .select()
       .single();
@@ -111,7 +140,7 @@ class AccountingService implements AccountingIntegrationAPI {
     const { error: linesError } = await supabase
       .from('transaction_lines')
       .insert(
-        transaction.lines.map(line => ({
+        transaction.lines.map((line: any) => ({
           ...line,
           transaction_id: data.id
         }))
@@ -120,6 +149,19 @@ class AccountingService implements AccountingIntegrationAPI {
     if (linesError) throw linesError;
 
     return data;
+  }
+
+  async deleteTransaction(transactionId: string): Promise<void> {
+    const { error } = await supabase
+      .from('transactions')
+      .update({ 
+        status: 'voided',
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', transactionId)
+      .eq('tenant_id', this.tenantId);
+
+    if (error) throw error;
   }
 
   async getContacts(): Promise<Contact[]> {
@@ -167,7 +209,7 @@ class AccountingService implements AccountingIntegrationAPI {
     let subtotal = 0;
     let taxAmount = 0;
 
-    const invoiceLines = invoice.lines.map(line => {
+    const invoiceLines = invoice.lines.map((line: any) => {
       const lineTotal = line.quantity * line.unit_price;
       const lineTax = lineTotal * (line.tax_rate / 100);
       subtotal += lineTotal;
@@ -204,7 +246,7 @@ class AccountingService implements AccountingIntegrationAPI {
     const { error: linesError } = await supabase
       .from('invoice_lines')
       .insert(
-        invoiceLines.map(line => ({
+        invoiceLines.map((line: any) => ({
           ...line,
           invoice_id: data.id
         }))
@@ -213,6 +255,19 @@ class AccountingService implements AccountingIntegrationAPI {
     if (linesError) throw linesError;
 
     return data;
+  }
+
+  async deleteInvoice(invoiceId: string): Promise<void> {
+    const { error } = await supabase
+      .from('invoices')
+      .update({ 
+        status: 'voided',
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', invoiceId)
+      .eq('tenant_id', this.tenantId);
+
+    if (error) throw error;
   }
 
   async getPayments(filters?: AccountingFilters): Promise<Payment[]> {

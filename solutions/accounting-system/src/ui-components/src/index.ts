@@ -8,6 +8,8 @@ export * from './components/ui/dialog'
 export * from './components/ui/alert'
 export * from './components/ui/table'
 export * from './components/ui/badge'
+export * from './components/ui/textarea'
+export * from './components/ui/label'
 
 // Business Components
 export * from './components/business/product-card'

@@ -1,0 +1,49 @@
+{
+  "name": "@kits-hub/notification",
+  "version": "1.0.0",
+  "description": "Unified notification system for KiTS Hub ecosystem",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage",
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": ["notification", "alert", "messaging", "cross-solution", "real-time"],
+  "author": "KiTS Hub Team",
+  "license": "MIT",
+  "dependencies": {
+    "zod": "^3.25.76",
+    "uuid": "^9.0.1",
+    "eventemitter3": "^5.0.1",
+    "date-fns": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/uuid": "^9.0.0",
+    "@rollup/plugin-node-resolve": "^15.2.0",
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-typescript": "^11.1.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.45.0",
+    "rollup": "^4.0.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.16",
+    "@vitest/ui": "^4.0.16",
+    "@vitest/coverage-v8": "^4.0.16"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "files": ["dist", "README.md"],
+  "publishConfig": {"access": "restricted"}
+}

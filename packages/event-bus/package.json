@@ -1,0 +1,32 @@
+{
+  "name": "@kits-hub/event-bus",
+  "version": "1.0.0",
+  "description": "Cross-solution event-driven communication system for KiTS Hub",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage",
+    "lint": "eslint src --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts,.tsx --fix",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": ["event-bus", "event-driven", "microservices", "cross-solution", "typescript"],
+  "author": "KiTS Hub Team",
+  "license": "MIT",
+  "dependencies": {
+    "zod": "^3.25.76",
+    "uuid": "^9.0.1",
+    "eventemitter3": "^5.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.16",
+    "@vitest/coverage-v8": "^4.0.16"
+  },
+  "peerDependencies": {}
+}

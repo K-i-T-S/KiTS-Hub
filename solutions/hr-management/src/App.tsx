@@ -11,6 +11,8 @@ import HrDashboard from './pages/HrDashboard';
 import EmployeesPage from './pages/EmployeesPage';
 import AttendancePage from './pages/AttendancePage';
 import PayrollPage from './pages/PayrollPage';
+import PerformancePage from './pages/PerformancePage';
+import ShiftSchedulingPage from './pages/ShiftSchedulingPage';
 import SettingsPage from './pages/SettingsPage';
 
 // Create a client
@@ -41,6 +43,8 @@ function App() {
             <Route path="/employees" element={<EmployeesPage />} />
             <Route path="/attendance" element={<AttendancePage />} />
             <Route path="/payroll" element={<PayrollPage />} />
+            <Route path="/performance" element={<PerformancePage />} />
+            <Route path="/shifts" element={<ShiftSchedulingPage />} />
             <Route path="/settings" element={<SettingsPage />} />
           </Routes>
         ) : (
@@ -52,6 +56,8 @@ function App() {
                 <Route path="/employees" element={<EmployeesPage />} />
                 <Route path="/attendance" element={<AttendancePage />} />
                 <Route path="/payroll" element={<PayrollPage />} />
+                <Route path="/performance" element={<PerformancePage />} />
+                <Route path="/shifts" element={<ShiftSchedulingPage />} />
                 <Route path="/settings" element={<SettingsPage />} />
               </Routes>
             </Layout>
