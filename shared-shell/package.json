@@ -5,21 +5,15 @@
   "type": "module",
   "description": "KiTS Hub Shared Shell - Host application for micro-frontend architecture",
   "scripts": {
-    "dev": "webpack serve --config webpack.simple.cjs --mode development",
-    "dev:original": "webpack serve --config webpack.config.cjs --mode development",
-    "dev:mf": "webpack serve --config webpack.mf.cjs --mode development",
+    "dev": "webpack serve --config webpack.config.cjs --mode development",
     "build": "webpack --mode production",
-    "build:working": "webpack --config webpack.working.cjs --mode production",
-    "build:mf": "webpack --config webpack.mf.cjs --mode production",
     "typecheck": "tsc --noEmit",
     "lint": "eslint 'src/**/*.{ts,tsx}' --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint 'src/**/*.{ts,tsx}' --fix",
     "test": "vitest run",
     "test:watch": "vitest",
-    "start": "webpack serve --config webpack.working.cjs --mode development --port 3000",
-    "preview": "webpack serve --mode production --port 3000",
-    "simple": "webpack serve --config webpack.simple.cjs --mode development --port 3000",
-    "mf": "webpack serve --config webpack.mf-fixed.cjs --mode development --port 3000"
+    "start": "webpack serve --config webpack.config.cjs --mode development --port 3000",
+    "preview": "webpack serve --mode production --port 3000"
   },
   "dependencies": {
     "@kits-hub/ui-components": "workspace:*",

@@ -55,11 +55,11 @@ check_remote_entry() {
 test_webpack_config() {
     echo -e "${BLUE}📦 Testing Webpack Configuration${NC}"
     
-    if [ -f "webpack.mf.cjs" ]; then
-        echo -e "  ${GREEN}✅ webpack.mf.cjs exists${NC}"
+    if [ -f "webpack.config.cjs" ]; then
+        echo -e "  ${GREEN}✅ webpack.config.cjs exists${NC}"
         
         # Check if ModuleFederationPlugin is configured
-        if grep -q "ModuleFederationPlugin" webpack.mf.cjs; then
+        if grep -q "ModuleFederationPlugin" webpack.config.cjs; then
             echo -e "  ${GREEN}✅ ModuleFederationPlugin configured${NC}"
         else
             echo -e "  ${RED}❌ ModuleFederationPlugin not found${NC}"
@@ -67,14 +67,14 @@ test_webpack_config() {
         fi
         
         # Check if all remotes are configured
-        local remotes_count=$(grep -o "localhost:4[0-9][0-9][0-9]" webpack.mf.cjs | wc -l)
+        local remotes_count=$(grep -o "localhost:4[0-9][0-9][0-9]" webpack.config.cjs | wc -l)
         if [ "$remotes_count" -eq 6 ]; then
             echo -e "  ${GREEN}✅ All 6 remotes configured${NC}"
         else
             echo -e "  ${YELLOW}⚠️  Found $remotes_count remotes (expected 6)${NC}"
         fi
     else
-        echo -e "  ${RED}❌ webpack.mf.cjs not found${NC}"
+        echo -e "  ${RED}❌ webpack.config.cjs not found${NC}"
         return 1
     fi
     

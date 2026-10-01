@@ -63,7 +63,20 @@ module.exports = (env, argv) => {
           './SettingsPage': './src/pages/SettingsPage.tsx',
           './bootstrap': './src/bootstrap.tsx',
         },
-        shared: {},
+        shared: {
+          react: {
+            singleton: true,
+            requiredVersion: dependencies.react,
+          },
+          'react-dom': {
+            singleton: true,
+            requiredVersion: dependencies['react-dom'],
+          },
+          'react-router-dom': {
+            singleton: true,
+            requiredVersion: dependencies['react-router-dom'],
+          },
+        },
       }),
       new HtmlWebpackPlugin({
         template: './public/index.html',
